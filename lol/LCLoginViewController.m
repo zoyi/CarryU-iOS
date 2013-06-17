@@ -12,7 +12,7 @@
 static NSInteger kUsernameTextFieldTag = 234;
 static NSInteger kPasswordTextFieldTag = 2389;
 
-@interface LCLoginViewController () <UITextFieldDelegate, XMPPStreamDelegate, XMPPRoomDelegate>
+@interface LCLoginViewController () <UITextFieldDelegate, XMPPStreamDelegate>
 
 @property (nonatomic, strong) NITableViewModel *model;
 @property (nonatomic, strong) NSString *username;

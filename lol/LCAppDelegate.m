@@ -18,7 +18,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 static const int ddLogLevel = LOG_LEVEL_INFO;
 #endif
 
-@interface LCAppDelegate () <XMPPCapabilitiesDelegate, XMPPStreamDelegate, XMPPRosterDelegate>
+@interface LCAppDelegate () <XMPPStreamDelegate>
 
 - (void)setupStream;
 - (void)teardownStream;
