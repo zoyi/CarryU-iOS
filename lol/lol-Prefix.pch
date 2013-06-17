@@ -11,4 +11,33 @@
 #ifdef __OBJC__
   #import <UIKit/UIKit.h>
   #import <Foundation/Foundation.h>
+  #import <Nimbus/NimbusCore.h>
+  #import <Nimbus/NimbusCore+Additions.h>
+  #import <Nimbus/NimbusLauncher.h>
+  #import <Nimbus/NimbusModels.h>
+  #import <Nimbus/NimbusNetworkImage.h>
+  #import <Nimbus/NimbusAttributedLabel.h>
+  #import <Nimbus/NimbusNetworkControllers.h>
+
+  #import <Overline-BlocksKit/Overline.h>
+
+  #import <FlatUIKit/FUIButton.h>
+  #import <FlatUIKit/FUISwitch.h>
+  #import <FlatUIKit/FUISegmentedControl.h>
+  #import <FlatUIKit/UIBarButtonItem+FlatUI.h>
+  #import <FlatUIKit/UIColor+FlatUI.h>
+  #import <FlatUIKit/UIFont+FlatUI.h>
+  #import <FlatUIKit/UIImage+FlatUI.h>
+  #import <FlatUIKit/UINavigationBar+FlatUI.h>
+  #import <FlatUIKit/UIProgressView+FlatUI.h>
+  #import <FlatUIKit/UISlider+FlatUI.h>
+
+  #import <TransitionKit/TransitionKit.h>
+
+  #import <SVProgressHUD/SVProgressHUD.h>
+
+  #import "NSString+LCCategory.h"
+  #import "FUIButton+LCCategory.h"
+
+  #import "XMPPFramework.h"
 #endif
