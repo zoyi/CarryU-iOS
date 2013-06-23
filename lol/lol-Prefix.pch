@@ -19,6 +19,7 @@
   #import <Nimbus/NimbusAttributedLabel.h>
   #import <Nimbus/NimbusNetworkControllers.h>
 
+  #import <BlocksKit/BlocksKit.h>
   #import <Overline-BlocksKit/Overline.h>
 
   #import <FlatUIKit/FUIButton.h>
@@ -33,11 +34,13 @@
   #import <FlatUIKit/UISlider+FlatUI.h>
 
   #import <TransitionKit/TransitionKit.h>
-
+  #import <RestKit/RestKit.h>
   #import <SVProgressHUD/SVProgressHUD.h>
 
   #import "NSString+LCCategory.h"
   #import "FUIButton+LCCategory.h"
+  #import "XMPPPresence+LCCategory.h"
+  #import "UIView+APCategory.h"
 
   #import "XMPPFramework.h"
 #endif

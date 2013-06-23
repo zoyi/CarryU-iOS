@@ -8,7 +8,9 @@
 
 #import "LCAppDelegate.h"
 #import "LCLoginViewController.h"
-
+#import "LCHomeViewController.h"
+#import "LCSummoner.h"
+#import "LCGame.h"
 #import "DDLog.h"
 #import "DDTTYLogger.h"
 
@@ -26,6 +28,10 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 - (void)goOnline;
 - (void)goOffline;
 
+- (void)setupRestkit;
+
+- (void)setupAppearence;
+
 @property (nonatomic, strong) NSString *password;
 
 @end
@@ -42,7 +48,9 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
   self.window.backgroundColor = [UIColor whiteColor];
   LCLoginViewController *loginController = [[LCLoginViewController alloc] initWithStyle:UITableViewStyleGrouped];
   [DDLog addLogger:[DDTTYLogger sharedInstance]];
+  [self setupRestkit];
   [self setupStream];
+  [self setupAppearence];
   
   [self.window setRootViewController:loginController];
   [self.window makeKeyAndVisible];
@@ -50,14 +58,10 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
-  // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-  // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-  // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-  // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
   DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
 
 	if ([application respondsToSelector:@selector(setKeepAliveTimeout:handler:)]) {
@@ -77,11 +81,22 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-  // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
-  // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (void)setupAppearence {
+  [[UIToolbar appearance] setBackgroundImage:[UIImage imageWithColor:[UIColor wetAsphaltColor] cornerRadius:0] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
+  [[UINavigationBar appearance] setBackgroundImage:[UIImage imageWithColor:[UIColor midnightBlueColor] cornerRadius:0] forBarMetrics:UIBarMetricsDefault];
+}
+
+- (void)setupRestkit {
+  RKObjectManager *manager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:@"http://red.zoyi.co:8000/"]];
+  [RKObjectManager setSharedManager:manager];
+  [LCSummoner routing];
+  [LCGame routing];
+  RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
 }
 
 #pragma mark - XMPP
@@ -142,6 +157,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 	[_xmppStream setMyJID:[XMPPJID jidWithString:[NSString stringWithFormat:@"%@@pvp.net", jid]]];
 	self.password = [NSString stringWithFormat:@"AIR_%@", passwd];
 
+  [SVProgressHUD showWithStatus:@"Authing..." maskType:SVProgressHUDMaskTypeBlack];
 	NSError *error = nil;
 	if (![_xmppStream oldSchoolSecureConnectWithTimeout:XMPPStreamTimeoutNone error:&error]) {
 		DDLogError(@"Error connecting: %@", error);
@@ -176,7 +192,6 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
   //	isXmppConnected = YES;
 
 	NSError *error = nil;
-
 	if (![[self xmppStream] authenticateWithPassword:_password error:&error]) {
 		DDLogError(@"Error authenticating: %@", error);
 	}
@@ -184,77 +199,31 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 - (void)xmppStreamDidAuthenticate:(XMPPStream *)sender {
 	DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
-
+  [SVProgressHUD dismiss];
 	[self goOnline];
-  //
-  NSXMLElement *query = [NSXMLElement elementWithName:@"query" xmlns:@"http://jabber.org/protocol/disco#items"];
-  NSXMLElement *iq = [NSXMLElement elementWithName:@"iq"];
-  XMPPJID *myJID = self.xmppStream.myJID;
-  [iq addAttributeWithName:@"from" stringValue:myJID.description];
-  [iq addAttributeWithName:@"to" stringValue:@"bnbrvjnkuqdx3pngcgqbpiyj-yoj8avq@sec.pvp.net"];
-  [iq addAttributeWithName:@"id" stringValue:[XMPPStream generateUUID]];
-  [iq addAttributeWithName:@"type" stringValue:@"get"];
-  [iq addChild:query];
-  [self.xmppStream sendElement:iq];
 
+  UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:[[LCHomeViewController alloc] initWithStyle:UITableViewStylePlain]];
+  self.window.rootViewController = navigationController;
 
+  NIDPRINT(@"now jid is %@", sender.myJID.debugDescription);
 }
 
 - (void)xmppStream:(XMPPStream *)sender didNotAuthenticate:(NSXMLElement *)error {
 	DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
 }
 
-- (BOOL)xmppStream:(XMPPStream *)sender didReceiveIQ:(XMPPIQ *)iq {
-	DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
-  NIDPRINT(@"did receive iq -> %@", iq.debugDescription);
-	return NO;
-}
-
-- (void)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message {
-	DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
-
-	// A simple example of inbound message handling.
-//
-//	if ([message isChatMessageWithBody]) {
-//		XMPPUserCoreDataStorageObject *user = [_xmppRosterStorage userForJID:[message from]
-//		                                                         xmppStream:_xmppStream
-//		                                               managedObjectContext:[self managedObjectContext_roster]];
-//
-//		NSString *body = [[message elementForName:@"body"] stringValue];
-//		NSString *displayName = [user displayName];
-//
-//		if ([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive) {
-//			UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:displayName
-//                                                          message:body
-//                                                         delegate:nil
-//                                                cancelButtonTitle:@"Ok"
-//                                                otherButtonTitles:nil];
-//			[alertView show];
-//		} else {
-//			// We are not active, so use a local notification instead
-//			UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-//			localNotification.alertAction = @"Ok";
-//			localNotification.alertBody = [NSString stringWithFormat:@"From: %@\n\n%@",displayName,body];
-//
-//			[[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
-//		}
-//	}
-}
-
-- (void)xmppStream:(XMPPStream *)sender didReceivePresence:(XMPPPresence *)presence {
-	DDLogVerbose(@"%@: %@ - %@", THIS_FILE, THIS_METHOD, [presence fromStr]);
-  NIDPRINT(@"did receive presence %@", [[presence debugDescription] stringByReplacingXMLEscape]);
-}
-
 - (void)xmppStream:(XMPPStream *)sender didReceiveError:(id)error {
 	DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
+  [SVProgressHUD dismiss];
 }
 
 - (void)xmppStreamDidDisconnect:(XMPPStream *)sender withError:(NSError *)error {
 	DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
+  [SVProgressHUD dismiss];
   NIDPRINT(@"did disconnect with error => %@", error.debugDescription);
 //	if (!isXmppConnected) {
 //		DDLogError(@"Unable to connect to server. Check xmppStream.hostName");
 //	}
 }
+
 @end

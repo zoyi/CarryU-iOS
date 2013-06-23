@@ -7,6 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9C138E6B176FA0C7003CC90C /* XMPPPresence+LCCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C138E6A176FA0C7003CC90C /* XMPPPresence+LCCategory.m */; };
+		9C138E6E17705911003CC90C /* DDXMLDocument+LCCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C138E6D17705911003CC90C /* DDXMLDocument+LCCategory.m */; };
+		9C138E721770813B003CC90C /* LCStateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C138E711770813B003CC90C /* LCStateView.m */; };
+		9C138E75177081CE003CC90C /* UIView+APCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C138E74177081CE003CC90C /* UIView+APCategory.m */; };
+		9C138E7817708249003CC90C /* reloadButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C138E7617708249003CC90C /* reloadButton.png */; };
+		9C138E7917708249003CC90C /* reloadButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C138E7717708249003CC90C /* reloadButton@2x.png */; };
+		9C138E7D177082B3003CC90C /* reloadButtonActive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C138E7B177082B3003CC90C /* reloadButtonActive@2x.png */; };
+		9C138E7E177082B3003CC90C /* reloadButtonActive.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C138E7C177082B3003CC90C /* reloadButtonActive.png */; };
+		9C138E851770A8CB003CC90C /* LCSummoner.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C138E841770A8CB003CC90C /* LCSummoner.m */; };
+		9C138E881770A93B003CC90C /* LCModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C138E871770A93B003CC90C /* LCModel.m */; };
+		9C138E8B1770AA86003CC90C /* LCChampion.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C138E8A1770AA86003CC90C /* LCChampion.m */; };
+		9C138E911770ADD9003CC90C /* LCGame.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C138E901770ADD9003CC90C /* LCGame.m */; };
+		9C138E941770B1A1003CC90C /* LCSummonerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C138E931770B1A1003CC90C /* LCSummonerCell.m */; };
+		9C138E971770BC0E003CC90C /* XMPPIQ+LCCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C138E961770BC0E003CC90C /* XMPPIQ+LCCategory.m */; };
+		9C138E9A1770BE65003CC90C /* LCSummonerCellObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C138E991770BE65003CC90C /* LCSummonerCellObject.m */; };
 		9C52A666176B2A2D00A472E5 /* NSString+LCCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C52A665176B2A2D00A472E5 /* NSString+LCCategory.m */; };
 		9C52A6F7176B45D600A472E5 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C52A6F6176B45D500A472E5 /* CoreData.framework */; };
 		9C52A747176B4D7900A472E5 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C52A746176B4D7800A472E5 /* CoreLocation.framework */; };
@@ -69,6 +84,32 @@
 
 /* Begin PBXFileReference section */
 		2E6FAF64CE144990B9B2F5B5 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		9C138E69176FA0C7003CC90C /* XMPPPresence+LCCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XMPPPresence+LCCategory.h"; sourceTree = "<group>"; };
+		9C138E6A176FA0C7003CC90C /* XMPPPresence+LCCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XMPPPresence+LCCategory.m"; sourceTree = "<group>"; };
+		9C138E6C17705911003CC90C /* DDXMLDocument+LCCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DDXMLDocument+LCCategory.h"; sourceTree = "<group>"; };
+		9C138E6D17705911003CC90C /* DDXMLDocument+LCCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DDXMLDocument+LCCategory.m"; sourceTree = "<group>"; };
+		9C138E701770813B003CC90C /* LCStateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCStateView.h; sourceTree = "<group>"; };
+		9C138E711770813B003CC90C /* LCStateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCStateView.m; sourceTree = "<group>"; };
+		9C138E73177081CE003CC90C /* UIView+APCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+APCategory.h"; sourceTree = "<group>"; };
+		9C138E74177081CE003CC90C /* UIView+APCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+APCategory.m"; sourceTree = "<group>"; };
+		9C138E7617708249003CC90C /* reloadButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = reloadButton.png; sourceTree = "<group>"; };
+		9C138E7717708249003CC90C /* reloadButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reloadButton@2x.png"; sourceTree = "<group>"; };
+		9C138E7B177082B3003CC90C /* reloadButtonActive@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reloadButtonActive@2x.png"; sourceTree = "<group>"; };
+		9C138E7C177082B3003CC90C /* reloadButtonActive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = reloadButtonActive.png; sourceTree = "<group>"; };
+		9C138E831770A8CB003CC90C /* LCSummoner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCSummoner.h; sourceTree = "<group>"; };
+		9C138E841770A8CB003CC90C /* LCSummoner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCSummoner.m; sourceTree = "<group>"; };
+		9C138E861770A93B003CC90C /* LCModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCModel.h; sourceTree = "<group>"; };
+		9C138E871770A93B003CC90C /* LCModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCModel.m; sourceTree = "<group>"; };
+		9C138E891770AA86003CC90C /* LCChampion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCChampion.h; sourceTree = "<group>"; };
+		9C138E8A1770AA86003CC90C /* LCChampion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCChampion.m; sourceTree = "<group>"; };
+		9C138E8F1770ADD9003CC90C /* LCGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCGame.h; sourceTree = "<group>"; };
+		9C138E901770ADD9003CC90C /* LCGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCGame.m; sourceTree = "<group>"; };
+		9C138E921770B1A1003CC90C /* LCSummonerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCSummonerCell.h; sourceTree = "<group>"; };
+		9C138E931770B1A1003CC90C /* LCSummonerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCSummonerCell.m; sourceTree = "<group>"; };
+		9C138E951770BC0E003CC90C /* XMPPIQ+LCCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XMPPIQ+LCCategory.h"; sourceTree = "<group>"; };
+		9C138E961770BC0E003CC90C /* XMPPIQ+LCCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XMPPIQ+LCCategory.m"; sourceTree = "<group>"; };
+		9C138E981770BE65003CC90C /* LCSummonerCellObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCSummonerCellObject.h; sourceTree = "<group>"; };
+		9C138E991770BE65003CC90C /* LCSummonerCellObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCSummonerCellObject.m; sourceTree = "<group>"; };
 		9C52A664176B2A2D00A472E5 /* NSString+LCCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+LCCategory.h"; sourceTree = "<group>"; };
 		9C52A665176B2A2D00A472E5 /* NSString+LCCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+LCCategory.m"; sourceTree = "<group>"; };
 		9C52A67E176B44B600A472E5 /* XMPPFramework.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XMPPFramework.h; sourceTree = "<group>"; };
@@ -204,6 +245,45 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9C138E6F17708129003CC90C /* View */ = {
+			isa = PBXGroup;
+			children = (
+				9C138E701770813B003CC90C /* LCStateView.h */,
+				9C138E711770813B003CC90C /* LCStateView.m */,
+				9C138E921770B1A1003CC90C /* LCSummonerCell.h */,
+				9C138E931770B1A1003CC90C /* LCSummonerCell.m */,
+				9C138E981770BE65003CC90C /* LCSummonerCellObject.h */,
+				9C138E991770BE65003CC90C /* LCSummonerCellObject.m */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		9C138E7A1770824B003CC90C /* image */ = {
+			isa = PBXGroup;
+			children = (
+				9C138E7617708249003CC90C /* reloadButton.png */,
+				9C138E7717708249003CC90C /* reloadButton@2x.png */,
+				9C138E7B177082B3003CC90C /* reloadButtonActive@2x.png */,
+				9C138E7C177082B3003CC90C /* reloadButtonActive.png */,
+			);
+			name = image;
+			sourceTree = "<group>";
+		};
+		9C138E7F1770A7A4003CC90C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				9C138E861770A93B003CC90C /* LCModel.h */,
+				9C138E871770A93B003CC90C /* LCModel.m */,
+				9C138E8F1770ADD9003CC90C /* LCGame.h */,
+				9C138E901770ADD9003CC90C /* LCGame.m */,
+				9C138E831770A8CB003CC90C /* LCSummoner.h */,
+				9C138E841770A8CB003CC90C /* LCSummoner.m */,
+				9C138E891770AA86003CC90C /* LCChampion.h */,
+				9C138E8A1770AA86003CC90C /* LCChampion.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 		9C52A748176B5D9A00A472E5 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -269,7 +349,9 @@
 			children = (
 				9CA56928176A0BA300A16B7B /* LCAppDelegate.h */,
 				9CA56929176A0BA300A16B7B /* LCAppDelegate.m */,
+				9C138E7F1770A7A4003CC90C /* Model */,
 				9CA56979176A181B00A16B7B /* Controller */,
+				9C138E6F17708129003CC90C /* View */,
 				9CA569D1176A226300A16B7B /* Helper */,
 				9CA56920176A0BA300A16B7B /* Supporting Files */,
 			);
@@ -279,6 +361,7 @@
 		9CA56920176A0BA300A16B7B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				9C138E7A1770824B003CC90C /* image */,
 				9CA56921176A0BA300A16B7B /* lol-Info.plist */,
 				9CA56922176A0BA300A16B7B /* InfoPlist.strings */,
 				9CA56925176A0BA300A16B7B /* main.m */,
@@ -521,10 +604,18 @@
 		9CA569D1176A226300A16B7B /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				9C138E951770BC0E003CC90C /* XMPPIQ+LCCategory.h */,
+				9C138E961770BC0E003CC90C /* XMPPIQ+LCCategory.m */,
+				9C138E6C17705911003CC90C /* DDXMLDocument+LCCategory.h */,
+				9C138E6D17705911003CC90C /* DDXMLDocument+LCCategory.m */,
+				9C138E69176FA0C7003CC90C /* XMPPPresence+LCCategory.h */,
+				9C138E6A176FA0C7003CC90C /* XMPPPresence+LCCategory.m */,
 				9CBD9291176DD42E006ED0BE /* FUIButton+LCCategory.h */,
 				9CBD9292176DD42E006ED0BE /* FUIButton+LCCategory.m */,
 				9C52A664176B2A2D00A472E5 /* NSString+LCCategory.h */,
 				9C52A665176B2A2D00A472E5 /* NSString+LCCategory.m */,
+				9C138E73177081CE003CC90C /* UIView+APCategory.h */,
+				9C138E74177081CE003CC90C /* UIView+APCategory.m */,
 				9C52A67E176B44B600A472E5 /* XMPPFramework.h */,
 			);
 			name = Helper;
@@ -589,6 +680,10 @@
 				9CA5692E176A0BA300A16B7B /* Default@2x.png in Resources */,
 				9CA56930176A0BA300A16B7B /* Default-568h@2x.png in Resources */,
 				9CA5694E176A11A300A16B7B /* README.txt in Resources */,
+				9C138E7817708249003CC90C /* reloadButton.png in Resources */,
+				9C138E7917708249003CC90C /* reloadButton@2x.png in Resources */,
+				9C138E7D177082B3003CC90C /* reloadButtonActive@2x.png in Resources */,
+				9C138E7E177082B3003CC90C /* reloadButtonActive.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -672,6 +767,17 @@
 				9C52A823176B5D9A00A472E5 /* XMPPReconnect.m in Sources */,
 				9CBD9293176DD42E006ED0BE /* FUIButton+LCCategory.m in Sources */,
 				9CC0AAEB176F4BBC00FA1A00 /* LCHomeViewController.m in Sources */,
+				9C138E6B176FA0C7003CC90C /* XMPPPresence+LCCategory.m in Sources */,
+				9C138E6E17705911003CC90C /* DDXMLDocument+LCCategory.m in Sources */,
+				9C138E721770813B003CC90C /* LCStateView.m in Sources */,
+				9C138E75177081CE003CC90C /* UIView+APCategory.m in Sources */,
+				9C138E851770A8CB003CC90C /* LCSummoner.m in Sources */,
+				9C138E881770A93B003CC90C /* LCModel.m in Sources */,
+				9C138E8B1770AA86003CC90C /* LCChampion.m in Sources */,
+				9C138E911770ADD9003CC90C /* LCGame.m in Sources */,
+				9C138E941770B1A1003CC90C /* LCSummonerCell.m in Sources */,
+				9C138E971770BC0E003CC90C /* XMPPIQ+LCCategory.m in Sources */,
+				9C138E9A1770BE65003CC90C /* LCSummonerCellObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

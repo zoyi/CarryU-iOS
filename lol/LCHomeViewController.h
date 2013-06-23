@@ -9,6 +9,8 @@
 @interface LCHomeViewController : NINetworkTableViewController
 
 @property (nonatomic, strong) TKStateMachine *stateMachine;
+@property (nonatomic, strong) XMPPJID *groupChatJID;
 
 - (id)initWithStyle:(UITableViewStyle)style;
+
 @end

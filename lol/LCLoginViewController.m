@@ -69,13 +69,6 @@ static NSInteger kPasswordTextFieldTag = 2389;
   [footerView addSubview:loginButton];
   top += loginButton.frame.size.height + 30;
 
-  // query button
-//  FUIButton *queryButton = [FUIButton lcButtonWithTitle:NSLocalizedString(@"query", nil)];
-//  queryButton.frame = CGRectMake(left, top, [UIScreen mainScreen].bounds.size.width - 2*left, 44);
-//  [queryButton addTarget:self action:@selector(queryMyInfo) forControlEvents:UIControlEventTouchUpInside];
-//  [footerView addSubview:queryButton];
-//  top += queryButton.frame.size.height + 10;
-
   footerView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, top);
   return footerView;
 }
