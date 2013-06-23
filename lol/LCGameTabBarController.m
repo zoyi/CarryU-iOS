@@ -39,11 +39,13 @@
 
 - (void)loadView {
   [super loadView];
+  self.navigationItem.hidesBackButton = YES;
 }
 
 - (void)viewDidLoad {
   [super viewDidLoad];
   self.view.backgroundColor = [UIColor cloudsColor];
+
 }
 
 #pragma mark - setter
@@ -54,16 +56,16 @@
 
     LCSummonerViewController *ourTeamController = [[LCSummonerViewController alloc] initWithSummoners:_game.playerTeam];
     ourTeamController.title = @"ourTeam";
-    UINavigationController *ourTeamNavi = [[UINavigationController alloc] initWithRootViewController:ourTeamController];
+
 
     LCSummonerViewController *enemyTeamController = [[LCSummonerViewController alloc] initWithSummoners:_game.enemyTeam];
     enemyTeamController.title = @"enemyTeam";
-    UINavigationController *enemyTeamNavi = [[UINavigationController alloc] initWithRootViewController:enemyTeamController];
+
 
     NIWebController *webController = [[NIWebController alloc] initWithURL:[NSURL URLWithString:@"http://m.inven.co.kr/site/lol/champ.php"]];
     webController.title = @"builds";
-
-    self.viewControllers = @[ourTeamNavi, enemyTeamNavi, webController];
+    webController.toolbarHidden = YES;
+    self.viewControllers = @[ourTeamController, enemyTeamController, webController];
   }
 }
 

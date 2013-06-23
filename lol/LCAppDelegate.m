@@ -33,8 +33,6 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 - (void)setupAppearence;
 
-- (void)showHomeController;
-
 @property (nonatomic, strong) NSString *password;
 
 @end
@@ -206,8 +204,8 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 	DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
   [SVProgressHUD dismiss];
 	[self goOnline];
-
-  [self showHomeController];
+  UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:[[LCHomeViewController alloc] initWithStyle:UITableViewStylePlain]];
+  self.window.rootViewController = navigationController;
 
   NIDPRINT(@"now jid is %@", sender.myJID.debugDescription);
 }
@@ -237,17 +235,10 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     if (gameStatus.length) {
       // change state machine
       if ([gameStatus isEqualToString:@"outOfGame"]) {
-        [self showHomeController];
+        [(UINavigationController *)self.window.rootViewController popToRootViewControllerAnimated:NO];
       }
     }
   }
-}
-
-#pragma mark - private methods
-
-- (void)showHomeController {
-  UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:[[LCHomeViewController alloc] initWithStyle:UITableViewStylePlain]];
-  self.window.rootViewController = navigationController;
 }
 
 @end

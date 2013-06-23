@@ -260,15 +260,15 @@
 
 - (void)getInProcessGameInfo {
   LCSummoner *summoner = [LCSummoner new];
-  summoner.name = @"chaox";
+  summoner.name = @"TheOddOne";
   [[RKObjectManager sharedManager] getObjectsAtPathForRouteNamed:@"active_game" object:summoner parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
     NIDPRINT(@"all summoner's info is => %@", mappingResult.debugDescription);
     self.game = [[mappingResult dictionary] objectForKey:[NSNull null]];
     if (_game) {
 
       LCGameTabBarController *gameTabBarController = [[LCGameTabBarController alloc] initWithGame:_game];
-      LCAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-      appDelegate.window.rootViewController = gameTabBarController;
+
+      [self.navigationController pushViewController:gameTabBarController animated:NO];
 
     }
   } failure:^(RKObjectRequestOperation *operation, NSError *error) {
