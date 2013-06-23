@@ -14,6 +14,7 @@
 #import "LCGame.h"
 #import "LCSummonerCellObject.h"
 #import "LCSummonerCell.h"
+#import "LCGameTabBarController.h"
 #import "XMPPIQ+LCCategory.h"
 
 @interface LCHomeViewController () <XMPPStreamDelegate>
@@ -32,6 +33,8 @@
 - (void)resetModel;
 
 - (void)reloadData;
+
+- (void)fireInGameEvent;
 
 @end
 
@@ -200,7 +203,7 @@
   if (nil == _outOfGameStateView) {
     self.outOfGameStateView = [[LCStateView alloc] initWithTitle:NSLocalizedString(@"out_of_game_title", nil) subtitle:NSLocalizedString(@"", nil) image:nil];
     [_outOfGameStateView addReloadButton];
-    [_outOfGameStateView.reloadButton addTarget:self action:@selector(getInProcessGameInfo) forControlEvents:UIControlEventTouchUpInside];
+    [_outOfGameStateView.reloadButton addTarget:self action:@selector(fireInGameEvent) forControlEvents:UIControlEventTouchUpInside];
     _outOfGameStateView.backgroundColor = self.tableView.backgroundColor;
     [self.view insertSubview:_outOfGameStateView belowSubview:self.tableView];
   }
@@ -257,23 +260,20 @@
 
 - (void)getInProcessGameInfo {
   LCSummoner *summoner = [LCSummoner new];
-  summoner.name = @"wingsofdeathx";
+  summoner.name = @"chaox";
   [[RKObjectManager sharedManager] getObjectsAtPathForRouteNamed:@"active_game" object:summoner parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
     NIDPRINT(@"all summoner's info is => %@", mappingResult.debugDescription);
-    [self resetModel];
-    LCGame *game = [[mappingResult dictionary] objectForKey:[NSNull null]];
-    if (game) {
-      [game.playerTeam each:^(LCSummoner *summoner) {
-        [_model addObject:[[LCSummonerCellObject alloc] initWithCellClass:[LCSummonerCell class] summoner:summoner]];
-      }];
+    self.game = [[mappingResult dictionary] objectForKey:[NSNull null]];
+    if (_game) {
 
-      [game.enemyTeam each:^(LCSummoner *summoner) {
-        [_model addObject:[[LCSummonerCellObject alloc] initWithCellClass:[LCSummonerCell class] summoner:summoner]];
-      }];
-      [self reloadData];
+      LCGameTabBarController *gameTabBarController = [[LCGameTabBarController alloc] initWithGame:_game];
+      LCAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+      appDelegate.window.rootViewController = gameTabBarController;
+
     }
   } failure:^(RKObjectRequestOperation *operation, NSError *error) {
     NIDPRINT(@"retrive all summoners info error => %@", error.debugDescription);
+    [self.stateMachine fireEvent:@"outOfGame" error:nil];
   }];
 }
 
@@ -283,5 +283,13 @@
   [self.navigationController setToolbarHidden:NO animated:YES];
 }
 
+- (void)fireInGameEvent {
+  NSError *error = nil;
+  [self.stateMachine fireEvent:@"inGame" error:&error];
+  if (error) {
+    NIDPRINT(@"fire inGame event error => %@", error.debugDescription);
+    [self.stateMachine fireEvent:@"outOfGame" error:nil];
+  }
+}
 
 @end

@@ -18,6 +18,7 @@
   #import <Nimbus/NimbusNetworkImage.h>
   #import <Nimbus/NimbusAttributedLabel.h>
   #import <Nimbus/NimbusNetworkControllers.h>
+  #import <Nimbus/NimbusWebController.h>
 
   #import <BlocksKit/BlocksKit.h>
   #import <Overline-BlocksKit/Overline.h>

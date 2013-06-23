@@ -22,6 +22,8 @@
 		9C138E941770B1A1003CC90C /* LCSummonerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C138E931770B1A1003CC90C /* LCSummonerCell.m */; };
 		9C138E971770BC0E003CC90C /* XMPPIQ+LCCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C138E961770BC0E003CC90C /* XMPPIQ+LCCategory.m */; };
 		9C138E9A1770BE65003CC90C /* LCSummonerCellObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C138E991770BE65003CC90C /* LCSummonerCellObject.m */; };
+		9C1B8FDC1777519C003677AC /* LCSummonerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1B8FDB1777519C003677AC /* LCSummonerViewController.m */; };
+		9C1B8FDF17775418003677AC /* LCGameTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1B8FDE17775418003677AC /* LCGameTabBarController.m */; };
 		9C52A666176B2A2D00A472E5 /* NSString+LCCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C52A665176B2A2D00A472E5 /* NSString+LCCategory.m */; };
 		9C52A6F7176B45D600A472E5 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C52A6F6176B45D500A472E5 /* CoreData.framework */; };
 		9C52A747176B4D7900A472E5 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C52A746176B4D7800A472E5 /* CoreLocation.framework */; };
@@ -110,6 +112,10 @@
 		9C138E961770BC0E003CC90C /* XMPPIQ+LCCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XMPPIQ+LCCategory.m"; sourceTree = "<group>"; };
 		9C138E981770BE65003CC90C /* LCSummonerCellObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCSummonerCellObject.h; sourceTree = "<group>"; };
 		9C138E991770BE65003CC90C /* LCSummonerCellObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCSummonerCellObject.m; sourceTree = "<group>"; };
+		9C1B8FDA1777519C003677AC /* LCSummonerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCSummonerViewController.h; sourceTree = "<group>"; };
+		9C1B8FDB1777519C003677AC /* LCSummonerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCSummonerViewController.m; sourceTree = "<group>"; };
+		9C1B8FDD17775418003677AC /* LCGameTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCGameTabBarController.h; sourceTree = "<group>"; };
+		9C1B8FDE17775418003677AC /* LCGameTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCGameTabBarController.m; sourceTree = "<group>"; };
 		9C52A664176B2A2D00A472E5 /* NSString+LCCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+LCCategory.h"; sourceTree = "<group>"; };
 		9C52A665176B2A2D00A472E5 /* NSString+LCCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+LCCategory.m"; sourceTree = "<group>"; };
 		9C52A67E176B44B600A472E5 /* XMPPFramework.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XMPPFramework.h; sourceTree = "<group>"; };
@@ -455,6 +461,10 @@
 				9CA5697B176A183D00A16B7B /* LCLoginViewController.m */,
 				9CC0AAE9176F4BBC00FA1A00 /* LCHomeViewController.h */,
 				9CC0AAEA176F4BBC00FA1A00 /* LCHomeViewController.m */,
+				9C1B8FDA1777519C003677AC /* LCSummonerViewController.h */,
+				9C1B8FDB1777519C003677AC /* LCSummonerViewController.m */,
+				9C1B8FDD17775418003677AC /* LCGameTabBarController.h */,
+				9C1B8FDE17775418003677AC /* LCGameTabBarController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -778,6 +788,8 @@
 				9C138E941770B1A1003CC90C /* LCSummonerCell.m in Sources */,
 				9C138E971770BC0E003CC90C /* XMPPIQ+LCCategory.m in Sources */,
 				9C138E9A1770BE65003CC90C /* LCSummonerCellObject.m in Sources */,
+				9C1B8FDC1777519C003677AC /* LCSummonerViewController.m in Sources */,
+				9C1B8FDF17775418003677AC /* LCGameTabBarController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

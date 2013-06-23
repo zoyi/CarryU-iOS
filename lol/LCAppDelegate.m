@@ -9,6 +9,7 @@
 #import "LCAppDelegate.h"
 #import "LCLoginViewController.h"
 #import "LCHomeViewController.h"
+#import "LCGameTabBarController.h"
 #import "LCSummoner.h"
 #import "LCGame.h"
 #import "DDLog.h"
@@ -31,6 +32,8 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 - (void)setupRestkit;
 
 - (void)setupAppearence;
+
+- (void)showHomeController;
 
 @property (nonatomic, strong) NSString *password;
 
@@ -89,6 +92,8 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 - (void)setupAppearence {
   [[UIToolbar appearance] setBackgroundImage:[UIImage imageWithColor:[UIColor wetAsphaltColor] cornerRadius:0] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
   [[UINavigationBar appearance] setBackgroundImage:[UIImage imageWithColor:[UIColor midnightBlueColor] cornerRadius:0] forBarMetrics:UIBarMetricsDefault];
+  [UIBarButtonItem configureFlatButtonsWithColor:[UIColor peterRiverColor] highlightedColor:[UIColor belizeHoleColor] cornerRadius:0];
+  [[UITabBar appearance] setBackgroundImage:[UIImage imageWithColor:[UIColor wetAsphaltColor] cornerRadius:0]];
 }
 
 - (void)setupRestkit {
@@ -202,8 +207,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
   [SVProgressHUD dismiss];
 	[self goOnline];
 
-  UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:[[LCHomeViewController alloc] initWithStyle:UITableViewStylePlain]];
-  self.window.rootViewController = navigationController;
+  [self showHomeController];
 
   NIDPRINT(@"now jid is %@", sender.myJID.debugDescription);
 }
@@ -224,6 +228,26 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 //	if (!isXmppConnected) {
 //		DDLogError(@"Unable to connect to server. Check xmppStream.hostName");
 //	}
+}
+
+- (void)xmppStream:(XMPPStream *)sender didReceivePresence:(XMPPPresence *)presence {
+  if ([sender.myJID.bareJID.description isEqualToString:presence.from.bareJID.description]
+      && [self.window.rootViewController isKindOfClass:[LCGameTabBarController class]]) {
+    NSString *gameStatus = [presence gameStatus];
+    if (gameStatus.length) {
+      // change state machine
+      if ([gameStatus isEqualToString:@"outOfGame"]) {
+        [self showHomeController];
+      }
+    }
+  }
+}
+
+#pragma mark - private methods
+
+- (void)showHomeController {
+  UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:[[LCHomeViewController alloc] initWithStyle:UITableViewStylePlain]];
+  self.window.rootViewController = navigationController;
 }
 
 @end
