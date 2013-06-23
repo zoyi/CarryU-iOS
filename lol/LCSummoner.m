@@ -12,6 +12,8 @@
 
 @implementation LCSummoner
 
+@synthesize sID = _sID;
+
 + (RKObjectMapping *)mapping {
   RKObjectMapping *mapping = [RKObjectMapping mappingForClass:[LCSummoner class]];
   [mapping addAttributeMappingsFromDictionary:@{

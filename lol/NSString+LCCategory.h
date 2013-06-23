@@ -10,4 +10,5 @@
 
 @interface NSString (LCCategory)
 - (NSString *)stringByReplacingXMLEscape;
+- (NSNumber *)toNumber;
 @end

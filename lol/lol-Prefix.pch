@@ -36,6 +36,7 @@
 
   #import <TransitionKit/TransitionKit.h>
   #import <RestKit/RestKit.h>
+  #import <AFNetworking/AFNetworking.h>
   #import <SVProgressHUD/SVProgressHUD.h>
 
   #import "NSString+LCCategory.h"

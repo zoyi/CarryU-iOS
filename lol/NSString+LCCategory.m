@@ -17,4 +17,11 @@
            stringByReplacingOccurrencesOfString: @"&gt;" withString: @">"]
           stringByReplacingOccurrencesOfString: @"&lt;" withString: @"<"];
 }
+
+- (NSNumber *)toNumber {
+  NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
+  [f setNumberStyle:NSNumberFormatterDecimalStyle];
+  NSNumber * myNumber = [f numberFromString:self];
+  return myNumber;
+}
 @end

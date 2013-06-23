@@ -9,7 +9,7 @@
 #import "LCGame.h"
 #import "LCSummoner.h"
 
-static NSString *SUMMONER_ACTIVE_GAME_ROUTE = @"active_game/:name";
+static NSString *SUMMONER_ACTIVE_GAME_ROUTE = @"/active_game/:name";
 
 @implementation LCGame
 

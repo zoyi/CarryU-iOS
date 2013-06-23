@@ -24,6 +24,7 @@
 		9C138E9A1770BE65003CC90C /* LCSummonerCellObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C138E991770BE65003CC90C /* LCSummonerCellObject.m */; };
 		9C1B8FDC1777519C003677AC /* LCSummonerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1B8FDB1777519C003677AC /* LCSummonerViewController.m */; };
 		9C1B8FDF17775418003677AC /* LCGameTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1B8FDE17775418003677AC /* LCGameTabBarController.m */; };
+		9C1B8FE217777937003677AC /* LCCurrentSummoner.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1B8FE117777937003677AC /* LCCurrentSummoner.m */; };
 		9C52A666176B2A2D00A472E5 /* NSString+LCCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C52A665176B2A2D00A472E5 /* NSString+LCCategory.m */; };
 		9C52A6F7176B45D600A472E5 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C52A6F6176B45D500A472E5 /* CoreData.framework */; };
 		9C52A747176B4D7900A472E5 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C52A746176B4D7800A472E5 /* CoreLocation.framework */; };
@@ -116,6 +117,8 @@
 		9C1B8FDB1777519C003677AC /* LCSummonerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCSummonerViewController.m; sourceTree = "<group>"; };
 		9C1B8FDD17775418003677AC /* LCGameTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCGameTabBarController.h; sourceTree = "<group>"; };
 		9C1B8FDE17775418003677AC /* LCGameTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCGameTabBarController.m; sourceTree = "<group>"; };
+		9C1B8FE017777936003677AC /* LCCurrentSummoner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCCurrentSummoner.h; sourceTree = "<group>"; };
+		9C1B8FE117777937003677AC /* LCCurrentSummoner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCCurrentSummoner.m; sourceTree = "<group>"; };
 		9C52A664176B2A2D00A472E5 /* NSString+LCCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+LCCategory.h"; sourceTree = "<group>"; };
 		9C52A665176B2A2D00A472E5 /* NSString+LCCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+LCCategory.m"; sourceTree = "<group>"; };
 		9C52A67E176B44B600A472E5 /* XMPPFramework.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XMPPFramework.h; sourceTree = "<group>"; };
@@ -284,6 +287,8 @@
 				9C138E901770ADD9003CC90C /* LCGame.m */,
 				9C138E831770A8CB003CC90C /* LCSummoner.h */,
 				9C138E841770A8CB003CC90C /* LCSummoner.m */,
+				9C1B8FE017777936003677AC /* LCCurrentSummoner.h */,
+				9C1B8FE117777937003677AC /* LCCurrentSummoner.m */,
 				9C138E891770AA86003CC90C /* LCChampion.h */,
 				9C138E8A1770AA86003CC90C /* LCChampion.m */,
 			);
@@ -790,6 +795,7 @@
 				9C138E9A1770BE65003CC90C /* LCSummonerCellObject.m in Sources */,
 				9C1B8FDC1777519C003677AC /* LCSummonerViewController.m in Sources */,
 				9C1B8FDF17775418003677AC /* LCGameTabBarController.m in Sources */,
+				9C1B8FE217777937003677AC /* LCCurrentSummoner.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

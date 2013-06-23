@@ -9,6 +9,7 @@
 #import "LCHomeViewController.h"
 #import "LCAppDelegate.h"
 #import "XMPPPresence+LCCategory.h"
+#import "LCCurrentSummoner.h"
 #import "LCStateView.h"
 #import "LCSummoner.h"
 #import "LCGame.h"
@@ -259,9 +260,8 @@
 #pragma mark - private method
 
 - (void)getInProcessGameInfo {
-  LCSummoner *summoner = [LCSummoner new];
-  summoner.name = @"TheOddOne";
-  [[RKObjectManager sharedManager] getObjectsAtPathForRouteNamed:@"active_game" object:summoner parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+
+  [[RKObjectManager sharedManager] getObjectsAtPathForRouteNamed:@"active_game" object:[LCCurrentSummoner sharedInstance] parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
     NIDPRINT(@"all summoner's info is => %@", mappingResult.debugDescription);
     self.game = [[mappingResult dictionary] objectForKey:[NSNull null]];
     if (_game) {

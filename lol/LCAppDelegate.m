@@ -11,6 +11,7 @@
 #import "LCHomeViewController.h"
 #import "LCGameTabBarController.h"
 #import "LCSummoner.h"
+#import "LCCurrentSummoner.h"
 #import "LCGame.h"
 #import "DDLog.h"
 #import "DDTTYLogger.h"
@@ -95,7 +96,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 }
 
 - (void)setupRestkit {
-  RKObjectManager *manager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:@"http://red.zoyi.co:8000/"]];
+  RKObjectManager *manager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:@"http://red.zoyi.co:8000"]];
   [RKObjectManager setSharedManager:manager];
   [LCSummoner routing];
   [LCGame routing];
@@ -202,6 +203,11 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 - (void)xmppStreamDidAuthenticate:(XMPPStream *)sender {
 	DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
+  NSString *sumID = [sender.myJID.user substringFromIndex:3];
+  if (sumID.length) {
+    [LCCurrentSummoner sharedInstance].sID = [sumID toNumber];
+  }
+
   [SVProgressHUD dismiss];
 	[self goOnline];
   UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:[[LCHomeViewController alloc] initWithStyle:UITableViewStylePlain]];
@@ -229,13 +235,16 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 }
 
 - (void)xmppStream:(XMPPStream *)sender didReceivePresence:(XMPPPresence *)presence {
+  UINavigationController *rootNavi = self.window.rootViewController;
   if ([sender.myJID.bareJID.description isEqualToString:presence.from.bareJID.description]
-      && [self.window.rootViewController isKindOfClass:[LCGameTabBarController class]]) {
+      && [rootNavi.visibleViewController isKindOfClass:[LCGameTabBarController class]]) {
     NSString *gameStatus = [presence gameStatus];
     if (gameStatus.length) {
       // change state machine
       if ([gameStatus isEqualToString:@"outOfGame"]) {
-        [(UINavigationController *)self.window.rootViewController popToRootViewControllerAnimated:NO];
+        LCHomeViewController *homeController = [rootNavi.viewControllers objectAtIndex:0];
+        [homeController.stateMachine fireEvent:@"outOfGame" error:nil];
+        [rootNavi popToRootViewControllerAnimated:YES];
       }
     }
   }
