@@ -18,11 +18,12 @@
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *internalName;
 @property (nonatomic, strong) NSNumber *isBot;
+@property (nonatomic, strong) NSNumber *level;
 @property (nonatomic, strong) NSNumber *spell1;
 @property (nonatomic, strong) NSNumber *spell2;
 @property (nonatomic, strong) LCChampion *champion;
 
 - (NSURL *)spell1ImageUrl;
 - (NSURL *)spell2ImageUrl;
-
+- (void)retiveLevel;
 @end

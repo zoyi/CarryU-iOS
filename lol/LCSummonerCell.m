@@ -61,7 +61,14 @@ static CGFloat kSmallPadding = 10;
   [self.championAvatarView setImageWithURL:[summoner.champion championAvatarUrl]];
   [self.spell1ImageView setImageWithURL:[summoner spell1ImageUrl]];
   [self.spell2ImageView setImageWithURL:[summoner spell2ImageUrl]];
-  self.summonerNameLabel.text = summoner.name;
+  NSMutableString *summonerNameText = [NSMutableString string];
+  [summonerNameText appendString:summoner.name];
+  if (summoner.level) {
+    [summonerNameText appendFormat:@"(Lv%@)", summoner.level];
+  } else {
+    [summonerNameText appendString:@"(Lv??)"];
+  }
+  self.summonerNameLabel.text = summonerNameText;
   self.descriptionLabel.text = summoner.internalName;
   return YES;
 }
@@ -77,7 +84,6 @@ static CGFloat kSmallPadding = 10;
 
 - (void)didMoveToSuperview {
   [super didMoveToSuperview];
-
   self.championAvatarView.backgroundColor = self.contentView.backgroundColor;
 }
 

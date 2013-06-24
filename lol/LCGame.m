@@ -31,7 +31,9 @@ static NSString *SUMMONER_ACTIVE_GAME_ROUTE = @"/active_game/:name";
 
 + (void)routing {
   RKObjectManager *manager = [RKObjectManager sharedManager];
-  [manager.router.routeSet addRoute:[RKRoute routeWithName:@"active_game" pathPattern:SUMMONER_ACTIVE_GAME_ROUTE method:RKRequestMethodGET]];
+  RKRoute *activeGameRoute = [RKRoute routeWithName:@"active_game" pathPattern:SUMMONER_ACTIVE_GAME_ROUTE method:RKRequestMethodGET];
+  activeGameRoute.shouldEscapePath = YES;
+  [manager.router.routeSet addRoute:activeGameRoute];
 
   RKResponseDescriptor *activeGameDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:[LCGame mapping] pathPattern:SUMMONER_ACTIVE_GAME_ROUTE keyPath:nil statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
   [manager addResponseDescriptor:activeGameDescriptor];

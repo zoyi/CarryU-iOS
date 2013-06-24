@@ -10,6 +10,6 @@
 @class LCSummoner;
 @interface LCSummonerCellObject : NICellObject
 @property (nonatomic, strong) LCSummoner *summoner;
-
-- (id)initWithCellClass:(Class)cellClass summoner:(LCSummoner *)summoner;
+@property (nonatomic, assign) id delegate;
+- (id)initWithCellClass:(Class)cellClass summoner:(LCSummoner *)summoner delegate:(id)delegate;
 @end

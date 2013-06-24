@@ -11,4 +11,5 @@
 @interface LCModel : NSObject
 + (RKObjectMapping *)mapping;
 + (void)routing;
++ (void)apiRouting;
 @end

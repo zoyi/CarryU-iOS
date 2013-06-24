@@ -99,6 +99,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
   RKObjectManager *manager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:@"http://red.zoyi.co:8000"]];
   [RKObjectManager setSharedManager:manager];
   [LCSummoner routing];
+  [LCSummoner apiRouting];
   [LCGame routing];
   RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
 }
@@ -203,12 +204,12 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 - (void)xmppStreamDidAuthenticate:(XMPPStream *)sender {
 	DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
+  [SVProgressHUD dismiss];
+
   NSString *sumID = [sender.myJID.user substringFromIndex:3];
   if (sumID.length) {
     [LCCurrentSummoner sharedInstance].sID = [sumID toNumber];
   }
-
-  [SVProgressHUD dismiss];
 	[self goOnline];
   UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:[[LCHomeViewController alloc] initWithStyle:UITableViewStylePlain]];
   self.window.rootViewController = navigationController;
@@ -234,20 +235,5 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 //	}
 }
 
-- (void)xmppStream:(XMPPStream *)sender didReceivePresence:(XMPPPresence *)presence {
-  UINavigationController *rootNavi = self.window.rootViewController;
-  if ([sender.myJID.bareJID.description isEqualToString:presence.from.bareJID.description]
-      && [rootNavi.visibleViewController isKindOfClass:[LCGameTabBarController class]]) {
-    NSString *gameStatus = [presence gameStatus];
-    if (gameStatus.length) {
-      // change state machine
-      if ([gameStatus isEqualToString:@"outOfGame"]) {
-        LCHomeViewController *homeController = [rootNavi.viewControllers objectAtIndex:0];
-        [homeController.stateMachine fireEvent:@"outOfGame" error:nil];
-        [rootNavi popToRootViewControllerAnimated:YES];
-      }
-    }
-  }
-}
 
 @end

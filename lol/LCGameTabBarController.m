@@ -55,17 +55,18 @@
     _game = game;
 
     LCSummonerViewController *ourTeamController = [[LCSummonerViewController alloc] initWithSummoners:_game.playerTeam];
-    ourTeamController.title = @"ourTeam";
+    ourTeamController.tabBarItem.title = @"ourTeam";
 
 
     LCSummonerViewController *enemyTeamController = [[LCSummonerViewController alloc] initWithSummoners:_game.enemyTeam];
-    enemyTeamController.title = @"enemyTeam";
+    enemyTeamController.tabBarItem.title = @"enemyTeam";
 
 
     NIWebController *webController = [[NIWebController alloc] initWithURL:[NSURL URLWithString:@"http://m.inven.co.kr/site/lol/champ.php"]];
-    webController.title = @"builds";
+    webController.tabBarItem.title = @"builds";
     webController.toolbarHidden = YES;
     self.viewControllers = @[ourTeamController, enemyTeamController, webController];
+    self.title = @"Active Game";
   }
 }
 

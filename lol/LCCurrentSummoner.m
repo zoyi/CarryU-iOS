@@ -24,11 +24,15 @@
     _sID = sID;
   }
   // retrive summoner name
-  NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/summoner_name/%@", [RKObjectManager sharedManager].router.baseURL.absoluteString, _sID]];
+  [SVProgressHUD showWithStatus:@"retrive profile info..."];
+  NSURL *url = [[RKObjectManager sharedManager].router URLForRouteNamed:@"summoner_name" method:RKRequestMethodGET object:self];
+
   AFJSONRequestOperation *getSumNameOperation = [AFJSONRequestOperation JSONRequestOperationWithRequest:[NSURLRequest requestWithURL:url] success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
-    [LCCurrentSummoner sharedInstance].name = [[JSON objectForKey:@"summoner_name"] stringByAddingPercentEscapesForURLParameter];
+    [LCCurrentSummoner sharedInstance].name = [JSON objectForKey:@"summoner_name"];
+    [SVProgressHUD dismiss];
   } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
     NIDPRINT(@"Retrive summoner name with error => %@", error.debugDescription);
+    [SVProgressHUD dismiss];
   }];
   [getSumNameOperation start];
 }

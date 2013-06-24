@@ -31,26 +31,26 @@
   self = [super initWithStyle:UITableViewStylePlain activityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
   if (self) {
     self.summoners = summoners;
-    self.actions = [[NITableViewActions alloc] initWithTarget:self];
-    NSMutableArray *tableContents = [NSMutableArray arrayWithCapacity:5];
-    [_summoners each:^(LCSummoner *summoner) {
-      [tableContents addObject:[[LCSummonerCellObject alloc] initWithCellClass:[LCSummonerCell class] summoner:summoner]];
-    }];
-    [_actions attachToClass:[LCSummonerCellObject class] tapBlock:^BOOL(LCSummonerCellObject *object, id target) {
-      NIDPRINT(@"object is => %@", object.debugDescription);
-      NIWebController *webController = [[NIWebController alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.lolking.net/search?name=%@", object.summoner.name]]];
-      [self.navigationController pushViewController:webController animated:YES];
-      return YES;
-    }];
-
-    self.model = [[NITableViewModel alloc] initWithListArray:tableContents delegate:(id)[NICellFactory class]];
-
+ 
   }
   return self;
 }
 
 - (void)viewDidLoad {
   [super viewDidLoad];
+  self.actions = [[NITableViewActions alloc] initWithTarget:self];
+  NSMutableArray *tableContents = [NSMutableArray arrayWithCapacity:5];
+  [_summoners each:^(LCSummoner *summoner) {
+    [tableContents addObject:[[LCSummonerCellObject alloc] initWithCellClass:[LCSummonerCell class] summoner:summoner delegate:self.tableView]];
+  }];
+  [_actions attachToClass:[LCSummonerCellObject class] tapBlock:^BOOL(LCSummonerCellObject *object, id target) {
+    NIDPRINT(@"object is => %@", object.debugDescription);
+    NIWebController *webController = [[NIWebController alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.lolking.net/search?name=%@", object.summoner.name]]];
+    [self.navigationController pushViewController:webController animated:YES];
+    return YES;
+  }];
+  self.model = [[NITableViewModel alloc] initWithListArray:tableContents delegate:(id)[NICellFactory class]];
+  
   self.tableView.dataSource = self.model;
   self.tableView.delegate = [self.actions forwardingTo:self];
   

@@ -91,6 +91,9 @@
     [outOfGame setDidEnterStateBlock:^(TKState *state, TKStateMachine *stateMachine) {
       NIDPRINT(@"User State Did change to outOfGame");
       [self.view bringSubviewToFront:_outOfGameStateView];
+      if (self.navigationController.visibleViewController != self) {
+        [self.navigationController popToViewController:self animated:NO];
+      }
     }];
 
     TKState *inQueue = [TKState stateWithName:@"inQueue"];
@@ -146,7 +149,7 @@
     NIDPRINT(@"raw summoners => %@", rawSummoners);
     [rawSummoners each:^(LCSummoner *summoner) {
       [self resetModel];
-      [_model addObject:[[LCSummonerCellObject alloc] initWithCellClass:[LCSummonerCell class] summoner:summoner]];
+      [_model addObject:[[LCSummonerCellObject alloc] initWithCellClass:[LCSummonerCell class] summoner:summoner delegate:self.tableView]];
       [self reloadData];
     }];
   }
@@ -260,8 +263,10 @@
 #pragma mark - private method
 
 - (void)getInProcessGameInfo {
-
-  [[RKObjectManager sharedManager] getObjectsAtPathForRouteNamed:@"active_game" object:[LCCurrentSummoner sharedInstance] parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+  LCSummoner *tmpSummoner = [LCSummoner new];
+  tmpSummoner.name = @"Yes Im Celend";
+  // [LCCurrentSummoner sharedInstance]
+  [[RKObjectManager sharedManager] getObjectsAtPathForRouteNamed:@"active_game" object:tmpSummoner parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
     NIDPRINT(@"all summoner's info is => %@", mappingResult.debugDescription);
     self.game = [[mappingResult dictionary] objectForKey:[NSNull null]];
     if (_game) {

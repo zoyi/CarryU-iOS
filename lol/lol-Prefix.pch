@@ -45,4 +45,5 @@
   #import "UIView+APCategory.h"
 
   #import "XMPPFramework.h"
+  #import "LCApiRouter.h"
 #endif
