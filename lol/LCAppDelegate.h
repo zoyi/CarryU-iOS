@@ -11,6 +11,8 @@
 NSString *const kXMPPmyJID = @"kXMPPmyJID";
 NSString *const kXMPPmyPassword = @"kXMPPmyPassword";
 
+@class LCGame;
+
 @interface LCAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
@@ -18,8 +20,11 @@ NSString *const kXMPPmyPassword = @"kXMPPmyPassword";
 #pragma mark - XMPP
 @property (strong, nonatomic) XMPPStream *xmppStream;
 @property (strong, nonatomic) XMPPReconnect *xmppReconnect;
+@property (nonatomic, strong) TKStateMachine *stateMachine;
+@property (nonatomic, strong) XMPPJID *groupChatJID;
+@property (nonatomic, strong) LCGame *game;
 
 - (BOOL)connectWithJID:(NSString *)jid password:(NSString *)passwd;
 - (void)disconnect;
-
+- (void)showInGameTabController;
 @end
