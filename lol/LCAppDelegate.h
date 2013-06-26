@@ -25,4 +25,5 @@
 - (BOOL)connectWithJID:(NSString *)jid password:(NSString *)passwd;
 - (void)disconnect;
 - (void)showInGameTabController;
+- (void)logout;
 @end

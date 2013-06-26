@@ -102,7 +102,8 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 }
 
 - (void)setupAppearence {
-
+  [[UIToolbar appearance] setBackgroundImage:[UIImage imageWithColor:[UIColor peterRiverColor] cornerRadius:0] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
+  
   [UIBarButtonItem configureFlatButtonsWithColor:[UIColor peterRiverColor] highlightedColor:[UIColor belizeHoleColor] cornerRadius:0];
 
   [[UINavigationBar appearance] configureFlatNavigationBarWithColor:[UIColor peterRiverColor]];
@@ -129,6 +130,16 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
   [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
+- (void)logout {
+  [self disconnect];
+  self.game = nil;
+  self.groupChatJID = nil;
+  LCLoginViewController *loginController = [[LCLoginViewController alloc] initWithStyle:UITableViewStyleGrouped];
+
+  self.window.rootViewController = loginController;
+  [self.stateMachine fireEvent:@"outOfGame" error:nil];
+}
+
 #pragma mark - XMPP
 
 - (void)setupStream {
@@ -139,7 +150,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
   _xmppStream.enableBackgroundingOnSocket = YES;
   self.xmppReconnect = [[XMPPReconnect alloc] init];
-
+  _xmppReconnect.usesOldSchoolSecureConnect = YES;
 	// Activate xmpp modules
 
 	[_xmppReconnect         activate:_xmppStream];
@@ -393,7 +404,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
   LCSummoner *tmpSummoner = [LCSummoner new];
   tmpSummoner.name = @"킬대조영";
   // [LCCurrentSummoner sharedInstance]
-  [[RKObjectManager sharedManager] getObjectsAtPathForRouteNamed:@"active_game" object:tmpSummoner parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+  [[RKObjectManager sharedManager] getObjectsAtPathForRouteNamed:@"active_game" object:[LCCurrentSummoner sharedInstance] parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
     NIDPRINT(@"all summoner's info is => %@", mappingResult.debugDescription);
     [SVProgressHUD dismiss];
     self.game = [[mappingResult dictionary] objectForKey:[NSNull null]];

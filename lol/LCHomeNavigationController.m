@@ -7,8 +7,11 @@
 //
 
 #import "LCHomeNavigationController.h"
+#import "LCHomeViewController.h"
 #import "LCSearchBar.h"
 #import "LCAppDelegate.h"
+#import "LCSettingsController.h"
+#import "LCSummonerSearchController.h"
 #import <REMenu/REMenu.h>
 
 @interface LCHomeNavigationController () <UISearchBarDelegate, UINavigationControllerDelegate>
@@ -51,27 +54,24 @@
   if (nil == _menu) {
     REMenuItem *homeItem = [[REMenuItem alloc] initWithTitle:@"Home" subtitle:nil image:nil highlightedImage:nil action:^(REMenuItem *item){
       if ([item.title isEqualToString:@"Home"]) {
-
+        LCHomeViewController *homeViewController = [[LCHomeViewController alloc] initWithStyle:UITableViewStylePlain];
+        [self pushViewController:homeViewController animated:NO];
       } else {
         LCAppDelegate *delegate = [UIApplication sharedApplication].delegate;
         [delegate showInGameTabController];
       }
     }];
 
-    REMenuItem *settingsItem = [[REMenuItem alloc] initWithTitle:@"Settings"
-                                                    subtitle:nil
-                                                       image:nil
-                                            highlightedImage:nil
-                                                      action:^(REMenuItem *item) {
-                                                        NSLog(@"Item: %@", item);
-                                                      }];
-    REMenuItem *logOutItem = [[REMenuItem alloc] initWithTitle:@"Log Out"
-                                                        subtitle:nil
-                                                           image:nil
-                                                highlightedImage:nil
-                                                          action:^(REMenuItem *item) {
-                                                            NSLog(@"Item: %@", item);
-                                                          }];
+    REMenuItem *settingsItem = [[REMenuItem alloc] initWithTitle:@"Settings" subtitle:nil image:nil highlightedImage:nil action:^(REMenuItem *item) {
+      LCSettingsController *settingsController = [[LCSettingsController alloc] initWithStyle:UITableViewStyleGrouped];
+      [self pushViewController:settingsController animated:NO];
+    }];
+
+    REMenuItem *logOutItem = [[REMenuItem alloc] initWithTitle:@"Log Out" subtitle:nil image:nil highlightedImage:nil action:^(REMenuItem *item) {
+      LCAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+      [appDelegate logout];
+    }];
+
     self.menu = [[REMenu alloc] initWithItems:@[homeItem, settingsItem, logOutItem]];
   }
   return _menu;
@@ -117,7 +117,7 @@
   [self.searchBar resignFirstResponder];
   if (self.searchBar.text.length) {
     NSString *searchUrlpath = [NSString stringWithFormat:@"http://op.gg/summoner/userName=%@", [self.searchBar.text stringByAddingPercentEscapesForURLParameter]];
-    NIWebController *webController = [[NIWebController alloc] initWithURL:[NSURL URLWithString:searchUrlpath]];
+    LCSummonerSearchController *webController = [[LCSummonerSearchController alloc] initWithURL:[NSURL URLWithString:searchUrlpath]];
     [self pushViewController:webController animated:NO];
   }
 }

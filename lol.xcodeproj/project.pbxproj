@@ -89,6 +89,8 @@
 		9CAF5F281779F0BB004153E6 /* menu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CAF5F261779F0BB004153E6 /* menu@2x.png */; };
 		9CBD9293176DD42E006ED0BE /* FUIButton+LCCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CBD9292176DD42E006ED0BE /* FUIButton+LCCategory.m */; };
 		9CC0AAEB176F4BBC00FA1A00 /* LCHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CC0AAEA176F4BBC00FA1A00 /* LCHomeViewController.m */; };
+		9CED33ED177B791500C6CF23 /* LCSettingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CED33EC177B791500C6CF23 /* LCSettingsController.m */; };
+		9CED33F0177B7F6400C6CF23 /* LCSummonerSearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CED33EF177B7F6400C6CF23 /* LCSummonerSearchController.m */; };
 		B90AA18ECA62449CA6468BE3 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6FAF64CE144990B9B2F5B5 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -247,6 +249,10 @@
 		9CBD9292176DD42E006ED0BE /* FUIButton+LCCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FUIButton+LCCategory.m"; sourceTree = "<group>"; };
 		9CC0AAE9176F4BBC00FA1A00 /* LCHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCHomeViewController.h; sourceTree = "<group>"; };
 		9CC0AAEA176F4BBC00FA1A00 /* LCHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCHomeViewController.m; sourceTree = "<group>"; };
+		9CED33EB177B791500C6CF23 /* LCSettingsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCSettingsController.h; sourceTree = "<group>"; };
+		9CED33EC177B791500C6CF23 /* LCSettingsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCSettingsController.m; sourceTree = "<group>"; };
+		9CED33EE177B7F6300C6CF23 /* LCSummonerSearchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCSummonerSearchController.h; sourceTree = "<group>"; };
+		9CED33EF177B7F6400C6CF23 /* LCSummonerSearchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCSummonerSearchController.m; sourceTree = "<group>"; };
 		A057152DCF9F4A5DAE6C93A9 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -499,6 +505,10 @@
 				9C1B8FDE17775418003677AC /* LCGameTabBarController.m */,
 				9CAF5F1F1779D9BF004153E6 /* LCHomeNavigationController.h */,
 				9CAF5F201779D9BF004153E6 /* LCHomeNavigationController.m */,
+				9CED33EB177B791500C6CF23 /* LCSettingsController.h */,
+				9CED33EC177B791500C6CF23 /* LCSettingsController.m */,
+				9CED33EE177B7F6300C6CF23 /* LCSummonerSearchController.h */,
+				9CED33EF177B7F6400C6CF23 /* LCSummonerSearchController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -832,6 +842,8 @@
 				9CAF5F211779D9BF004153E6 /* LCHomeNavigationController.m in Sources */,
 				9CAF5F241779DCDC004153E6 /* LCSearchBar.m in Sources */,
 				9CA9E03E177B349A009ED447 /* LCServerInfo.m in Sources */,
+				9CED33ED177B791500C6CF23 /* LCSettingsController.m in Sources */,
+				9CED33F0177B7F6400C6CF23 /* LCSummonerSearchController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
