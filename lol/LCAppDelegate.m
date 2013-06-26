@@ -17,6 +17,7 @@
 #import "LCGame.h"
 #import "DDLog.h"
 #import "DDTTYLogger.h"
+#import "LCServerInfo.h"
 
 #if DEBUG
 static const int ddLogLevel = LOG_LEVEL_VERBOSE;
@@ -37,6 +38,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 - (void)setupAppearence;
 - (void)getInProcessGameInfo;
 
+- (void)retrieveServerInfo;
 
 @property (nonatomic, strong) NSString *password;
 
@@ -52,6 +54,8 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
   self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
   // Override point for customization after application launch.
   self.window.backgroundColor = [UIColor whiteColor];
+  [self retrieveServerInfo];
+  self.regeion = @"kr";
   [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque];
   LCLoginViewController *loginController = [[LCLoginViewController alloc] initWithStyle:UITableViewStyleGrouped];
   [DDLog addLogger:[DDTTYLogger sharedInstance]];
@@ -61,7 +65,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
   [self stateMachine];
 
   LCHomeNavigationController *navigationController = [[LCHomeNavigationController alloc] initWithRootViewController:[[LCHomeViewController alloc] initWithStyle:UITableViewStylePlain]];
-  self.window.rootViewController = navigationController;
+  self.window.rootViewController = loginController;
 
   //  [self.window setRootViewController:loginController];
   [self.window makeKeyAndVisible];
@@ -98,14 +102,15 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 }
 
 - (void)setupAppearence {
-  [[UIToolbar appearance] setBackgroundImage:[UIImage imageWithColor:[UIColor wetAsphaltColor] cornerRadius:0] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
-  [[UINavigationBar appearance] setBackgroundImage:[UIImage imageWithColor:[UIColor peterRiverColor] cornerRadius:0] forBarMetrics:UIBarMetricsDefault];
+
   [UIBarButtonItem configureFlatButtonsWithColor:[UIColor peterRiverColor] highlightedColor:[UIColor belizeHoleColor] cornerRadius:0];
+
+  [[UINavigationBar appearance] configureFlatNavigationBarWithColor:[UIColor peterRiverColor]];
   [[UITabBar appearance] setBackgroundImage:[UIImage imageWithColor:[UIColor wetAsphaltColor] cornerRadius:0]];
 }
 
 - (void)setupRestkit {
-  RKObjectManager *manager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:@"http://red.zoyi.co:8000"]];
+  RKObjectManager *manager = [RKObjectManager managerWithBaseURL:[LCServerInfo sharedInstance].currentServer.rtmpHost];
   [RKObjectManager setSharedManager:manager];
   [LCSummoner routing];
   [LCSummoner apiRouting];
@@ -118,8 +123,8 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 - (void)setupStream {
   self.xmppStream = [[XMPPStream alloc] init];
   
-  _xmppStream.hostPort = 5223;
-  _xmppStream.hostName = @"chat.na1.lol.riotgames.com";
+  _xmppStream.hostPort = [[LCServerInfo sharedInstance].currentServer.xmppPort integerValue];
+  _xmppStream.hostName = [LCServerInfo sharedInstance].currentServer.xmppHost;
 
   _xmppStream.enableBackgroundingOnSocket = YES;
   self.xmppReconnect = [[XMPPReconnect alloc] init];
@@ -255,7 +260,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
         [_stateMachine fireEvent:@"outOfGame" error:&error];
       } else if ([gameStatus isEqualToString:@"inQueue"]) {
         NSString *skinname = [presence skinname];
-        if (skinname.length) {
+        if (skinname.length && [skinname isEqualToString:@"Random"]) {
           // champion select
           [_stateMachine fireEvent:@"championSelect" error:&error];
         } else {
@@ -375,7 +380,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 - (void)getInProcessGameInfo {
   [SVProgressHUD showWithStatus:@"Retriving game status..." maskType:SVProgressHUDMaskTypeBlack];
   LCSummoner *tmpSummoner = [LCSummoner new];
-  tmpSummoner.name = @"Wingsofdeathx";
+  tmpSummoner.name = @"킬대조영";
   // [LCCurrentSummoner sharedInstance]
   [[RKObjectManager sharedManager] getObjectsAtPathForRouteNamed:@"active_game" object:tmpSummoner parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
     NIDPRINT(@"all summoner's info is => %@", mappingResult.debugDescription);
@@ -403,4 +408,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 }
 
+- (void)retrieveServerInfo{
+  [LCServerInfo sharedInstance];
+}
 @end

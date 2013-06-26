@@ -8,18 +8,17 @@
 
 #import "LCLoginViewController.h"
 #import "LCAppDelegate.h"
+#import <ActionSheetPicker2/ActionSheetStringPicker.h>
 
 static NSInteger kUsernameTextFieldTag = 234;
 static NSInteger kPasswordTextFieldTag = 2389;
 
-@interface LCLoginViewController () <UITextFieldDelegate, XMPPStreamDelegate>
-
+@interface LCLoginViewController () <UITextFieldDelegate>
+@property (nonatomic, strong) NITableViewActions *actions;
 @property (nonatomic, strong) NITableViewModel *model;
 @property (nonatomic, strong) NSString *username;
 @property (nonatomic, strong) NSString *password;
-
-- (void)queryMyInfo;
-
+@property (nonatomic, strong) NITitleCellObject *regionObject;
 - (void)login;
 
 @end
@@ -36,10 +35,25 @@ static NSInteger kPasswordTextFieldTag = 2389;
 
 - (void)viewDidLoad {
   [super viewDidLoad];
+  self.actions = [[NITableViewActions alloc] initWithTarget:self];
+  self.tableView.delegate = [self.actions forwardingTo:self];
+
   NSArray *tableForm = @[
                          @"",
                          [NITextInputFormElement textInputElementWithID:kUsernameTextFieldTag placeholderText:NSLocalizedString(@"username", nil) value:@"wudiac" delegate:self],
-                         [NITextInputFormElement passwordInputElementWithID:kPasswordTextFieldTag placeholderText:NSLocalizedString(@"password", nil) value:@"wudi87" delegate:self]
+                         [NITextInputFormElement passwordInputElementWithID:kPasswordTextFieldTag placeholderText:NSLocalizedString(@"password", nil) value:@"wudi87" delegate:self],
+                         @"",
+                         [_actions attachToObject:self.regionObject tapBlock:^BOOL(id object, id target) {
+                           [ActionSheetStringPicker showPickerWithTitle:@"Choose your region" rows:@[@"NA", @"KR"] initialSelection:0 doneBlock:^(ActionSheetStringPicker *picker, NSInteger selectedIndex, id selectedValue) {
+                             _regionObject.title = [NSString stringWithFormat:@"Server - %@", selectedValue];
+                             LCAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+                             appDelegate.regeion = [selectedValue lowercaseString];
+                             [self.tableView reloadData];
+                           } cancelBlock:^(ActionSheetStringPicker *picker) {
+                             NIDPRINT(@"select canceld.");
+                           } origin:self.tableView];
+                           return YES;
+                         }]
                          ];
   self.model = [[NITableViewModel alloc] initWithSectionedArray:tableForm delegate:(id)[NICellFactory class]];
   
@@ -78,6 +92,13 @@ static NSInteger kPasswordTextFieldTag = 2389;
   return headerView;
 }
 
+- (NITitleCellObject *)regionObject {
+  if (nil == _regionObject) {
+    self.regionObject = [[NITitleCellObject alloc] initWithTitle:@"Server - NA"];
+  }
+  return _regionObject;
+}
+
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
   // Customize the presentation of certain types of cells.
   if ([cell isKindOfClass:[NITextInputFormElementCell class]]) {
@@ -104,22 +125,10 @@ static NSInteger kPasswordTextFieldTag = 2389;
   [appDelegate connectWithJID:_username password:_password];
 }
 
-- (void)queryMyInfo {
-  NIDPRINT(@"My info");
-  LCAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-  XMPPStream *sharedStream = appDelegate.xmppStream;
-  if (sharedStream.isAuthenticated) {
-    NSXMLElement *query = [NSXMLElement elementWithName:@"query" xmlns:@"jabber:iq:search"];
-    //    [query addAttributeWithName:@"name" stringValue:@"Plops D"];
-    NSXMLElement *iq = [NSXMLElement elementWithName:@"iq"];
-    XMPPJID *myJID = sharedStream.myJID;
-    [iq addAttributeWithName:@"from" stringValue:myJID.description];
-    [iq addAttributeWithName:@"to" stringValue:@"pvp.net"];
-    [iq addAttributeWithName:@"id" stringValue:[XMPPStream generateUUID]];
-    [iq addAttributeWithName:@"type" stringValue:@"get"];
-    [iq addChild:query];
-    [sharedStream sendElement:iq];
-  }
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+
 }
+
+
 
 @end

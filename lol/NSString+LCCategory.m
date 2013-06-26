@@ -12,8 +12,8 @@
 
 - (NSString *)stringByReplacingXMLEscape {
   return [[[[[self stringByReplacingOccurrencesOfString: @"&amp;" withString: @"&"]
-             stringByReplacingOccurrencesOfString: @"&quot;" withString:@"\\"]
-            stringByReplacingOccurrencesOfString: @"&#x39;" withString: @"'"]
+             stringByReplacingOccurrencesOfString: @"&quot;" withString:@"\""]
+            stringByReplacingOccurrencesOfString: @"&#x39;" withString: @"\\"]
            stringByReplacingOccurrencesOfString: @"&gt;" withString: @">"]
           stringByReplacingOccurrencesOfString: @"&lt;" withString: @"<"];
 }

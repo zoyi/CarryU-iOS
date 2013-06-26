@@ -9,6 +9,7 @@
 #import "LCSummoner.h"
 #import "LCChampion.h"
 #import "LCGame.h"
+#import "LCServerInfo.h"
 
 static NSString *SUMMONER_NAME_ROUTE = @"/summoner_name/:sID";
 static NSString *SUMMONER_LEVEL_ROUTE = @"summoners/:name\\.json";
@@ -44,11 +45,11 @@ static NSString *SUMMONER_LEVEL_ROUTE = @"summoners/:name\\.json";
 }
 
 - (NSURL *)spell1ImageUrl {
-  return [NSURL URLWithString:[NSString stringWithFormat:@"http://lol.red.zoyi.co/spells/%@/image", self.spell1]];
+  return [NSURL URLWithString:[NSString stringWithFormat:@"%@/spells/%@/image", [LCServerInfo sharedInstance].currentServer.railsHost, self.spell1]];
 }
 
 - (NSURL *)spell2ImageUrl {
-  return [NSURL URLWithString:[NSString stringWithFormat:@"http://lol.red.zoyi.co/spells/%@/image", self.spell2]];
+  return [NSURL URLWithString:[NSString stringWithFormat:@"%@/spells/%@/image", [LCServerInfo sharedInstance].currentServer.railsHost, self.spell2]];
 }
 
 - (void)retiveLevel {

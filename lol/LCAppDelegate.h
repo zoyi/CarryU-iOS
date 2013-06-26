@@ -8,9 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-NSString *const kXMPPmyJID = @"kXMPPmyJID";
-NSString *const kXMPPmyPassword = @"kXMPPmyPassword";
-
 @class LCGame;
 
 @interface LCAppDelegate : UIResponder <UIApplicationDelegate>
@@ -23,6 +20,7 @@ NSString *const kXMPPmyPassword = @"kXMPPmyPassword";
 @property (nonatomic, strong) TKStateMachine *stateMachine;
 @property (nonatomic, strong) XMPPJID *groupChatJID;
 @property (nonatomic, strong) LCGame *game;
+@property (nonatomic, strong) NSString *regeion;
 
 - (BOOL)connectWithJID:(NSString *)jid password:(NSString *)passwd;
 - (void)disconnect;
