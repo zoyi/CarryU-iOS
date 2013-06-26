@@ -94,7 +94,8 @@ static NSInteger kPasswordTextFieldTag = 2389;
 
 - (NITitleCellObject *)regionObject {
   if (nil == _regionObject) {
-    self.regionObject = [[NITitleCellObject alloc] initWithTitle:@"Server - NA"];
+    LCAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+    self.regionObject = [[NITitleCellObject alloc] initWithTitle:[NSString stringWithFormat:@"Server - %@", [appDelegate.regeion uppercaseString]]];
   }
   return _regionObject;
 }

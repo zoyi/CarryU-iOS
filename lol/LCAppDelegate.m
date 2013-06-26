@@ -55,7 +55,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
   // Override point for customization after application launch.
   self.window.backgroundColor = [UIColor whiteColor];
   [self retrieveServerInfo];
-  self.regeion = @"kr";
+  self.regeion = [[NSUserDefaults standardUserDefaults] objectForKey:@"_region"];
   [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque];
   LCLoginViewController *loginController = [[LCLoginViewController alloc] initWithStyle:UITableViewStyleGrouped];
   [DDLog addLogger:[DDTTYLogger sharedInstance]];
@@ -116,6 +116,17 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
   [LCSummoner apiRouting];
   [LCGame routing];
   RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
+}
+
+- (void)setRegeion:(NSString *)regeion {
+  if (regeion == nil) {
+    regeion = @"kr";
+  }
+  if (regeion != _regeion) {
+    _regeion = regeion;
+  }
+  [[NSUserDefaults standardUserDefaults] setObject:_regeion forKey:@"_region"];
+  [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 #pragma mark - XMPP
