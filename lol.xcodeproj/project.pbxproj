@@ -25,6 +25,7 @@
 		9C1B8FDC1777519C003677AC /* LCSummonerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1B8FDB1777519C003677AC /* LCSummonerViewController.m */; };
 		9C1B8FDF17775418003677AC /* LCGameTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1B8FDE17775418003677AC /* LCGameTabBarController.m */; };
 		9C1B8FE217777937003677AC /* LCCurrentSummoner.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1B8FE117777937003677AC /* LCCurrentSummoner.m */; };
+		9C2F3543177CAF11005E3232 /* LCSummonerShowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C2F3542177CAF11005E3232 /* LCSummonerShowController.m */; };
 		9C3FD4951778BAE000489A64 /* LCApiRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C3FD4941778BAE000489A64 /* LCApiRouter.m */; };
 		9C52A666176B2A2D00A472E5 /* NSString+LCCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C52A665176B2A2D00A472E5 /* NSString+LCCategory.m */; };
 		9C52A6F7176B45D600A472E5 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C52A6F6176B45D500A472E5 /* CoreData.framework */; };
@@ -128,6 +129,8 @@
 		9C1B8FDE17775418003677AC /* LCGameTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCGameTabBarController.m; sourceTree = "<group>"; };
 		9C1B8FE017777936003677AC /* LCCurrentSummoner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCCurrentSummoner.h; sourceTree = "<group>"; };
 		9C1B8FE117777937003677AC /* LCCurrentSummoner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCCurrentSummoner.m; sourceTree = "<group>"; };
+		9C2F3541177CAF11005E3232 /* LCSummonerShowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCSummonerShowController.h; sourceTree = "<group>"; };
+		9C2F3542177CAF11005E3232 /* LCSummonerShowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCSummonerShowController.m; sourceTree = "<group>"; };
 		9C3FD4931778BAE000489A64 /* LCApiRouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCApiRouter.h; sourceTree = "<group>"; };
 		9C3FD4941778BAE000489A64 /* LCApiRouter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCApiRouter.m; sourceTree = "<group>"; };
 		9C52A664176B2A2D00A472E5 /* NSString+LCCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+LCCategory.h"; sourceTree = "<group>"; };
@@ -509,6 +512,8 @@
 				9CED33EC177B791500C6CF23 /* LCSettingsController.m */,
 				9CED33EE177B7F6300C6CF23 /* LCSummonerSearchController.h */,
 				9CED33EF177B7F6400C6CF23 /* LCSummonerSearchController.m */,
+				9C2F3541177CAF11005E3232 /* LCSummonerShowController.h */,
+				9C2F3542177CAF11005E3232 /* LCSummonerShowController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -844,6 +849,7 @@
 				9CA9E03E177B349A009ED447 /* LCServerInfo.m in Sources */,
 				9CED33ED177B791500C6CF23 /* LCSettingsController.m in Sources */,
 				9CED33F0177B7F6400C6CF23 /* LCSummonerSearchController.m in Sources */,
+				9C2F3543177CAF11005E3232 /* LCSummonerShowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

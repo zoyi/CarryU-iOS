@@ -304,11 +304,15 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 
 - (void)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message {
   NIDPRINT(@"xmpp did receive message => %@", [message.debugDescription stringByReplacingXMLEscape]);
-  if ([_stateMachine isInState:@"championSelect"] || [_stateMachine isInState:@"inQueue"]) {
+  if ([_stateMachine isInState:@"championSelect"]
+      || [_stateMachine isInState:@"inQueue"]
+      || [_stateMachine isInState:@"outOfGame"]) {
     // message contain x
     NSString *type = [message attributeStringValueForName:@"type"];
     NSString *mid = [message attributeStringValueForName:@"id"];
-    if ([type isEqualToString:@"groupchat"] && !mid.length) {
+    if ([type isEqualToString:@"groupchat"]
+        && !mid.length
+        ) {
       self.groupChatJID = message.from.bareJID;
       NIDPRINT(@"group chat jid => %@", _groupChatJID.debugDescription);
     }
@@ -319,18 +323,25 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
   NIDPRINT(@"did recieve iq => %@", iq.debugDescription);
   NSString *fromBareJID = [iq.from.bareJID description];
   NSString *toBareJID = [iq.to.bareJID description];
+  [iq rawSummonerItems];
   if ([fromBareJID isEqualToString:_groupChatJID.description]
       && [toBareJID isEqualToString:sender.myJID.bareJID.description]
-      && [iq.type isEqualToString:@"result"]) {
+      && [iq isResultIQ]) {
 
     // get items
     NSArray *rawSummoners = [iq rawSummonerItems];
-//    NIDPRINT(@"raw summoners => %@", rawSummoners);
-//    [rawSummoners each:^(LCSummoner *summoner) {
-//      [self resetModel];
-//      [_model addObject:[[LCSummonerCellObject alloc] initWithCellClass:[LCSummonerCell class] summoner:summoner delegate:self.tableView]];
-//      [self reloadData];
-//    }];
+    if (rawSummoners.count) {
+      NSMutableArray *championSummoners = [NSMutableArray array];
+
+      [rawSummoners each:^(NSString *summonerName) {
+        LCSummoner *summoner = [LCSummoner new];
+        summoner.name = summonerName;
+        [championSummoners addObject:summoner];
+      }];
+      LCGame *theGame = [LCGame new];
+      theGame.playerTeam = championSummoners;
+      self.gameWillStart = theGame;
+    }
   }
   return NO;
 }
@@ -344,29 +355,35 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     TKState *outOfGame = [TKState stateWithName:@"outOfGame"];
     [outOfGame setDidEnterStateBlock:^(TKState *state, TKStateMachine *stateMachine) {
       NIDPRINT(@"User State Did change to outOfGame");
-//      [self.view bringSubviewToFront:_outOfGameStateView];
-//      if (self.navigationController.visibleViewController != self) {
-//        [self.navigationController popToViewController:self animated:NO];
-//      }
     }];
 
     TKState *inQueue = [TKState stateWithName:@"inQueue"];
     [inQueue setDidEnterStateBlock:^(TKState *state, TKStateMachine *stateMachine) {
       NIDPRINT(@"User State Did change to inQueue");
-      //      [self.view bringSubviewToFront:_inQueueStateView];
     }];
 
     TKState *championSelect = [TKState stateWithName:@"championSelect"];
     [championSelect setDidEnterStateBlock:^(TKState *state, TKStateMachine *stateMachine) {
+      self.gameWillStart = nil;
       NIDPRINT(@"group chat id is %@", _groupChatJID.description);
       NIDPRINT(@"User State Did change to championSelect");
-      //      [self.view bringSubviewToFront:_championSelectStateView];
+    }];
+    [championSelect setDidExitStateBlock:^(TKState *state, TKStateMachine *stateMachine) {
+      self.gameWillStart = nil;
     }];
 
     TKState *inGame = [TKState stateWithName:@"inGame"];
     [inGame setDidEnterStateBlock:^(TKState *state, TKStateMachine *stateMachine) {
       NIDPRINT(@"User State Did change to inGame");
       [self getInProcessGameInfo];
+    }];
+
+    [inGame setDidExitStateBlock:^(TKState *state, TKStateMachine *stateMachine) {
+      NIDPRINT(@"user did left game");
+      LCHomeViewController *homeViewController = [[LCHomeViewController alloc] initWithStyle:UITableViewStylePlain activityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+      if ([self.window.rootViewController isKindOfClass:[UINavigationController class]]) {
+        [(UINavigationController *)self.window.rootViewController pushViewController:homeViewController animated:NO];
+      }
     }];
 
     [_stateMachine addStates:@[outOfGame, inQueue, championSelect, inGame]];

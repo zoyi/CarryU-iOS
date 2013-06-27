@@ -10,5 +10,4 @@
 
 @interface XMPPIQ (LCCategory)
 - (NSArray *)rawSummonerItems;
-- (DDXMLDocument *)iqDocument;
 @end

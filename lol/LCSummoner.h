@@ -25,5 +25,7 @@
 
 - (NSURL *)spell1ImageUrl;
 - (NSURL *)spell2ImageUrl;
+- (NSURL *)profileIconUrl;
+
 - (void)retiveLevel;
 @end

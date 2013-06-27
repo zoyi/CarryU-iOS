@@ -13,28 +13,11 @@
 @implementation XMPPIQ (LCCategory)
 
 - (NSArray *)rawSummonerItems {
-  NSError *error = nil;
-  NSArray *rawSummoners = [[self iqDocument] nodesForXPath:@"//item" error:&error];
-  if (error) {
-    NIDPRINT(@"parsing raw summoner error = %@", error.debugDescription);
-    return nil;
-  }
 
-  return [rawSummoners mappedArrayUsingBlock:^id(DDXMLNode *node, NSUInteger idx) {
-    LCSummoner *summoner = [LCSummoner new];
-    summoner.name = node.name;
-    return summoner;
+  return [[self.childElement elementsForName:@"item"] map:^id(DDXMLElement *ele) {
+    return [ele attributeStringValueForName:@"name"];
   }];
 }
 
-- (DDXMLDocument *)iqDocument {
-  NSError *error = nil;
-  DDXMLDocument *xmlDoc = [[DDXMLDocument alloc] initWithXMLString:[self stringValue] options:0 error:&error];
-  if (error) {
-    NIDPRINT(@"parsing iq to document with error %@", error.debugDescription);
-    return nil;
-  }
-  return xmlDoc;
-}
 
 @end

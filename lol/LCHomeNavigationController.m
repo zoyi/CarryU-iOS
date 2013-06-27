@@ -11,13 +11,13 @@
 #import "LCSearchBar.h"
 #import "LCAppDelegate.h"
 #import "LCSettingsController.h"
+#import "LCSummonerShowController.h"
 #import "LCSummonerSearchController.h"
 #import <REMenu/REMenu.h>
 
 @interface LCHomeNavigationController () <UISearchBarDelegate, UINavigationControllerDelegate>
 @property (nonatomic, strong) LCSearchBar *searchBar;
 @property (nonatomic, strong) REMenu *menu;
-@property (nonatomic, strong) UINavigationItem *oldItem;
 
 - (void)showMenu;
 - (void)showSearchBar;
@@ -130,7 +130,16 @@
 #pragma mark - navigation delegate 
 
 -(void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+  if ([viewController isKindOfClass:[LCSummonerShowController class]]) {
+    return;
+  }
   viewController.navigationItem.hidesBackButton = YES;
+}
+
+- (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+  if ([viewController isKindOfClass:[LCSummonerShowController class]]) {
+    return;
+  }
   [self menuNavigationItemForViewController:viewController];
   self.viewControllers = [self.viewControllers select:^BOOL(id obj) {
     return obj == viewController;

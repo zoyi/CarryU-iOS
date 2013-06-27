@@ -20,6 +20,7 @@
 @property (nonatomic, strong) TKStateMachine *stateMachine;
 @property (nonatomic, strong) XMPPJID *groupChatJID;
 @property (nonatomic, strong) LCGame *game;
+@property (nonatomic, strong) LCGame *gameWillStart;
 @property (nonatomic, strong) NSString *regeion;
 
 - (BOOL)connectWithJID:(NSString *)jid password:(NSString *)passwd;

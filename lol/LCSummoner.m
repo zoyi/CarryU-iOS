@@ -56,11 +56,17 @@ static NSString *SUMMONER_LEVEL_ROUTE = @"summoners/:name\\.json";
   NSURL *url = [[LCApiRouter sharedInstance] URLForRouteNamed:@"summoner_level" method:RKRequestMethodGET object:self];
 
   AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:[NSURLRequest requestWithURL:url] success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
-    self.level = [[JSON objectForKey:@"summoner"] objectForKey:@"level"];
+    NSDictionary *summoner = [JSON objectForKey:@"summoner"];
+    self.level = [summoner objectForKey:@"level"];
+    self.profileIconID = [summoner objectForKey:@"profile_icon_id"];
   } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
     NIDPRINT(@"Encountered error when retrieve summoner level %@", error.debugDescription);
   }];
   [operation start];
+}
+
+- (NSURL *)profileIconUrl {
+  return [NSURL URLWithString:[NSString stringWithFormat:@"%@/assets/profile_icons/%@.jpg", [LCServerInfo sharedInstance].currentServer.railsHost, self.profileIconID]];
 }
 
 @end

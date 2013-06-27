@@ -58,7 +58,12 @@ static CGFloat kSmallPadding = 10;
 - (BOOL)shouldUpdateCellWithObject:(id)object {
   LCSummonerCellObject *cellObject = object;
   LCSummoner *summoner = cellObject.summoner;
-  [self.championAvatarView setImageWithURL:[summoner.champion championAvatarUrl]];
+  if (summoner.champion.cid) {
+    [self.championAvatarView setImageWithURL:[summoner.champion championAvatarUrl]];
+  } else if (summoner.profileIconID) {
+    [self.championAvatarView setImageWithURL:[summoner profileIconUrl]];
+  }
+
   [self.spell1ImageView setImageWithURL:[summoner spell1ImageUrl]];
   [self.spell2ImageView setImageWithURL:[summoner spell2ImageUrl]];
   NSMutableString *summonerNameText = [NSMutableString string];

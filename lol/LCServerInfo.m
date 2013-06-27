@@ -73,7 +73,7 @@
     server.railsHost = [NSURL URLWithString:[obj objectForKey:@"rails_host"]];
     server.rtmpHost = [NSURL URLWithString:[obj objectForKey:@"rtmp_host"]];
     server.region = key;
-    server.apiUrl = [NSString stringWithFormat:@"%@/api/%@/", server.railsHost, [obj objectForKey:@"api_version"]];
+    server.apiUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@/api/%@/", server.railsHost, [obj objectForKey:@"api_version"]]];
     server.xmppPort = [obj objectForKey:@"xmpp_port"];
     server.xmppHost = [obj objectForKey:@"xmpp_host"];
     [result setObject:server forKey:key];

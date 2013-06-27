@@ -10,6 +10,7 @@
 #import "LCSummoner.h"
 #import "LCSummonerCell.h"
 #import "LCSummonerCellObject.h"
+#import "LCSummonerShowController.h"
 
 @interface LCSummonerViewController ()
 @property (nonatomic, strong) NITableViewModel *model;
@@ -45,7 +46,7 @@
   }];
   [_actions attachToClass:[LCSummonerCellObject class] tapBlock:^BOOL(LCSummonerCellObject *object, id target) {
     NIDPRINT(@"object is => %@", object.debugDescription);
-    NIWebController *webController = [[NIWebController alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.lolking.net/search?name=%@", object.summoner.name]]];
+    LCSummonerShowController *webController = [[LCSummonerShowController alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://op.gg/summoner/userName=%@", [object.summoner.name stringByAddingPercentEscapesForURLParameter]]]];
     [self.navigationController pushViewController:webController animated:YES];
     return YES;
   }];
