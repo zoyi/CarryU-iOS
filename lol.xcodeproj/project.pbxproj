@@ -84,12 +84,15 @@
 		9CA569D0176A19F400A16B7B /* XMPPStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CA569B9176A19F400A16B7B /* XMPPStream.m */; };
 		9CA9E03B177B2EC0009ED447 /* server_info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9CA9E03A177B2EC0009ED447 /* server_info.plist */; };
 		9CA9E03E177B349A009ED447 /* LCServerInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CA9E03D177B349A009ED447 /* LCServerInfo.m */; };
+		9CAA6068177EC2D2003A5C6F /* LCSettingsInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CAA6067177EC2D2003A5C6F /* LCSettingsInfo.m */; };
+		9CAA606A177ECDE1003A5C6F /* search_engines.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9CAA6069177ECDE1003A5C6F /* search_engines.plist */; };
 		9CAF5F211779D9BF004153E6 /* LCHomeNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CAF5F201779D9BF004153E6 /* LCHomeNavigationController.m */; };
 		9CAF5F241779DCDC004153E6 /* LCSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CAF5F231779DCDC004153E6 /* LCSearchBar.m */; };
 		9CAF5F271779F0BB004153E6 /* menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CAF5F251779F0BB004153E6 /* menu.png */; };
 		9CAF5F281779F0BB004153E6 /* menu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CAF5F261779F0BB004153E6 /* menu@2x.png */; };
 		9CBD9293176DD42E006ED0BE /* FUIButton+LCCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CBD9292176DD42E006ED0BE /* FUIButton+LCCategory.m */; };
 		9CC0AAEB176F4BBC00FA1A00 /* LCHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CC0AAEA176F4BBC00FA1A00 /* LCHomeViewController.m */; };
+		9CDACBED17814F4900E7006A /* LCNetworkTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CDACBEC17814F4900E7006A /* LCNetworkTableViewController.m */; };
 		9CED33ED177B791500C6CF23 /* LCSettingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CED33EC177B791500C6CF23 /* LCSettingsController.m */; };
 		9CED33F0177B7F6400C6CF23 /* LCSummonerSearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CED33EF177B7F6400C6CF23 /* LCSummonerSearchController.m */; };
 		B90AA18ECA62449CA6468BE3 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6FAF64CE144990B9B2F5B5 /* libPods.a */; };
@@ -242,6 +245,9 @@
 		9CA9E03A177B2EC0009ED447 /* server_info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = server_info.plist; sourceTree = "<group>"; };
 		9CA9E03C177B3499009ED447 /* LCServerInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCServerInfo.h; sourceTree = "<group>"; };
 		9CA9E03D177B349A009ED447 /* LCServerInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCServerInfo.m; sourceTree = "<group>"; };
+		9CAA6066177EC2D2003A5C6F /* LCSettingsInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCSettingsInfo.h; sourceTree = "<group>"; };
+		9CAA6067177EC2D2003A5C6F /* LCSettingsInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCSettingsInfo.m; sourceTree = "<group>"; };
+		9CAA6069177ECDE1003A5C6F /* search_engines.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = search_engines.plist; sourceTree = "<group>"; };
 		9CAF5F1F1779D9BF004153E6 /* LCHomeNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCHomeNavigationController.h; sourceTree = "<group>"; };
 		9CAF5F201779D9BF004153E6 /* LCHomeNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCHomeNavigationController.m; sourceTree = "<group>"; };
 		9CAF5F221779DCDC004153E6 /* LCSearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCSearchBar.h; sourceTree = "<group>"; };
@@ -252,6 +258,8 @@
 		9CBD9292176DD42E006ED0BE /* FUIButton+LCCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FUIButton+LCCategory.m"; sourceTree = "<group>"; };
 		9CC0AAE9176F4BBC00FA1A00 /* LCHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCHomeViewController.h; sourceTree = "<group>"; };
 		9CC0AAEA176F4BBC00FA1A00 /* LCHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCHomeViewController.m; sourceTree = "<group>"; };
+		9CDACBEB17814F4900E7006A /* LCNetworkTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCNetworkTableViewController.h; sourceTree = "<group>"; };
+		9CDACBEC17814F4900E7006A /* LCNetworkTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCNetworkTableViewController.m; sourceTree = "<group>"; };
 		9CED33EB177B791500C6CF23 /* LCSettingsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCSettingsController.h; sourceTree = "<group>"; };
 		9CED33EC177B791500C6CF23 /* LCSettingsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCSettingsController.m; sourceTree = "<group>"; };
 		9CED33EE177B7F6300C6CF23 /* LCSummonerSearchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCSummonerSearchController.h; sourceTree = "<group>"; };
@@ -395,6 +403,8 @@
 				9C3FD4941778BAE000489A64 /* LCApiRouter.m */,
 				9CA9E03C177B3499009ED447 /* LCServerInfo.h */,
 				9CA9E03D177B349A009ED447 /* LCServerInfo.m */,
+				9CAA6066177EC2D2003A5C6F /* LCSettingsInfo.h */,
+				9CAA6067177EC2D2003A5C6F /* LCSettingsInfo.m */,
 				9C138E7F1770A7A4003CC90C /* Model */,
 				9CA56979176A181B00A16B7B /* Controller */,
 				9C138E6F17708129003CC90C /* View */,
@@ -416,6 +426,7 @@
 				9CA5692D176A0BA300A16B7B /* Default@2x.png */,
 				9CA5692F176A0BA300A16B7B /* Default-568h@2x.png */,
 				9CA9E03A177B2EC0009ED447 /* server_info.plist */,
+				9CAA6069177ECDE1003A5C6F /* search_engines.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -498,22 +509,13 @@
 		9CA56979176A181B00A16B7B /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				9CA5697A176A183D00A16B7B /* LCLoginViewController.h */,
-				9CA5697B176A183D00A16B7B /* LCLoginViewController.m */,
-				9CC0AAE9176F4BBC00FA1A00 /* LCHomeViewController.h */,
-				9CC0AAEA176F4BBC00FA1A00 /* LCHomeViewController.m */,
-				9C1B8FDA1777519C003677AC /* LCSummonerViewController.h */,
-				9C1B8FDB1777519C003677AC /* LCSummonerViewController.m */,
-				9C1B8FDD17775418003677AC /* LCGameTabBarController.h */,
-				9C1B8FDE17775418003677AC /* LCGameTabBarController.m */,
-				9CAF5F1F1779D9BF004153E6 /* LCHomeNavigationController.h */,
-				9CAF5F201779D9BF004153E6 /* LCHomeNavigationController.m */,
-				9CED33EB177B791500C6CF23 /* LCSettingsController.h */,
-				9CED33EC177B791500C6CF23 /* LCSettingsController.m */,
-				9CED33EE177B7F6300C6CF23 /* LCSummonerSearchController.h */,
-				9CED33EF177B7F6400C6CF23 /* LCSummonerSearchController.m */,
-				9C2F3541177CAF11005E3232 /* LCSummonerShowController.h */,
-				9C2F3542177CAF11005E3232 /* LCSummonerShowController.m */,
+				9CDACBEB17814F4900E7006A /* LCNetworkTableViewController.h */,
+				9CDACBEC17814F4900E7006A /* LCNetworkTableViewController.m */,
+				9CAA6065177EC19E003A5C6F /* Summoner */,
+				9CAA6064177EC18F003A5C6F /* In Game Tab */,
+				9CAA6063177EC182003A5C6F /* Login */,
+				9CAA6062177EC169003A5C6F /* Home */,
+				9CAA6061177EC15C003A5C6F /* settings */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -680,6 +682,57 @@
 			name = Helper;
 			sourceTree = "<group>";
 		};
+		9CAA6061177EC15C003A5C6F /* settings */ = {
+			isa = PBXGroup;
+			children = (
+				9CED33EB177B791500C6CF23 /* LCSettingsController.h */,
+				9CED33EC177B791500C6CF23 /* LCSettingsController.m */,
+			);
+			name = settings;
+			sourceTree = "<group>";
+		};
+		9CAA6062177EC169003A5C6F /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				9CC0AAE9176F4BBC00FA1A00 /* LCHomeViewController.h */,
+				9CC0AAEA176F4BBC00FA1A00 /* LCHomeViewController.m */,
+				9CAF5F1F1779D9BF004153E6 /* LCHomeNavigationController.h */,
+				9CAF5F201779D9BF004153E6 /* LCHomeNavigationController.m */,
+			);
+			name = Home;
+			sourceTree = "<group>";
+		};
+		9CAA6063177EC182003A5C6F /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				9CA5697A176A183D00A16B7B /* LCLoginViewController.h */,
+				9CA5697B176A183D00A16B7B /* LCLoginViewController.m */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
+		9CAA6064177EC18F003A5C6F /* In Game Tab */ = {
+			isa = PBXGroup;
+			children = (
+				9C1B8FDD17775418003677AC /* LCGameTabBarController.h */,
+				9C1B8FDE17775418003677AC /* LCGameTabBarController.m */,
+			);
+			name = "In Game Tab";
+			sourceTree = "<group>";
+		};
+		9CAA6065177EC19E003A5C6F /* Summoner */ = {
+			isa = PBXGroup;
+			children = (
+				9C1B8FDA1777519C003677AC /* LCSummonerViewController.h */,
+				9C1B8FDB1777519C003677AC /* LCSummonerViewController.m */,
+				9CED33EE177B7F6300C6CF23 /* LCSummonerSearchController.h */,
+				9CED33EF177B7F6400C6CF23 /* LCSummonerSearchController.m */,
+				9C2F3541177CAF11005E3232 /* LCSummonerShowController.h */,
+				9C2F3542177CAF11005E3232 /* LCSummonerShowController.m */,
+			);
+			name = Summoner;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -746,6 +799,7 @@
 				9CAF5F271779F0BB004153E6 /* menu.png in Resources */,
 				9CAF5F281779F0BB004153E6 /* menu@2x.png in Resources */,
 				9CA9E03B177B2EC0009ED447 /* server_info.plist in Resources */,
+				9CAA606A177ECDE1003A5C6F /* search_engines.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -850,6 +904,8 @@
 				9CED33ED177B791500C6CF23 /* LCSettingsController.m in Sources */,
 				9CED33F0177B7F6400C6CF23 /* LCSummonerSearchController.m in Sources */,
 				9C2F3543177CAF11005E3232 /* LCSummonerShowController.m in Sources */,
+				9CAA6068177EC2D2003A5C6F /* LCSettingsInfo.m in Sources */,
+				9CDACBED17814F4900E7006A /* LCNetworkTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

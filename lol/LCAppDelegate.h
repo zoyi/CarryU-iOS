@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+static NSString *kUsernameKey = @"username";
 @class LCGame;
 
 @interface LCAppDelegate : UIResponder <UIApplicationDelegate>
@@ -27,4 +27,5 @@
 - (void)disconnect;
 - (void)showInGameTabController;
 - (void)logout;
+- (void)refreshXmppPrecense:(id)sender;
 @end

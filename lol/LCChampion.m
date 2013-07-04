@@ -7,7 +7,7 @@
 //
 
 #import "LCChampion.h"
-
+#import "LCServerInfo.h"
 @implementation LCChampion
 + (RKObjectMapping *)mapping {
   RKObjectMapping *mapping = [RKObjectMapping mappingForClass:[LCChampion class]];
@@ -19,6 +19,6 @@
 }
 
 - (NSURL *)championAvatarUrl {
-  return [NSURL URLWithString:[NSString stringWithFormat:@"http://lol.red.zoyi.co/champions/%@/image", self.cid]];
+  return [NSURL URLWithString:[NSString stringWithFormat:@"%@/champions/%@/image", [LCServerInfo sharedInstance].currentServer.railsHost.absoluteString, self.cid]];
 }
 @end

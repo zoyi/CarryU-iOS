@@ -18,6 +18,7 @@
 #import "LCGameTabBarController.h"
 #import "LCSummonerShowController.h"
 #import "XMPPIQ+LCCategory.h"
+#import "LCSettingsInfo.h"
 
 static NSString *kCurrentStateKey = @"currentState";
 static NSString *kGameWillStartKey = @"gameWillStart";
@@ -51,11 +52,12 @@ static NSString *kGameWillStartKey = @"gameWillStart";
 - (void)loadView {
   [super loadView];
   [self resetModel];
+
   self.actions = [[NITableViewActions alloc] initWithTarget:self];
   [_actions attachToClass:[LCSummonerCellObject class] tapBlock:^BOOL(LCSummonerCellObject *object, id target) {
     NIDPRINT(@"object is => %@", object.debugDescription);
     
-    LCSummonerShowController *webController = [[LCSummonerShowController alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://op.gg/summoner/userName=%@", [object.summoner.name stringByAddingPercentEscapesForURLParameter]]]];
+    LCSummonerShowController *webController = [[LCSummonerShowController alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:[LCSettingsInfo sharedInstance].searchEngine, [object.summoner.name stringByAddingPercentEscapesForURLParameter]]]];
     [self.navigationController pushViewController:webController animated:YES];
     return YES;
   }];
@@ -103,6 +105,7 @@ static NSString *kGameWillStartKey = @"gameWillStart";
 }
 
 - (void)resetModel {
+  self.tableView.tableHeaderView = nil;
   LCAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
   NSMutableArray *tableContent = [NSMutableArray arrayWithCapacity:5];
   [appDelegate.gameWillStart.playerTeam each:^(LCSummoner *summoner) {
@@ -114,14 +117,13 @@ static NSString *kGameWillStartKey = @"gameWillStart";
   [self.view bringSubviewToFront:self.tableView];
 }
 
-
 - (LCStateView *)outOfGameStateView {
   if (nil == _outOfGameStateView) {
     self.outOfGameStateView = [[LCStateView alloc] initWithTitle:NSLocalizedString(@"out_of_game_title", nil) subtitle:NSLocalizedString(@"", nil) image:nil];
     [_outOfGameStateView addReloadButton];
     [_outOfGameStateView.reloadButton addTarget:self action:@selector(fireInGameEvent) forControlEvents:UIControlEventTouchUpInside];
     _outOfGameStateView.backgroundColor = self.tableView.backgroundColor;
-    [self.view insertSubview:_outOfGameStateView belowSubview:self.tableView];
+    //    [self.view insertSubview:_outOfGameStateView belowSubview:self.tableView];
   }
   return _outOfGameStateView;
 }
@@ -130,7 +132,7 @@ static NSString *kGameWillStartKey = @"gameWillStart";
   if (nil == _inQueueStateView) {
     self.inQueueStateView = [[LCStateView alloc] initWithTitle:NSLocalizedString(@"in_queue_title", nil) subtitle:NSLocalizedString(@"searching for new game...", nil) image:nil];
     _inQueueStateView.backgroundColor = self.tableView.backgroundColor;
-    [self.view insertSubview:_inQueueStateView belowSubview:self.tableView];
+    //    [self.view insertSubview:_inQueueStateView belowSubview:self.tableView];
   }
   return _inQueueStateView;
 }
@@ -139,7 +141,7 @@ static NSString *kGameWillStartKey = @"gameWillStart";
   if (nil == _championSelectStateView) {
     self.championSelectStateView = [[LCStateView alloc] initWithTitle:NSLocalizedString(@"champion_select_title", nil) subtitle:NSLocalizedString(@"choosing champions", nil) image:nil];
     _championSelectStateView.backgroundColor = self.tableView.backgroundColor;
-    [self.view insertSubview:_championSelectStateView belowSubview:self.tableView];
+    //    [self.view insertSubview:_championSelectStateView belowSubview:self.tableView];
   }
   return _championSelectStateView;
 }
@@ -160,15 +162,16 @@ static NSString *kGameWillStartKey = @"gameWillStart";
 - (void)showStateView {
   LCAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
   if ([appDelegate.stateMachine isInState:@"outOfGame"]) {
-    [self.view bringSubviewToFront:self.outOfGameStateView];
+    self.tableView.tableHeaderView = self.outOfGameStateView;
   } else if ([appDelegate.stateMachine isInState:@"inQueue"]) {
-    [self.view bringSubviewToFront:self.inQueueStateView];
+    self.tableView.tableHeaderView = self.inQueueStateView;
   } else if ([appDelegate.stateMachine isInState:@"championSelect"]) {
     if (appDelegate.gameWillStart.playerTeam.count) {
       // show champion select list
       [self resetModel];
+
     } else {
-      [self.view bringSubviewToFront:self.championSelectStateView];
+      self.tableView.tableHeaderView = self.championSelectStateView;
     }
   }
 }

@@ -9,13 +9,17 @@
 #import "LCApiRouter.h"
 #import "LCServerInfo.h"
 @implementation LCApiRouter
+static LCApiRouter *sharedInstance = nil;
 + (LCApiRouter *)sharedInstance {
-  static LCApiRouter *sharedInstance = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
     sharedInstance = [[LCApiRouter alloc] initWithBaseURL:[LCServerInfo sharedInstance].currentServer.apiUrl];
     // Do any other initialisation stuff here
   });
   return sharedInstance;
+}
+
++ (void)setSharedInstance:(id)instance {
+  sharedInstance = instance;
 }
 @end

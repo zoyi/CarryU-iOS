@@ -10,4 +10,5 @@
 
 @interface LCApiRouter : RKRouter
 + (LCApiRouter *)sharedInstance;
++ (void)setSharedInstance:(id)instance;
 @end

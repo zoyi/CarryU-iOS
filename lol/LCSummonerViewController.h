@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 WUDI. All rights reserved.
 //
 
-
+#import "LCNetworkTableViewController.h"
 @class LCSummoner;
-@interface LCSummonerViewController : NINetworkTableViewController
+@interface LCSummonerViewController : LCNetworkTableViewController
 @property (nonatomic, strong) NSArray *summoners;
 
 - (id)initWithSummoners:(NSArray *)summoners;

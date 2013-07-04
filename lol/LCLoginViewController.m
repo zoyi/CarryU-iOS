@@ -40,8 +40,8 @@ static NSInteger kPasswordTextFieldTag = 2389;
 
   NSArray *tableForm = @[
                          @"",
-                         [NITextInputFormElement textInputElementWithID:kUsernameTextFieldTag placeholderText:NSLocalizedString(@"username", nil) value:@"wudiac" delegate:self],
-                         [NITextInputFormElement passwordInputElementWithID:kPasswordTextFieldTag placeholderText:NSLocalizedString(@"password", nil) value:@"wudi87" delegate:self],
+                         [NITextInputFormElement textInputElementWithID:kUsernameTextFieldTag placeholderText:NSLocalizedString(@"username", nil) value:[[NSUserDefaults standardUserDefaults] stringForKey:kUsernameKey] delegate:self],
+                         [NITextInputFormElement passwordInputElementWithID:kPasswordTextFieldTag placeholderText:NSLocalizedString(@"password", nil) value:@"" delegate:self],
                          @"",
                          [_actions attachToObject:self.regionObject tapBlock:^BOOL(id object, id target) {
                            [ActionSheetStringPicker showPickerWithTitle:@"Choose your region" rows:@[@"NA", @"KR"] initialSelection:0 doneBlock:^(ActionSheetStringPicker *picker, NSInteger selectedIndex, id selectedValue) {
@@ -125,11 +125,6 @@ static NSInteger kPasswordTextFieldTag = 2389;
   LCAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
   [appDelegate connectWithJID:_username password:_password];
 }
-
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-
-}
-
 
 
 @end

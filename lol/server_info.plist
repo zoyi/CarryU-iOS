@@ -5,26 +5,26 @@
 	<key>kr</key>
 	<dict>
 		<key>rtmp_host</key>
-		<string>http://red.zoyi.co:8000</string>
+		<string>http://kr.rtmp.carryu.co</string>
 		<key>xmpp_host</key>
 		<string>chat.kr.lol.riotgames.com</string>
 		<key>xmpp_port</key>
 		<integer>5223</integer>
 		<key>rails_host</key>
-		<string>http://lol.red.zoyi.co</string>
+		<string>http://kr.carryu.co</string>
 		<key>api_version</key>
 		<string>v1</string>
 	</dict>
 	<key>na</key>
 	<dict>
 		<key>rtmp_host</key>
-		<string>http://red.zoyi.co:8000</string>
+		<string>http://na.rtmp.carryu.co</string>
 		<key>xmpp_host</key>
 		<string>chat.na1.lol.riotgames.com</string>
 		<key>xmpp_port</key>
 		<integer>5223</integer>
 		<key>rails_host</key>
-		<string>http://lol.red.zoyi.co</string>
+		<string>http://na.carryu.co</string>
 		<key>api_version</key>
 		<string>v1</string>
 	</dict>

@@ -13,6 +13,7 @@
 #import "LCSettingsController.h"
 #import "LCSummonerShowController.h"
 #import "LCSummonerSearchController.h"
+#import "LCSettingsInfo.h"
 #import <REMenu/REMenu.h>
 
 @interface LCHomeNavigationController () <UISearchBarDelegate, UINavigationControllerDelegate>
@@ -116,7 +117,7 @@
   NIDPRINT(@"search did clicked");
   [self.searchBar resignFirstResponder];
   if (self.searchBar.text.length) {
-    NSString *searchUrlpath = [NSString stringWithFormat:@"http://op.gg/summoner/userName=%@", [self.searchBar.text stringByAddingPercentEscapesForURLParameter]];
+    NSString *searchUrlpath = [NSString stringWithFormat:[LCSettingsInfo sharedInstance].searchEngine, [self.searchBar.text stringByAddingPercentEscapesForURLParameter]];
     LCSummonerSearchController *webController = [[LCSummonerSearchController alloc] initWithURL:[NSURL URLWithString:searchUrlpath]];
     [self pushViewController:webController animated:NO];
   }

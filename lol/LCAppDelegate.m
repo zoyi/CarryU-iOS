@@ -18,7 +18,7 @@
 #import "DDLog.h"
 #import "DDTTYLogger.h"
 #import "LCServerInfo.h"
-
+#import "LCSettingsInfo.h"
 #if DEBUG
 static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 #else
@@ -34,6 +34,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 - (void)goOffline;
 
 - (void)setupRestkit;
+- (void)setupApiRouter;
 
 - (void)setupAppearence;
 - (void)getInProcessGameInfo;
@@ -60,6 +61,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
   LCLoginViewController *loginController = [[LCLoginViewController alloc] initWithStyle:UITableViewStyleGrouped];
   [DDLog addLogger:[DDTTYLogger sharedInstance]];
   [self setupRestkit];
+  [self setupApiRouter];
   [self setupStream];
   [self setupAppearence];
   [self stateMachine];
@@ -111,23 +113,34 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 }
 
 - (void)setupRestkit {
+
   RKObjectManager *manager = [RKObjectManager managerWithBaseURL:[LCServerInfo sharedInstance].currentServer.rtmpHost];
   [RKObjectManager setSharedManager:manager];
   [LCSummoner routing];
-  [LCSummoner apiRouting];
   [LCGame routing];
-  RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
+  //  RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
+}
+
+- (void)setupApiRouter {
+  [LCApiRouter setSharedInstance:[[LCApiRouter alloc] initWithBaseURL:[LCServerInfo sharedInstance].currentServer.apiUrl]];
+  [LCSummoner apiRouting];
 }
 
 - (void)setRegeion:(NSString *)regeion {
   if (regeion == nil) {
     regeion = @"kr";
   }
-  if (regeion != _regeion) {
+  if (![regeion isEqualToString:_regeion]) {
     _regeion = regeion;
+    [[LCSettingsInfo sharedInstance] updateRegion];
+    [self teardownStream];
+    [self setupStream];
+    [self setupRestkit];
+    [self setupApiRouter];
   }
   [[NSUserDefaults standardUserDefaults] setObject:_regeion forKey:@"_region"];
   [[NSUserDefaults standardUserDefaults] synchronize];
+  
 }
 
 - (void)logout {
@@ -152,7 +165,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
   self.xmppReconnect = [[XMPPReconnect alloc] init];
   _xmppReconnect.usesOldSchoolSecureConnect = YES;
 	// Activate xmpp modules
-
+  _xmppReconnect.autoReconnect = YES;
 	[_xmppReconnect         activate:_xmppStream];
 
   [_xmppStream addDelegate:self delegateQueue:dispatch_get_main_queue()];
@@ -191,9 +204,11 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 //  NSString *myPassword = [[NSUserDefaults standardUserDefaults] stringForKey:kXMPPmyPassword];
 
 
-	if (jid == nil || passwd == nil) {
+	if (!jid.length || !passwd.length) {
 		return NO;
 	}
+  [[NSUserDefaults standardUserDefaults] setObject:jid forKey:kUsernameKey];
+  [[NSUserDefaults standardUserDefaults] synchronize];
 
 	[_xmppStream setMyJID:[XMPPJID jidWithString:[NSString stringWithFormat:@"%@@pvp.net", jid]]];
 	self.password = [NSString stringWithFormat:@"AIR_%@", passwd];
@@ -201,7 +216,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
   [SVProgressHUD showWithStatus:@"Authing..." maskType:SVProgressHUDMaskTypeBlack];
 	NSError *error = nil;
 	if (![_xmppStream oldSchoolSecureConnectWithTimeout:XMPPStreamTimeoutNone error:&error]) {
-		DDLogError(@"Error connecting: %@", error);
+		NIDPRINT(@"Error connecting: %@", error);
 		return NO;
 	}
 	return YES;
@@ -216,20 +231,17 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 - (void)xmppStream:(XMPPStream *)sender socketDidConnect:(GCDAsyncSocket *)socket {
+  NIDPRINT(@"socket did connect");
 	DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
 }
 
-- (void)xmppStream:(XMPPStream *)sender willSecureWithSettings:(NSMutableDictionary *)settings {
-	DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
-}
 
 - (void)xmppStreamDidSecure:(XMPPStream *)sender {
-	DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
+  NIDPRINT(@"socket did secure");
 }
 
 - (void)xmppStreamDidConnect:(XMPPStream *)sender {
-	DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
-
+  NIDPRINT(@"stream did connect");
   //	isXmppConnected = YES;
 
 	NSError *error = nil;
@@ -254,6 +266,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 }
 
 - (void)xmppStream:(XMPPStream *)sender didNotAuthenticate:(NSXMLElement *)error {
+  [SVProgressHUD dismiss];
 	DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
 }
 
@@ -266,6 +279,10 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 	DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
   [SVProgressHUD dismiss];
   NIDPRINT(@"did disconnect with error => %@", error.debugDescription);
+  if (error.code == 7 &&
+      [error.domain isEqualToString:@"GCDAsyncSocketErrorDomain"]) {
+    [_xmppReconnect manualStart];
+  }
 }
 
 - (void)xmppStream:(XMPPStream *)sender didReceivePresence:(XMPPPresence *)presence {
@@ -305,8 +322,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 - (void)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message {
   NIDPRINT(@"xmpp did receive message => %@", [message.debugDescription stringByReplacingXMLEscape]);
   if ([_stateMachine isInState:@"championSelect"]
-      || [_stateMachine isInState:@"inQueue"]
-      || [_stateMachine isInState:@"outOfGame"]) {
+      || [_stateMachine isInState:@"inQueue"]) {
     // message contain x
     NSString *type = [message attributeStringValueForName:@"type"];
     NSString *mid = [message attributeStringValueForName:@"id"];
@@ -403,23 +419,24 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 - (void)setGroupChatJID:(XMPPJID *)groupChatJID {
   if (![groupChatJID.description isEqualToString:_groupChatJID.description]) {
     _groupChatJID = groupChatJID;
-    // fetch room members
-    NSXMLElement *query = [NSXMLElement elementWithName:@"query" xmlns:@"http://jabber.org/protocol/disco#items"];
-    NSXMLElement *iq = [NSXMLElement elementWithName:@"iq"];
-    XMPPJID *myJID = _xmppStream.myJID;
-    [iq addAttributeWithName:@"from" stringValue:myJID.description];
-    [iq addAttributeWithName:@"to" stringValue:_groupChatJID.description];
-    [iq addAttributeWithName:@"id" stringValue:[XMPPStream generateUUID]];
-    [iq addAttributeWithName:@"type" stringValue:@"get"];
-    [iq addChild:query];
-    [_xmppStream sendElement:iq];
+    [self performBlock:^(id sender) {
+      NSXMLElement *query = [NSXMLElement elementWithName:@"query" xmlns:@"http://jabber.org/protocol/disco#items"];
+      NSXMLElement *iq = [NSXMLElement elementWithName:@"iq"];
+      XMPPJID *myJID = _xmppStream.myJID;
+      [iq addAttributeWithName:@"from" stringValue:myJID.description];
+      [iq addAttributeWithName:@"to" stringValue:_groupChatJID.description];
+      [iq addAttributeWithName:@"id" stringValue:[XMPPStream generateUUID]];
+      [iq addAttributeWithName:@"type" stringValue:@"get"];
+      [iq addChild:query];
+      [_xmppStream sendElement:iq];
+    } afterDelay:3];
   }
 }
 
 - (void)getInProcessGameInfo {
   [SVProgressHUD showWithStatus:@"Retriving game status..." maskType:SVProgressHUDMaskTypeBlack];
   LCSummoner *tmpSummoner = [LCSummoner new];
-  tmpSummoner.name = @"킬대조영";
+  tmpSummoner.name = @"p2cko";
   // [LCCurrentSummoner sharedInstance]
   [[RKObjectManager sharedManager] getObjectsAtPathForRouteNamed:@"active_game" object:[LCCurrentSummoner sharedInstance] parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
     NIDPRINT(@"all summoner's info is => %@", mappingResult.debugDescription);
@@ -427,7 +444,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     self.game = [[mappingResult dictionary] objectForKey:[NSNull null]];
     if (_game && [self.window.rootViewController isKindOfClass:[LCHomeNavigationController class]]) {
       LCHomeNavigationController *homeNaviController = (LCHomeNavigationController *)self.window.rootViewController;
-      if ([homeNaviController.visibleViewController isKindOfClass:[LCHomeViewController class]]) {
+      if ([[homeNaviController.viewControllers objectAtIndex:0] isKindOfClass:[LCHomeViewController class]]) {
         [self showInGameTabController];
       }
     }
@@ -444,10 +461,28 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     LCGameTabBarController *gameController = [[LCGameTabBarController alloc] initWithGame:_game];
     [homeNaviController pushViewController:gameController animated:NO];
   }
+}
 
+- (void)refreshXmppPrecense:(id)sender {
+  if ([sender isKindOfClass:[ODRefreshControl class]]) {
+//    NSXMLElement *query = [NSXMLElement elementWithName:@"query" xmlns:@"jabber:iq:roster"];
+//    NSXMLElement *iq = [NSXMLElement elementWithName:@"iq"];
+//    XMPPJID *myJID = _xmppStream.myJID;
+//    [iq addAttributeWithName:@"from" stringValue:myJID.description];
+//    [iq addAttributeWithName:@"id" stringValue:[XMPPStream generateUUID]];
+//    [iq addAttributeWithName:@"type" stringValue:@"get"];
+//    [iq addChild:query];
+//    [_xmppStream sendElement:iq];
+
+    [self goOffline];
+
+    [(ODRefreshControl *)sender performSelector:@selector(endRefreshing) withObject:nil afterDelay:0.35];
+    [self performSelector:@selector(goOnline) withObject:nil afterDelay:0.36];
+  }
 }
 
 - (void)retrieveServerInfo{
   [LCServerInfo sharedInstance];
+  [LCSettingsInfo sharedInstance];
 }
 @end
