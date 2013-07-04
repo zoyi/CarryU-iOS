@@ -17,6 +17,7 @@
   #import <Nimbus/NimbusModels.h>
   #import <Nimbus/NimbusNetworkImage.h>
   #import <Nimbus/NimbusAttributedLabel.h>
+  #import <Nimbus/NimbusPagingScrollView.h>
   #import <Nimbus/NimbusNetworkControllers.h>
   #import <Nimbus/NimbusWebController.h>
 
@@ -39,11 +40,15 @@
   #import <AFNetworking/AFNetworking.h>
   #import <SVProgressHUD/SVProgressHUD.h>
   #import <ODRefreshControl/ODRefreshControl.h>
+  #import <HorizontalPicker/HorizontalPicker.h>
 
   #import "NSString+LCCategory.h"
   #import "FUIButton+LCCategory.h"
   #import "XMPPPresence+LCCategory.h"
   #import "UIView+APCategory.h"
+  #import "UIFont+LCCategory.h"
+  #import "UIColor+LCCategory.h"
+  #import "LCHelperMacro.h"
 
   #import "XMPPFramework.h"
   #import "LCApiRouter.h"

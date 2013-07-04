@@ -1,0 +1,12 @@
+"na" = "North America";
+"kr" = "Korea";
+"server_picker_format" = "%@ Server";
+"name_placeholder" = "Username";
+"password_placeholder" = "Password";
+"login_btn_label" = "LOGIN";
+"my_team_tab_title" = "My Team";
+"enemies_team_tab_title" = "Enemies";
+"tips_tab_title" = "Tips";
+"menu_settings_title" = "Settings";
+"menu_home_title" = "Home";
+"menu_logout_title" = "Logout";

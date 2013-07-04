@@ -82,6 +82,7 @@
   if (nil == _searchBar) {
     self.searchBar = [[LCSearchBar alloc] initWithFrame:CGRectMake(0, 0, 200, 32)];
     _searchBar.delegate = self;
+
     _searchBar.placeholder = NSLocalizedString(@"search_placeholder", nil);
     _searchBar.backgroundImage = [UIImage imageWithColor:[UIColor peterRiverColor] cornerRadius:0];
     [[UISearchBar appearance] setSearchFieldBackgroundImage:nil forState:UIControlStateNormal];
@@ -117,7 +118,7 @@
   NIDPRINT(@"search did clicked");
   [self.searchBar resignFirstResponder];
   if (self.searchBar.text.length) {
-    NSString *searchUrlpath = [NSString stringWithFormat:[LCSettingsInfo sharedInstance].searchEngine, [self.searchBar.text stringByAddingPercentEscapesForURLParameter]];
+    NSString *searchUrlpath = [NSString stringWithFormat:@"%@%@",[LCSettingsInfo sharedInstance].searchEngine, [self.searchBar.text stringByAddingPercentEscapesForURLParameter]];
     LCSummonerSearchController *webController = [[LCSummonerSearchController alloc] initWithURL:[NSURL URLWithString:searchUrlpath]];
     [self pushViewController:webController animated:NO];
   }

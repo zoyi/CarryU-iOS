@@ -29,7 +29,7 @@
   }
   [self bringSubviewToFront:searchField];
   if(searchField != nil) {
-    searchField.font = [UIFont flatFontOfSize:16];
+    searchField.font = [UIFont systemFontOfSize:16];
     searchField.textColor = RGBCOLOR(0x77, 0x77, 0x77);
     searchField.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
 //    searchField.background = nil;

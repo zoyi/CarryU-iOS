@@ -21,9 +21,9 @@
 #import "LCSettingsInfo.h"
 #if DEBUG
 static const int ddLogLevel = LOG_LEVEL_VERBOSE;
-#else
-static const int ddLogLevel = LOG_LEVEL_INFO;
 #endif
+
+static NSString *kRegionKey = @"_region";
 
 @interface LCAppDelegate () <XMPPStreamDelegate>
 
@@ -56,7 +56,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
   // Override point for customization after application launch.
   self.window.backgroundColor = [UIColor whiteColor];
   [self retrieveServerInfo];
-  self.regeion = [[NSUserDefaults standardUserDefaults] objectForKey:@"_region"];
+  self.regeion = [[NSUserDefaults standardUserDefaults] objectForKey:kRegionKey];
   [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque];
   LCLoginViewController *loginController = [[LCLoginViewController alloc] initWithStyle:UITableViewStyleGrouped];
   [DDLog addLogger:[DDTTYLogger sharedInstance]];
@@ -138,7 +138,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     [self setupRestkit];
     [self setupApiRouter];
   }
-  [[NSUserDefaults standardUserDefaults] setObject:_regeion forKey:@"_region"];
+  [[NSUserDefaults standardUserDefaults] setObject:_regeion forKey:kRegionKey];
   [[NSUserDefaults standardUserDefaults] synchronize];
   
 }

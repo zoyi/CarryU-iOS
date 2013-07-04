@@ -1,0 +1,12 @@
+"na" = "북미";
+"kr" = "대한민국";
+"server_picker_format" = "%@ 서버";
+"name_placeholder" = "계정이름";
+"password_placeholder" = "비밀번호";
+"login_btn_label" = "로그인";
+"my_team_tab_title" = "우리팀";
+"enemies_team_tab_title" = "적팀";
+"tips_tab_title" = "공략";
+"menu_settings_title" = "설정";
+"menu_home_title" = "홈";
+"menu_logout_title" = "로그아웃";
