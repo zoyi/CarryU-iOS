@@ -65,10 +65,13 @@ static NSInteger kPasswordTextFieldTag = 2389;
 
   UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapTableView)];
 
-  tap.cancelsTouchesInView = NO;
+  //  tap.cancelsTouchesInView = NO;
 
   [self.tableView addGestureRecognizer:tap];
   [self.regionPickerView reloadData];
+  LCAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+  NSInteger selectedPageIndex = [self.pickerDataSource indexOfObject:appDelegate.regeion];
+  [self.regionPickerView setCenterPageIndex:selectedPageIndex];
 }
 
 - (UIImageView *)backgroundView {
@@ -219,6 +222,11 @@ static NSInteger kPasswordTextFieldTag = 2389;
 
 - (void)login {
   NIDPRINT(@"curreny usename = %@, password = %@", _username, _password);
+  [self didTapTableView];
+  if (_username.length == 0 || _password.length == 0) {
+    [[SIAlertView carryuWarningAlertWithMessage:NSLocalizedString(@"username_or_password_cant_be_blank_msg", nil)] show];
+    return;
+  }
   LCAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
   [appDelegate connectWithJID:_username password:_password];
 }

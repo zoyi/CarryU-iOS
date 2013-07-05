@@ -106,9 +106,9 @@ static NSString *kRegionKey = @"_region";
 - (void)setupAppearence {
   [[UIToolbar appearance] setBackgroundImage:[UIImage imageWithColor:[UIColor peterRiverColor] cornerRadius:0] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
   
-  [UIBarButtonItem configureFlatButtonsWithColor:[UIColor peterRiverColor] highlightedColor:[UIColor belizeHoleColor] cornerRadius:0];
+  [UIBarButtonItem configureFlatButtonsWithColor:[UIColor midnightBlueColor] highlightedColor:[UIColor midnightBlueColor] cornerRadius:0];
 
-  [[UINavigationBar appearance] configureFlatNavigationBarWithColor:[UIColor peterRiverColor]];
+  [[UINavigationBar appearance] configureFlatNavigationBarWithColor:[UIColor midnightBlueColor]];
   [[UITabBar appearance] setBackgroundImage:[UIImage imageWithColor:[UIColor wetAsphaltColor] cornerRadius:0]];
 }
 
@@ -199,14 +199,7 @@ static NSString *kRegionKey = @"_region";
 	if (![_xmppStream isDisconnected]) {
 		return YES;
 	}
-//
-//  NSString *myJID = [[NSUserDefaults standardUserDefaults] stringForKey:kXMPPmyJID];
-//  NSString *myPassword = [[NSUserDefaults standardUserDefaults] stringForKey:kXMPPmyPassword];
 
-
-	if (!jid.length || !passwd.length) {
-		return NO;
-	}
   [[NSUserDefaults standardUserDefaults] setObject:jid forKey:kUsernameKey];
   [[NSUserDefaults standardUserDefaults] synchronize];
 

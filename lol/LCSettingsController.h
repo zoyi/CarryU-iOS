@@ -11,3 +11,15 @@
 @interface LCSettingsController : UITableViewController
 
 @end
+
+@interface LCRadioTitleCell : NITextCell
+
+@property (nonatomic, strong) UIImageView *checkmarkImageView;
+
+@end
+
+@interface LCSwitchFormElementCell : NISwitchFormElementCell
+
+@property (nonatomic, strong) FUISwitch *flatSwitchControl;
+
+@end

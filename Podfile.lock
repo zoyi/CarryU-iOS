@@ -73,6 +73,7 @@ PODS:
   - RestKit/ObjectMapping (0.20.2)
   - RestKit/Support (0.20.2):
     - TransitionKit (= 1.1.1)
+  - SIAlertView (1.2)
   - SOCKit (1.1)
   - SVProgressHUD (0.9)
   - TransitionKit (1.1.1)
@@ -87,6 +88,7 @@ DEPENDENCIES:
   - Overline-BlocksKit
   - REMenu
   - RestKit
+  - SIAlertView
   - SVProgressHUD
   - TransitionKit
 
@@ -103,6 +105,7 @@ SPEC CHECKSUMS:
   Overline-BlocksKit: 9a4301ed1f4a45918b7afc4ce1c6ea4ed8f45a09
   REMenu: 097c09787102e30f17f344386d12dbb3d723a43d
   RestKit: e511651e916245fa4becfb0e8f966a1fa021fcd4
+  SIAlertView: fd188f66278761f4ff069f517c3deb2be16ecdcc
   SOCKit: ed67aeeca4a697b63a933229e53f4670d5b9300f
   SVProgressHUD: 03d4845ec8e64591726428a08236c6a5489d45f8
   TransitionKit: 3b3836af6887d16a0834fa35031028792d1d5c0c

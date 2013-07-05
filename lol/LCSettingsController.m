@@ -9,10 +9,11 @@
 #import "LCSettingsController.h"
 #import "LCSettingsInfo.h"
 #import "LCAppDelegate.h"
+#import <objc/message.h>
 
 @interface LCSettingsController () <NIRadioGroupDelegate>
 @property (nonatomic, strong) NIMutableTableViewModel *model;
-
+@property (nonatomic, strong) NICellFactory *cellFactory;
 @property (nonatomic, readwrite, retain) NIRadioGroup* radioGroup;
 
 - (void)keepScreenOnControlDidChanged:(UISwitch *)switchControl;
@@ -31,11 +32,14 @@
 - (void)loadView {
   [super loadView];
   [self radioGroup];
-  
-  self.model = [[NIMutableTableViewModel alloc] initWithDelegate:(id)[NICellFactory class]];
+  self.cellFactory = [[NICellFactory alloc] init];
+  [_cellFactory mapObjectClass:[NITitleCellObject class] toCellClass:[LCRadioTitleCell class]];
+  [_cellFactory mapObjectClass:[NISwitchFormElement class] toCellClass:[LCSwitchFormElementCell class]];
+
+  self.model = [[NIMutableTableViewModel alloc] initWithDelegate:(id)_cellFactory];
   [_model addSectionWithTitle:@""];
   [_model addObject:[NISwitchFormElement switchElementWithID:12 labelText:@"Keep screep on:" value:NO didChangeTarget:self didChangeSelector:@selector(keepScreenOnControlDidChanged:)]];
-  [_model addSectionWithTitle:@"Radio group"];
+  [_model addSectionWithTitle:NSLocalizedString(@"search_engine_section_title", nil)];
 
   NSDictionary *searchEngines = [LCSettingsInfo sharedInstance].searchEngines;
 
@@ -52,8 +56,10 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  self.tableView.backgroundView = nil;
-  self.tableView.backgroundColor = [UIColor cloudsColor];
+  self.tableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg.png"]];
+  self.tableView.backgroundColor = [UIColor clearColor];
+  self.tableView.separatorColor = [UIColor carryuColor];
+  self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
   self.tableView.dataSource = self.model;
   self.tableView.delegate = [self.radioGroup forwardingTo:self.tableView.delegate];
 }
@@ -73,12 +79,122 @@
   if (nil == _radioGroup) {
     self.radioGroup = [NIRadioGroup new];
     _radioGroup.delegate = self;
+    _radioGroup.tableViewCellSelectionStyle = UITableViewCellSelectionStyleGray;
   }
   return _radioGroup;
 }
 
 - (void)radioGroup:(NIRadioGroup *)radioGroup didSelectIdentifier:(NSInteger)identifier {
   [LCSettingsInfo sharedInstance].choosedSearchEngine = [[[LCSettingsInfo sharedInstance].searchEngines allKeys] objectAtIndex:identifier];
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+  NSString *title = [self.model tableView:tableView titleForHeaderInSection:section];
+  UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+  NIAttributedLabel *headerLabel = [[NIAttributedLabel alloc] initWithFrame:CGRectMake(10, 0, 300, 40)];
+  headerLabel.textColor = [UIColor carryuColor];
+  headerLabel.text = title;
+  headerLabel.font = [UIFont systemFontOfSize:17];
+  headerLabel.backgroundColor = [UIColor clearColor];
+  [headerLabel sizeToFit];
+  [headerView addSubview:headerLabel];
+  headerLabel.centerY = headerView.centerY;
+  headerView.backgroundColor = [UIColor clearColor];
+  return headerView;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+  NIDASSERT([tableView.dataSource isKindOfClass:[NITableViewModel class]]);
+  if ([tableView.dataSource isKindOfClass:[NITableViewModel class]]) {
+    NITableViewModel* model = (NITableViewModel *)tableView.dataSource;
+    id object = [model objectAtIndexPath:indexPath];
+    cell.textLabel.textColor = [UIColor carryuColor];
+    cell.contentView.backgroundColor = [UIColor clearColor];
+    cell.backgroundColor = [UIColor clearColor];
+    if ([self.radioGroup isObjectInRadioGroup:object]) {
+      cell.accessoryType = UITableViewCellAccessoryNone;
+      if ([self.radioGroup isObjectSelected:object]
+          && [cell isKindOfClass:[LCRadioTitleCell class]]) {
+        [[(LCRadioTitleCell *)cell checkmarkImageView] setHidden:NO];
+      } else {
+        [[(LCRadioTitleCell *)cell checkmarkImageView] setHidden:YES];
+      }
+    }
+  }
+
+}
+
+@end
+
+@implementation LCRadioTitleCell
+
+- (void)layoutSubviews {
+  [super layoutSubviews];
+  [self checkmarkImageView];
+}
+
+- (UIImageView *)checkmarkImageView {
+  if (nil == _checkmarkImageView) {
+    self.checkmarkImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"checkmark.png"]];
+    self.checkmarkImageView.top = floorf((self.contentView.height - _checkmarkImageView.height)/2);
+    self.checkmarkImageView.right = [UIScreen mainScreen].bounds.size.width - 30;
+    self.checkmarkImageView.hidden = YES;
+    [self.contentView addSubview:_checkmarkImageView];
+  }
+  return _checkmarkImageView;
+}
+
+- (void)prepareForReuse {
+  [super prepareForReuse];
+  self.checkmarkImageView.hidden = YES;
+}
+
+@end
+
+@implementation LCSwitchFormElementCell
+
+- (void)prepareForReuse {
+  [super prepareForReuse];
+  self.flatSwitchControl.frame = CGRectZero;
+}
+
+- (void)layoutSubviews {
+  [super layoutSubviews];
+  [self.switchControl setHidden:YES];
+  self.flatSwitchControl.frame = self.switchControl.frame;
+}
+
+- (FUISwitch *)flatSwitchControl {
+  if (nil == _flatSwitchControl) {
+    self.flatSwitchControl = [[FUISwitch alloc] initWithFrame:CGRectZero];
+    _flatSwitchControl.onColor = RGBCOLOR(0x01, 0xe2, 0xf0);
+    _flatSwitchControl.offColor = RGBCOLOR(0x41, 0x54, 0x68);
+    _flatSwitchControl.onBackgroundColor = [UIColor midnightBlueColor];
+    _flatSwitchControl.offBackgroundColor = [UIColor carryuColor];
+    _flatSwitchControl.offLabel.font = [UIFont boldFlatFontOfSize:14];
+    _flatSwitchControl.onLabel.font = [UIFont boldFlatFontOfSize:14];
+    _flatSwitchControl.layer.cornerRadius = 14.f;
+    [self.contentView addSubview:_flatSwitchControl];
+  }
+  return _flatSwitchControl;
+}
+
+- (void)switchDidChangeValue {
+  NISwitchFormElement* switchElement = (NISwitchFormElement *)self.element;
+  switchElement.value = _flatSwitchControl.on;
+
+  if (nil != switchElement.didChangeSelector && nil != switchElement.didChangeTarget
+      && [switchElement.didChangeTarget respondsToSelector:switchElement.didChangeSelector]) {
+
+    // This throws a warning a seclectors that the compiler do not know about cannot be
+    // memory managed by ARC
+    //[switchElement.didChangeTarget performSelector: switchElement.didChangeSelector
+    //                                    withObject: _switchControl];
+
+    // The following is a workaround to supress the warning and requires <objc/message.h>
+    objc_msgSend(switchElement.didChangeTarget,
+                 switchElement.didChangeSelector, _flatSwitchControl);
+  }
 }
 
 @end

@@ -38,11 +38,15 @@
 		9C3A1CA717859A04000B29A3 /* icon57.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C3A1CA617859A04000B29A3 /* icon57.png */; };
 		9C3A1CAA17859AA3000B29A3 /* UIColor+LCCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C3A1CA917859AA3000B29A3 /* UIColor+LCCategory.m */; };
 		9C3A1CAD1785A548000B29A3 /* lol_label@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C3A1CAC1785A548000B29A3 /* lol_label@2x.png */; };
+		9C3A1CB11785D409000B29A3 /* LCOutOfGameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C3A1CB01785D409000B29A3 /* LCOutOfGameView.m */; };
+		9C3A1CB41785D919000B29A3 /* SIAlertView+LCCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C3A1CB31785D919000B29A3 /* SIAlertView+LCCategory.m */; };
 		9C3FD4951778BAE000489A64 /* LCApiRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C3FD4941778BAE000489A64 /* LCApiRouter.m */; };
 		9C52A666176B2A2D00A472E5 /* NSString+LCCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C52A665176B2A2D00A472E5 /* NSString+LCCategory.m */; };
 		9C52A6F7176B45D600A472E5 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C52A6F6176B45D500A472E5 /* CoreData.framework */; };
 		9C52A747176B4D7900A472E5 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C52A746176B4D7800A472E5 /* CoreLocation.framework */; };
 		9C52A823176B5D9A00A472E5 /* XMPPReconnect.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C52A758176B5D9A00A472E5 /* XMPPReconnect.m */; };
+		9C90FEBE1786AE8B00EDD88B /* checkmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C90FEBD1786AE8B00EDD88B /* checkmark@2x.png */; };
+		9C90FEC11786BBE200EDD88B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9C90FEBF1786BBE200EDD88B /* InfoPlist.strings */; };
 		9CA5691A176A0BA300A16B7B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CA56919176A0BA300A16B7B /* UIKit.framework */; };
 		9CA5691C176A0BA300A16B7B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CA5691B176A0BA300A16B7B /* Foundation.framework */; };
 		9CA5691E176A0BA300A16B7B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CA5691D176A0BA300A16B7B /* CoreGraphics.framework */; };
@@ -161,6 +165,10 @@
 		9C3A1CA917859AA3000B29A3 /* UIColor+LCCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+LCCategory.m"; sourceTree = "<group>"; };
 		9C3A1CAB1785A019000B29A3 /* LCHelperMacro.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LCHelperMacro.h; sourceTree = "<group>"; };
 		9C3A1CAC1785A548000B29A3 /* lol_label@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lol_label@2x.png"; sourceTree = "<group>"; };
+		9C3A1CAF1785D409000B29A3 /* LCOutOfGameView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCOutOfGameView.h; sourceTree = "<group>"; };
+		9C3A1CB01785D409000B29A3 /* LCOutOfGameView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCOutOfGameView.m; sourceTree = "<group>"; };
+		9C3A1CB21785D919000B29A3 /* SIAlertView+LCCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SIAlertView+LCCategory.h"; sourceTree = "<group>"; };
+		9C3A1CB31785D919000B29A3 /* SIAlertView+LCCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SIAlertView+LCCategory.m"; sourceTree = "<group>"; };
 		9C3FD4931778BAE000489A64 /* LCApiRouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCApiRouter.h; sourceTree = "<group>"; };
 		9C3FD4941778BAE000489A64 /* LCApiRouter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCApiRouter.m; sourceTree = "<group>"; };
 		9C52A664176B2A2D00A472E5 /* NSString+LCCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+LCCategory.h"; sourceTree = "<group>"; };
@@ -170,6 +178,8 @@
 		9C52A746176B4D7800A472E5 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		9C52A757176B5D9A00A472E5 /* XMPPReconnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPReconnect.h; sourceTree = "<group>"; };
 		9C52A758176B5D9A00A472E5 /* XMPPReconnect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPReconnect.m; sourceTree = "<group>"; };
+		9C90FEBD1786AE8B00EDD88B /* checkmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkmark@2x.png"; sourceTree = "<group>"; };
+		9C90FEC01786BBE200EDD88B /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = InfoPlist.strings; sourceTree = "<group>"; };
 		9CA56916176A0BA300A16B7B /* lol.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = lol.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CA56919176A0BA300A16B7B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		9CA5691B176A0BA300A16B7B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -334,6 +344,7 @@
 		9C138E7A1770824B003CC90C /* image */ = {
 			isa = PBXGroup;
 			children = (
+				9C90FEBD1786AE8B00EDD88B /* checkmark@2x.png */,
 				9C3A1CAC1785A548000B29A3 /* lol_label@2x.png */,
 				9C3A1C9217855EFE000B29A3 /* logo@2x.png */,
 				9C3A1C9417857C81000B29A3 /* server_prev@2x.png */,
@@ -385,6 +396,7 @@
 		9C3A1C99178598AD000B29A3 /* ko.lproj */ = {
 			isa = PBXGroup;
 			children = (
+				9C90FEBF1786BBE200EDD88B /* InfoPlist.strings */,
 				9C3A1C9A178598AD000B29A3 /* Localizable.strings */,
 			);
 			path = ko.lproj;
@@ -397,6 +409,15 @@
 				9C3A1C9F178598AD000B29A3 /* Localizable.strings */,
 			);
 			path = en.lproj;
+			sourceTree = "<group>";
+		};
+		9C3A1CAE1785D3F0000B29A3 /* Home states */ = {
+			isa = PBXGroup;
+			children = (
+				9C3A1CAF1785D409000B29A3 /* LCOutOfGameView.h */,
+				9C3A1CB01785D409000B29A3 /* LCOutOfGameView.m */,
+			);
+			name = "Home states";
 			sourceTree = "<group>";
 		};
 		9C52A748176B5D9A00A472E5 /* Extensions */ = {
@@ -734,6 +755,12 @@
 		9CA569D1176A226300A16B7B /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				9C3A1C8D17855256000B29A3 /* UIFont+LCCategory.h */,
+				9C3A1C8E17855256000B29A3 /* UIFont+LCCategory.m */,
+				9C3A1CA817859AA3000B29A3 /* UIColor+LCCategory.h */,
+				9C3A1CA917859AA3000B29A3 /* UIColor+LCCategory.m */,
+				9C3A1CB21785D919000B29A3 /* SIAlertView+LCCategory.h */,
+				9C3A1CB31785D919000B29A3 /* SIAlertView+LCCategory.m */,
 				9C138E951770BC0E003CC90C /* XMPPIQ+LCCategory.h */,
 				9C138E961770BC0E003CC90C /* XMPPIQ+LCCategory.m */,
 				9C138E6C17705911003CC90C /* DDXMLDocument+LCCategory.h */,
@@ -747,10 +774,6 @@
 				9C138E73177081CE003CC90C /* UIView+APCategory.h */,
 				9C138E74177081CE003CC90C /* UIView+APCategory.m */,
 				9C52A67E176B44B600A472E5 /* XMPPFramework.h */,
-				9C3A1C8D17855256000B29A3 /* UIFont+LCCategory.h */,
-				9C3A1C8E17855256000B29A3 /* UIFont+LCCategory.m */,
-				9C3A1CA817859AA3000B29A3 /* UIColor+LCCategory.h */,
-				9C3A1CA917859AA3000B29A3 /* UIColor+LCCategory.m */,
 				9C3A1CAB1785A019000B29A3 /* LCHelperMacro.h */,
 			);
 			name = Helper;
@@ -772,6 +795,7 @@
 				9CC0AAEA176F4BBC00FA1A00 /* LCHomeViewController.m */,
 				9CAF5F1F1779D9BF004153E6 /* LCHomeNavigationController.h */,
 				9CAF5F201779D9BF004153E6 /* LCHomeNavigationController.m */,
+				9C3A1CAE1785D3F0000B29A3 /* Home states */,
 			);
 			name = Home;
 			sourceTree = "<group>";
@@ -885,6 +909,8 @@
 				9C3A1CA517859A01000B29A3 /* icon114.png in Resources */,
 				9C3A1CA717859A04000B29A3 /* icon57.png in Resources */,
 				9C3A1CAD1785A548000B29A3 /* lol_label@2x.png in Resources */,
+				9C90FEBE1786AE8B00EDD88B /* checkmark@2x.png in Resources */,
+				9C90FEC11786BBE200EDD88B /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -993,6 +1019,8 @@
 				9CDACBED17814F4900E7006A /* LCNetworkTableViewController.m in Sources */,
 				9C3A1C8F17855256000B29A3 /* UIFont+LCCategory.m in Sources */,
 				9C3A1CAA17859AA3000B29A3 /* UIColor+LCCategory.m in Sources */,
+				9C3A1CB11785D409000B29A3 /* LCOutOfGameView.m in Sources */,
+				9C3A1CB41785D919000B29A3 /* SIAlertView+LCCategory.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1021,6 +1049,14 @@
 				9C3A1CA0178598AD000B29A3 /* en */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		9C90FEBF1786BBE200EDD88B /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9C90FEC01786BBE200EDD88B /* ko */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 		9CA56922176A0BA300A16B7B /* InfoPlist.strings */ = {

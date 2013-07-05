@@ -41,6 +41,8 @@
   #import <SVProgressHUD/SVProgressHUD.h>
   #import <ODRefreshControl/ODRefreshControl.h>
   #import <HorizontalPicker/HorizontalPicker.h>
+  #import <SIAlertView/SIAlertView.h>
+
 
   #import "NSString+LCCategory.h"
   #import "FUIButton+LCCategory.h"
@@ -48,6 +50,7 @@
   #import "UIView+APCategory.h"
   #import "UIFont+LCCategory.h"
   #import "UIColor+LCCategory.h"
+  #import "SIAlertView+LCCategory.h"
   #import "LCHelperMacro.h"
 
   #import "XMPPFramework.h"
