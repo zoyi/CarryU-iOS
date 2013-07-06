@@ -66,7 +66,7 @@
     webController.tabBarItem.title = @"builds";
     webController.toolbarHidden = YES;
     self.viewControllers = @[ourTeamController, enemyTeamController, webController];
-    self.title = @"Active Game";
+    self.title = NSLocalizedString(@"Activated_navi_title", nil);
   }
 }
 

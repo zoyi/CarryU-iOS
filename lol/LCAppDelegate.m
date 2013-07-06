@@ -67,7 +67,7 @@ static NSString *kRegionKey = @"_region";
   [self stateMachine];
 
   LCHomeNavigationController *navigationController = [[LCHomeNavigationController alloc] initWithRootViewController:[[LCHomeViewController alloc] initWithStyle:UITableViewStylePlain]];
-  self.window.rootViewController = loginController;
+  self.window.rootViewController = navigationController;
 
   //  [self.window setRootViewController:loginController];
   [self.window makeKeyAndVisible];
@@ -104,12 +104,12 @@ static NSString *kRegionKey = @"_region";
 }
 
 - (void)setupAppearence {
-  [[UIToolbar appearance] setBackgroundImage:[UIImage imageWithColor:[UIColor peterRiverColor] cornerRadius:0] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
+  [[UIToolbar appearance] setBackgroundImage:[UIImage imageWithColor:[UIColor midnightBlueColor] cornerRadius:0] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
   
   [UIBarButtonItem configureFlatButtonsWithColor:[UIColor midnightBlueColor] highlightedColor:[UIColor midnightBlueColor] cornerRadius:0];
 
   [[UINavigationBar appearance] configureFlatNavigationBarWithColor:[UIColor midnightBlueColor]];
-  [[UITabBar appearance] setBackgroundImage:[UIImage imageWithColor:[UIColor wetAsphaltColor] cornerRadius:0]];
+  [[UITabBar appearance] setBackgroundImage:[UIImage imageWithColor:[UIColor midnightBlueColor] cornerRadius:0]];
 }
 
 - (void)setupRestkit {

@@ -10,3 +10,10 @@
 "menu_settings_title" = "설정";
 "menu_home_title" = "홈";
 "menu_logout_title" = "로그아웃";
+"pull_to_reload_desc" = "새로고침하려면 아래로 당기세요.";
+"out_of_game_description" = "게임을 시작해보세요.\n자동으로 우리팀과 적의 정보를 불러옵니다. \n'캐리유'가 반드시 승리로 이끌 것 입니다.";
+"tutorial_btn_title" = "튜토리얼 영상";
+"preview_game_btn_title" = "샘플보기";
+"search_placeholder" = "소환사 이름";
+"deactivated_navi_title" = "대기중";
+"Activated_navi_title" = "게임중";

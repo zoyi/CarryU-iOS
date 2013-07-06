@@ -43,7 +43,7 @@
   #import <HorizontalPicker/HorizontalPicker.h>
   #import <SIAlertView/SIAlertView.h>
 
-
+  #import "NIAttributedLabel+LCCategory.h"
   #import "NSString+LCCategory.h"
   #import "FUIButton+LCCategory.h"
   #import "XMPPPresence+LCCategory.h"

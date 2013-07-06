@@ -10,3 +10,10 @@
 "menu_settings_title" = "Settings";
 "menu_home_title" = "Home";
 "menu_logout_title" = "Logout";
+"pull_to_reload_desc" = "Pull to refresh";
+"out_of_game_description" = "Try your game.\n It will loaded automatically every information of your team and enemies.";
+"tutorial_btn_title" = "Tutorial Video";
+"preview_game_btn_title" = "View Sample";
+"search_placeholder" = "Summoner name";
+"deactivated_navi_title" = "Deactivated";
+"Activated_navi_title" = "Activated";

@@ -19,6 +19,7 @@
 #import "LCSummonerShowController.h"
 #import "XMPPIQ+LCCategory.h"
 #import "LCSettingsInfo.h"
+#import "LCOutOfGameView.h"
 
 static NSString *kCurrentStateKey = @"currentState";
 static NSString *kGameWillStartKey = @"gameWillStart";
@@ -28,6 +29,7 @@ static NSString *kGameWillStartKey = @"gameWillStart";
 @property (nonatomic, strong) NIMutableTableViewModel *model;
 @property (nonatomic, strong) NITableViewActions *actions;
 
+@property (nonatomic, strong) LCOutOfGameView *outOfGameView;
 @property (nonatomic, strong) LCStateView *outOfGameStateView;
 @property (nonatomic, strong) LCStateView *inQueueStateView;
 @property (nonatomic, strong) LCStateView *championSelectStateView;
@@ -61,13 +63,17 @@ static NSString *kGameWillStartKey = @"gameWillStart";
     [self.navigationController pushViewController:webController animated:YES];
     return YES;
   }];
+  self.tableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg.png"]];
   self.tableView.delegate = [_actions forwardingTo:self];
   self.tableView.rowHeight = kSummonerCellDefaultHeight;
 
   self.tableView.backgroundColor = [UIColor cloudsColor];
-  self.outOfGameStateView.frame = self.view.bounds;
-  self.inQueueStateView.frame = self.view.bounds;
-  self.championSelectStateView.frame = self.view.bounds;
+  CGRect viewBounds = self.view.bounds;
+  viewBounds.size.height -= 44;
+  self.outOfGameStateView.frame = viewBounds;
+  self.outOfGameView.frame = viewBounds;
+  self.inQueueStateView.frame = viewBounds;
+  self.championSelectStateView.frame = viewBounds;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -81,6 +87,7 @@ static NSString *kGameWillStartKey = @"gameWillStart";
 
 - (void)viewDidLoad {
   [super viewDidLoad];
+  self.title = NSLocalizedString(@"deactivated_navi_title", nil);
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -128,6 +135,13 @@ static NSString *kGameWillStartKey = @"gameWillStart";
   return _outOfGameStateView;
 }
 
+- (LCOutOfGameView *)outOfGameView {
+  if (nil == _outOfGameView) {
+    self.outOfGameView = [[LCOutOfGameView alloc] initWithFrame:CGRectZero];
+  }
+  return _outOfGameView;
+}
+
 - (LCStateView *)inQueueStateView {
   if (nil == _inQueueStateView) {
     self.inQueueStateView = [[LCStateView alloc] initWithTitle:NSLocalizedString(@"in_queue_title", nil) subtitle:NSLocalizedString(@"searching for new game...", nil) image:nil];
@@ -151,6 +165,7 @@ static NSString *kGameWillStartKey = @"gameWillStart";
 
 - (void)fireInGameEvent {
   NSError *error = nil;
+
   LCAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
   [appDelegate.stateMachine fireEvent:@"inGame" error:&error];
   if (error) {
@@ -162,7 +177,7 @@ static NSString *kGameWillStartKey = @"gameWillStart";
 - (void)showStateView {
   LCAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
   if ([appDelegate.stateMachine isInState:@"outOfGame"]) {
-    self.tableView.tableHeaderView = self.outOfGameStateView;
+    self.tableView.tableHeaderView = self.outOfGameView;
   } else if ([appDelegate.stateMachine isInState:@"inQueue"]) {
     self.tableView.tableHeaderView = self.inQueueStateView;
   } else if ([appDelegate.stateMachine isInState:@"championSelect"]) {

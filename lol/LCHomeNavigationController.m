@@ -84,7 +84,7 @@
     _searchBar.delegate = self;
 
     _searchBar.placeholder = NSLocalizedString(@"search_placeholder", nil);
-    _searchBar.backgroundImage = [UIImage imageWithColor:[UIColor peterRiverColor] cornerRadius:0];
+    _searchBar.backgroundImage = [UIImage imageWithColor:[UIColor midnightBlueColor] cornerRadius:0];
     [[UISearchBar appearance] setSearchFieldBackgroundImage:nil forState:UIControlStateNormal];
   }
   return _searchBar;
