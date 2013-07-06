@@ -70,7 +70,6 @@
 }
 
 - (void)keepScreenOnControlDidChanged:(UISwitch *)switchControl {
-  [UIApplication sharedApplication].idleTimerDisabled = switchControl.on;
   [LCSettingsInfo sharedInstance].keepScreenOn = switchControl.on;
   NIDPRINT(@"value is %d", switchControl.on);
 }

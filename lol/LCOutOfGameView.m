@@ -8,6 +8,8 @@
 
 #import "LCOutOfGameView.h"
 
+static CGFloat kOutOfGameViewButtonDefaultHeight = 44;
+static CGFloat kOutOfGameViewButtonDefaultWidth = (320-30)/2;
 @implementation LCOutOfGameView
 
 - (id)initWithFrame:(CGRect)frame {
@@ -49,8 +51,16 @@
   self.pullReloadDescLabel.width = maxLabelWidth;
   [_pullReloadDescLabel sizeToFit];
   _pullReloadDescLabel.origin = CGPointMake((screenWidth - _pullReloadDescLabel.width)/2, top);
+  {
 
-  NIDPRINT(@"pull reload desc frame = %@", NSStringFromCGRect(_pullReloadDescLabel.frame));
+    CGFloat innerTop = self.height - kOutOfGameViewButtonDefaultHeight - 10;
+    CGFloat innerLeft = 10.f;
+    self.tutorialVideoButton.frame = CGRectMake(innerLeft, innerTop, kOutOfGameViewButtonDefaultWidth, kOutOfGameViewButtonDefaultHeight);
+    innerLeft += kOutOfGameViewButtonDefaultWidth + 10;
+
+    self.previewButton.frame = CGRectMake(innerLeft, innerTop, kOutOfGameViewButtonDefaultWidth, kOutOfGameViewButtonDefaultHeight);
+  }
+
 }
 
 #pragma mark - getters

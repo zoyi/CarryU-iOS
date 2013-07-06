@@ -90,6 +90,7 @@ static LCSettingsInfo *sharedInstance = nil;
 
 - (void)setKeepScreenOn:(BOOL)keepScreenOn {
   _keepScreenOn = keepScreenOn;
+  [UIApplication sharedApplication].idleTimerDisabled = _keepScreenOn;
   [self archiveSelf];
 }
 

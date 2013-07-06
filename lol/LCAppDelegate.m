@@ -67,9 +67,9 @@ static NSString *kRegionKey = @"_region";
   [self stateMachine];
 
   LCHomeNavigationController *navigationController = [[LCHomeNavigationController alloc] initWithRootViewController:[[LCHomeViewController alloc] initWithStyle:UITableViewStylePlain]];
-  self.window.rootViewController = navigationController;
+  //  self.window.rootViewController = navigationController;
 
-  //  [self.window setRootViewController:loginController];
+  [self.window setRootViewController:loginController];
   [self.window makeKeyAndVisible];
   return YES;
 }
@@ -144,8 +144,9 @@ static NSString *kRegionKey = @"_region";
 }
 
 - (void)logout {
-  [self disconnect];
+  [_xmppStream disconnect];
   self.game = nil;
+  self.gameWillStart = nil;
   self.groupChatJID = nil;
   LCLoginViewController *loginController = [[LCLoginViewController alloc] initWithStyle:UITableViewStyleGrouped];
 
