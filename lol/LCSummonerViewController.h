@@ -10,6 +10,6 @@
 @class LCSummoner;
 @interface LCSummonerViewController : LCNetworkTableViewController
 @property (nonatomic, strong) NSArray *summoners;
-
+@property (nonatomic, strong) UIImageView *backgroundView;
 - (id)initWithSummoners:(NSArray *)summoners;
 @end

@@ -75,6 +75,7 @@ static LCSettingsInfo *sharedInstance = nil;
       self.searchEngines = settingsInfo;
     }
   }
+  self.keepScreenOn = self.keepScreenOn;
   return self;
 }
 

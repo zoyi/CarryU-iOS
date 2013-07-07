@@ -30,7 +30,6 @@ static NSString *kGameWillStartKey = @"gameWillStart";
 @property (nonatomic, strong) NITableViewActions *actions;
 
 @property (nonatomic, strong) LCOutOfGameView *outOfGameView;
-@property (nonatomic, strong) LCStateView *outOfGameStateView;
 @property (nonatomic, strong) LCStateView *inQueueStateView;
 @property (nonatomic, strong) LCStateView *championSelectStateView;
 
@@ -70,7 +69,6 @@ static NSString *kGameWillStartKey = @"gameWillStart";
   self.tableView.backgroundColor = [UIColor cloudsColor];
   CGRect viewBounds = self.view.bounds;
   viewBounds.size.height -= 44;
-  self.outOfGameStateView.frame = viewBounds;
   self.outOfGameView.frame = viewBounds;
   self.inQueueStateView.frame = viewBounds;
   self.championSelectStateView.frame = viewBounds;
@@ -88,6 +86,7 @@ static NSString *kGameWillStartKey = @"gameWillStart";
 - (void)viewDidLoad {
   [super viewDidLoad];
   self.title = NSLocalizedString(@"deactivated_navi_title", nil);
+  self.tableView.separatorColor = [UIColor tableViewSeperatorColor];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -124,20 +123,11 @@ static NSString *kGameWillStartKey = @"gameWillStart";
   [self.view bringSubviewToFront:self.tableView];
 }
 
-- (LCStateView *)outOfGameStateView {
-  if (nil == _outOfGameStateView) {
-    self.outOfGameStateView = [[LCStateView alloc] initWithTitle:NSLocalizedString(@"out_of_game_title", nil) subtitle:NSLocalizedString(@"", nil) image:nil];
-    [_outOfGameStateView addReloadButton];
-    [_outOfGameStateView.reloadButton addTarget:self action:@selector(fireInGameEvent) forControlEvents:UIControlEventTouchUpInside];
-    _outOfGameStateView.backgroundColor = self.tableView.backgroundColor;
-    //    [self.view insertSubview:_outOfGameStateView belowSubview:self.tableView];
-  }
-  return _outOfGameStateView;
-}
 
 - (LCOutOfGameView *)outOfGameView {
   if (nil == _outOfGameView) {
     self.outOfGameView = [[LCOutOfGameView alloc] initWithFrame:CGRectZero];
+    //    [_outOfGameView.tutorialVideoButton addTarget:self action:@selector(fireInGameEvent) forControlEvents:UIControlEventTouchUpInside];
   }
   return _outOfGameView;
 }
@@ -146,7 +136,6 @@ static NSString *kGameWillStartKey = @"gameWillStart";
   if (nil == _inQueueStateView) {
     self.inQueueStateView = [[LCStateView alloc] initWithTitle:NSLocalizedString(@"in_queue_title", nil) subtitle:NSLocalizedString(@"searching for new game...", nil) image:nil];
     _inQueueStateView.backgroundColor = self.tableView.backgroundColor;
-    //    [self.view insertSubview:_inQueueStateView belowSubview:self.tableView];
   }
   return _inQueueStateView;
 }
@@ -155,7 +144,6 @@ static NSString *kGameWillStartKey = @"gameWillStart";
   if (nil == _championSelectStateView) {
     self.championSelectStateView = [[LCStateView alloc] initWithTitle:NSLocalizedString(@"champion_select_title", nil) subtitle:NSLocalizedString(@"choosing champions", nil) image:nil];
     _championSelectStateView.backgroundColor = self.tableView.backgroundColor;
-    //    [self.view insertSubview:_championSelectStateView belowSubview:self.tableView];
   }
   return _championSelectStateView;
 }

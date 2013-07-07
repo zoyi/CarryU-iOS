@@ -198,7 +198,7 @@ static NSString *kRegionKey = @"_region";
 
 - (BOOL)connectWithJID:(NSString *)jid password:(NSString *)passwd {
 	if (![_xmppStream isDisconnected]) {
-		return YES;
+    [_xmppStream disconnect];
 	}
 
   [[NSUserDefaults standardUserDefaults] setObject:jid forKey:kUsernameKey];
@@ -261,6 +261,9 @@ static NSString *kRegionKey = @"_region";
 
 - (void)xmppStream:(XMPPStream *)sender didNotAuthenticate:(NSXMLElement *)error {
   [SVProgressHUD dismiss];
+  [sender disconnect];
+
+  [[SIAlertView carryuWarningAlertWithMessage:NSLocalizedString(@"wrong_username_or_password", nil)] show];
 	DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
 }
 
@@ -274,7 +277,8 @@ static NSString *kRegionKey = @"_region";
   [SVProgressHUD dismiss];
   NIDPRINT(@"did disconnect with error => %@", error.debugDescription);
   if (error.code == 7 &&
-      [error.domain isEqualToString:@"GCDAsyncSocketErrorDomain"]) {
+      [error.domain isEqualToString:@"GCDAsyncSocketErrorDomain"]
+      && ![self.window.rootViewController isKindOfClass:[LCLoginViewController class]]) {
     [_xmppReconnect manualStart];
   }
 }
@@ -430,7 +434,7 @@ static NSString *kRegionKey = @"_region";
 - (void)getInProcessGameInfo {
   [SVProgressHUD showWithStatus:@"Retriving game status..." maskType:SVProgressHUDMaskTypeBlack];
   LCSummoner *tmpSummoner = [LCSummoner new];
-  tmpSummoner.name = @"p2cko";
+  tmpSummoner.name = @"Pro Trace";
   // [LCCurrentSummoner sharedInstance]
   [[RKObjectManager sharedManager] getObjectsAtPathForRouteNamed:@"active_game" object:[LCCurrentSummoner sharedInstance] parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
     NIDPRINT(@"all summoner's info is => %@", mappingResult.debugDescription);

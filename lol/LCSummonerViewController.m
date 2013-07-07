@@ -33,13 +33,14 @@
   self = [super initWithStyle:UITableViewStylePlain activityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
   if (self) {
     self.summoners = summoners;
- 
+
   }
   return self;
 }
 
 - (void)viewDidLoad {
   [super viewDidLoad];
+
   self.actions = [[NITableViewActions alloc] initWithTarget:self];
   NSMutableArray *tableContents = [NSMutableArray arrayWithCapacity:5];
   [_summoners each:^(LCSummoner *summoner) {
@@ -57,7 +58,15 @@
   self.tableView.delegate = [self.actions forwardingTo:self];
   
   self.tableView.rowHeight = kSummonerCellDefaultHeight;
-  self.tableView.backgroundColor = [UIColor cloudsColor];
+  self.tableView.backgroundView = self.backgroundView;
+  self.tableView.separatorColor = [UIColor tableViewSeperatorColor];
+}
+
+- (UIImageView *)backgroundView {
+  if (nil == _backgroundView) {
+    self.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg.png"]];
+  }
+  return _backgroundView;
 }
 
 - (void)didReceiveMemoryWarning {

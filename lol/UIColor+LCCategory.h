@@ -10,4 +10,5 @@
 
 @interface UIColor (LCCategory)
 + (UIColor *)carryuColor;
++ (UIColor *)tableViewSeperatorColor;
 @end

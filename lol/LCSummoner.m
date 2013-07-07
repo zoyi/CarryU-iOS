@@ -25,10 +25,16 @@ static NSString *SUMMONER_LEVEL_ROUTE = @"summoners/:name\\.json";
    @"profile_icon_id" : @"profileIconID",
    @"name" : @"name",
    @"internal_name" : @"internalName",
+   @"level" : @"level",
    @"is_bot" : @"isBot",
    @"spell1" : @"spell1",
    @"spell2" : @"spell2"
    }];
+
+  [mapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"league_solo_5x5" toKeyPath:@"leagueRank" withMapping:[LCRank mapping]]];
+
+  [mapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"player_stat_unranked" toKeyPath:@"normalRank" withMapping:[LCRank mapping]]];
+
   [mapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"champion" toKeyPath:@"champion" withMapping:[LCChampion mapping]]];
   return mapping;
 }
@@ -54,19 +60,41 @@ static NSString *SUMMONER_LEVEL_ROUTE = @"summoners/:name\\.json";
 
 - (void)retiveLevel {
   NSURL *url = [[LCApiRouter sharedInstance] URLForRouteNamed:@"summoner_level" method:RKRequestMethodGET object:self];
+  RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:[LCSummoner mapping] pathPattern:nil keyPath:@"summoner" statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+  RKObjectRequestOperation *requestOperation = [[RKObjectRequestOperation alloc] initWithRequest:[NSURLRequest requestWithURL:url] responseDescriptors:@[responseDescriptor]];
 
-  AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:[NSURLRequest requestWithURL:url] success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
-    NSDictionary *summoner = [JSON objectForKey:@"summoner"];
-    self.level = [summoner objectForKey:@"level"];
-    self.profileIconID = [summoner objectForKey:@"profile_icon_id"];
-  } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
-    NIDPRINT(@"Encountered error when retrieve summoner level %@", error.debugDescription);
+  [requestOperation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+    NIDPRINT(@"summoner fetching result -> %@", mappingResult.debugDescription);
+    LCSummoner *fetchedSummoner = [mappingResult.dictionary objectForKey:@"summoner"];
+    self.leagueRank = fetchedSummoner.leagueRank;
+    self.normalRank = fetchedSummoner.normalRank;
+    self.level = fetchedSummoner.level;
+    self.profileIconID = fetchedSummoner.profileIconID;
+  } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+    NIDPRINT(@"retrive summoner detail info failed with error %@", error.debugDescription);
   }];
-  [operation start];
+
+  [requestOperation start];
 }
 
 - (NSURL *)profileIconUrl {
   return [NSURL URLWithString:[NSString stringWithFormat:@"%@/assets/profile_icons/%@.jpg", [LCServerInfo sharedInstance].currentServer.railsHost, self.profileIconID]];
+}
+
+@end
+
+
+@implementation LCRank
+
++ (RKObjectMapping *)mapping {
+  RKObjectMapping *mapping = [RKObjectMapping mappingForClass:[LCRank class]];
+  [mapping addAttributeMappingsFromDictionary:@{
+    @"rank": @"rank",
+    @"tier": @"tier",
+    @"wins": @"wins",
+    @"losses": @"losses"
+   }];
+  return mapping;
 }
 
 @end
