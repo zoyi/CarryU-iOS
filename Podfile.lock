@@ -3,7 +3,7 @@ PODS:
   - AFNetworking (1.3.1)
   - BlocksKit (1.8.2):
     - libffi
-  - FlatUIKit (1.1)
+  - FlatUIKit (1.2)
   - HorizontalPicker (1.0.0)
   - JSONKit (1.5pre)
   - libffi (3.0.13)
@@ -96,7 +96,7 @@ SPEC CHECKSUMS:
   ActionSheetPicker2: 1a097a29ab437ea47356f3477e7a47e175a90445
   AFNetworking: 9ec8aafb9269236a7630bd8d9838ce2ba30fa2a0
   BlocksKit: 7396526b0816734103f6133fbb1a520c8b04e80c
-  FlatUIKit: 3b15b582ffcfa4e392bedc4d3c5461f9b11c1cc2
+  FlatUIKit: 43b2acaa6f4ef57539b51b00e4ce62d506e33e11
   HorizontalPicker: a63cf6ff5201d8e8996541774f665d588b1f5920
   JSONKit: 409734ab3407fce90ef7eaa95d7168f38d9a6601
   libffi: 64ef39353e747bb2b25e1026afd96a157bf9231c

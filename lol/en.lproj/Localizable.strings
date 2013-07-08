@@ -17,3 +17,5 @@
 "search_placeholder" = "Summoner name";
 "deactivated_navi_title" = "Deactivated";
 "Activated_navi_title" = "Activated";
+"normal_wins" = "Normal %@wins";
+"rank_wins" = "Rank %@wins";

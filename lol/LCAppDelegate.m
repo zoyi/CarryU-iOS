@@ -202,6 +202,7 @@ static NSString *kRegionKey = @"_region";
 	}
 
   [[NSUserDefaults standardUserDefaults] setObject:jid forKey:kUsernameKey];
+  [[NSUserDefaults standardUserDefaults] setObject:passwd forKey:kPasswordKey];
   [[NSUserDefaults standardUserDefaults] synchronize];
 
 	[_xmppStream setMyJID:[XMPPJID jidWithString:[NSString stringWithFormat:@"%@@pvp.net", jid]]];
@@ -434,7 +435,7 @@ static NSString *kRegionKey = @"_region";
 - (void)getInProcessGameInfo {
   [SVProgressHUD showWithStatus:@"Retriving game status..." maskType:SVProgressHUDMaskTypeBlack];
   LCSummoner *tmpSummoner = [LCSummoner new];
-  tmpSummoner.name = @"Pro Trace";
+  tmpSummoner.name = @"717721473217428";
   // [LCCurrentSummoner sharedInstance]
   [[RKObjectManager sharedManager] getObjectsAtPathForRouteNamed:@"active_game" object:[LCCurrentSummoner sharedInstance] parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
     NIDPRINT(@"all summoner's info is => %@", mappingResult.debugDescription);
@@ -463,15 +464,6 @@ static NSString *kRegionKey = @"_region";
 
 - (void)refreshXmppPrecense:(id)sender {
   if ([sender isKindOfClass:[ODRefreshControl class]]) {
-//    NSXMLElement *query = [NSXMLElement elementWithName:@"query" xmlns:@"jabber:iq:roster"];
-//    NSXMLElement *iq = [NSXMLElement elementWithName:@"iq"];
-//    XMPPJID *myJID = _xmppStream.myJID;
-//    [iq addAttributeWithName:@"from" stringValue:myJID.description];
-//    [iq addAttributeWithName:@"id" stringValue:[XMPPStream generateUUID]];
-//    [iq addAttributeWithName:@"type" stringValue:@"get"];
-//    [iq addChild:query];
-//    [_xmppStream sendElement:iq];
-
     [self goOffline];
 
     [(ODRefreshControl *)sender performSelector:@selector(endRefreshing) withObject:nil afterDelay:0.35];

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 static NSString *kUsernameKey = @"username";
+static NSString *kPasswordKey = @"_password";
 @class LCGame;
 
 @interface LCAppDelegate : UIResponder <UIApplicationDelegate>

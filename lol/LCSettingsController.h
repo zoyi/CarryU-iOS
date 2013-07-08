@@ -18,7 +18,7 @@
 
 @end
 
-@interface LCSwitchFormElementCell : NISwitchFormElementCell
+@interface LCSwitchFormElementCell : NISwitchFormElementCell<UITextFieldDelegate>
 
 @property (nonatomic, strong) FUISwitch *flatSwitchControl;
 

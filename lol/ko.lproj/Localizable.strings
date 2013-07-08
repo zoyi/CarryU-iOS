@@ -17,3 +17,5 @@
 "search_placeholder" = "소환사 이름";
 "deactivated_navi_title" = "대기중";
 "Activated_navi_title" = "게임중";
+"normal_wins" = "일반 %@승";
+"rank_wins" = "랭크 %@승";

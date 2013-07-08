@@ -87,13 +87,14 @@ static CGFloat kSmallPadding = 10;
 
   NSMutableString *descriptionText = [NSMutableString string];
   if (summoner.normalRank) {
-    [descriptionText appendFormat:@"%@ %@wins / ", NSLocalizedString(@"normal", nil), summoner.normalRank.wins];
+    [descriptionText appendFormat:NSLocalizedString(@"normal_wins", nil), summoner.normalRank.wins];
   }
   if (summoner.leagueRank) {
-    [descriptionText appendFormat:@"%@ %@wins", NSLocalizedString(@"rank", nil), summoner.leagueRank.wins];
+    [descriptionText appendFormat:NSLocalizedString(@"rank_wins", nil), summoner.leagueRank.wins];
   }
 
-  if (!descriptionText.length) {
+  if (!descriptionText.length
+      && !summoner.level) {
     [descriptionText appendString:NSLocalizedString(@"loading", nil)];
   }
 

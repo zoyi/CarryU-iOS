@@ -49,7 +49,7 @@ static NSInteger kPasswordTextFieldTag = 2389;
   @[
     @"",
     [NITextInputFormElement textInputElementWithID:kUsernameTextFieldTag placeholderText:NSLocalizedString(@"name_placeholder", nil) value:[[NSUserDefaults standardUserDefaults] stringForKey:kUsernameKey] delegate:self],
-    [NITextInputFormElement passwordInputElementWithID:kPasswordTextFieldTag placeholderText:NSLocalizedString(@"password_placeholder", nil) value:@"" delegate:self]
+    [NITextInputFormElement passwordInputElementWithID:kPasswordTextFieldTag placeholderText:NSLocalizedString(@"password_placeholder", nil) value:[[NSUserDefaults standardUserDefaults] stringForKey:kPasswordKey] delegate:self]
     ];
   [_cellFactory mapObjectClass:[NITextInputFormElement class] toCellClass:[LCTextInputFormElementCell class]];
   self.model = [[NITableViewModel alloc] initWithSectionedArray:tableForm delegate:(id)_cellFactory];

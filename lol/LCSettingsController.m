@@ -38,14 +38,13 @@
 
   self.model = [[NIMutableTableViewModel alloc] initWithDelegate:(id)_cellFactory];
   [_model addSectionWithTitle:@""];
-  [_model addObject:[NISwitchFormElement switchElementWithID:12 labelText:@"Keep screep on:" value:NO didChangeTarget:self didChangeSelector:@selector(keepScreenOnControlDidChanged:)]];
+  [_model addObject:[NISwitchFormElement switchElementWithID:12 labelText:NSLocalizedString(@"keep_screen_on", nil) value:[LCSettingsInfo sharedInstance].keepScreenOn didChangeTarget:self didChangeSelector:@selector(keepScreenOnControlDidChanged:)]];
   [_model addSectionWithTitle:NSLocalizedString(@"search_engine_section_title", nil)];
 
   NSDictionary *searchEngines = [LCSettingsInfo sharedInstance].searchEngines;
 
   [[searchEngines allKeys] each:^(NSString *key) {
     NSUInteger index = [[searchEngines allKeys] indexOfObject:key];
-
     [_model addObject:[_radioGroup mapObject:[NITitleCellObject objectWithTitle:key] toIdentifier:index]];
     if ([key isEqualToString:[LCSettingsInfo sharedInstance].choosedSearchEngine]) {
       [_radioGroup setSelectedIdentifier:index];
@@ -69,8 +68,8 @@
   // Dispose of any resources that can be recreated.
 }
 
-- (void)keepScreenOnControlDidChanged:(UISwitch *)switchControl {
-  [LCSettingsInfo sharedInstance].keepScreenOn = switchControl.on;
+- (void)keepScreenOnControlDidChanged:(FUISwitch *)switchControl {
+  [LCSettingsInfo sharedInstance].keepScreenOn = switchControl.isOn;
   NIDPRINT(@"value is %d", switchControl.on);
 }
 
@@ -152,6 +151,19 @@
 
 @implementation LCSwitchFormElementCell
 
+- (BOOL)shouldUpdateCellWithObject:(NISwitchFormElement *)switchElement {
+  if ([super shouldUpdateCellWithObject:switchElement]) {
+    self.flatSwitchControl.on = switchElement.value;
+    self.textLabel.text = switchElement.labelText;
+
+    _flatSwitchControl.tag = self.tag;
+
+    [self setNeedsLayout];
+    return YES;
+  }
+  return NO;
+}
+
 - (void)prepareForReuse {
   [super prepareForReuse];
   self.flatSwitchControl.frame = CGRectZero;
@@ -173,6 +185,7 @@
     _flatSwitchControl.offLabel.font = [UIFont boldFlatFontOfSize:14];
     _flatSwitchControl.onLabel.font = [UIFont boldFlatFontOfSize:14];
     _flatSwitchControl.layer.cornerRadius = 14.f;
+    [_flatSwitchControl addTarget:self action:@selector(switchDidChangeValue) forControlEvents:UIControlEventValueChanged];
     [self.contentView addSubview:_flatSwitchControl];
   }
   return _flatSwitchControl;
@@ -180,7 +193,7 @@
 
 - (void)switchDidChangeValue {
   NISwitchFormElement* switchElement = (NISwitchFormElement *)self.element;
-  switchElement.value = _flatSwitchControl.on;
+  switchElement.value = _flatSwitchControl.isOn;
 
   if (nil != switchElement.didChangeSelector && nil != switchElement.didChangeTarget
       && [switchElement.didChangeTarget respondsToSelector:switchElement.didChangeSelector]) {
