@@ -106,6 +106,10 @@ static NSString *kGameWillStartKey = @"gameWillStart";
         && [appDelegate.stateMachine isInState:@"championSelect"]
         ) {
       [self resetModel];
+    } else {
+      self.model = [[NIMutableTableViewModel alloc] initWithDelegate:(id)[NICellFactory class]];
+      self.tableView.dataSource = _model;
+      [self.tableView reloadData];
     }
   }
 }

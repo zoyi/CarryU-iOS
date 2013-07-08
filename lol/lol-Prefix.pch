@@ -42,6 +42,7 @@
   #import <ODRefreshControl/ODRefreshControl.h>
   #import <HorizontalPicker/HorizontalPicker.h>
   #import <SIAlertView/SIAlertView.h>
+  #import <GoogleAnalytics-iOS-SDK/GAI.h>
 
   #import "NIAttributedLabel+LCCategory.h"
   #import "NSString+LCCategory.h"

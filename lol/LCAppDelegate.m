@@ -19,6 +19,7 @@
 #import "DDTTYLogger.h"
 #import "LCServerInfo.h"
 #import "LCSettingsInfo.h"
+
 #if DEBUG
 static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 #endif
@@ -35,6 +36,7 @@ static NSString *kRegionKey = @"_region";
 
 - (void)setupRestkit;
 - (void)setupApiRouter;
+- (void)setupGAI;
 
 - (void)setupAppearence;
 - (void)getInProcessGameInfo;
@@ -55,6 +57,7 @@ static NSString *kRegionKey = @"_region";
   self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
   // Override point for customization after application launch.
   self.window.backgroundColor = [UIColor whiteColor];
+  [self setupGAI];
   [self retrieveServerInfo];
   self.regeion = [[NSUserDefaults standardUserDefaults] objectForKey:kRegionKey];
   [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque];
@@ -101,6 +104,18 @@ static NSString *kRegionKey = @"_region";
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
+}
+
+- (void)setupGAI {
+  // Optional: automatically send uncaught exceptions to Google Analytics.
+  [GAI sharedInstance].trackUncaughtExceptions = YES;
+  // Optional: set Google Analytics dispatch interval to e.g. 20 seconds.
+  [GAI sharedInstance].dispatchInterval = 20;
+  // Optional: set debug to YES for extra debugging information.
+  [GAI sharedInstance].debug = YES;
+  // Create tracker instance.
+  id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:@"UA-42254758-2"];
+  [GAI sharedInstance].defaultTracker = tracker;
 }
 
 - (void)setupAppearence {

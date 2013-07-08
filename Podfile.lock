@@ -4,6 +4,7 @@ PODS:
   - BlocksKit (1.8.2):
     - libffi
   - FlatUIKit (1.2)
+  - GoogleAnalytics-iOS-SDK (2.0beta4)
   - HorizontalPicker (1.0.0)
   - JSONKit (1.5pre)
   - libffi (3.0.13)
@@ -82,6 +83,7 @@ DEPENDENCIES:
   - ActionSheetPicker2 (~> 0.1)
   - BlocksKit
   - FlatUIKit
+  - GoogleAnalytics-iOS-SDK
   - HorizontalPicker
   - Nimbus
   - ODRefreshControl
@@ -97,6 +99,7 @@ SPEC CHECKSUMS:
   AFNetworking: 9ec8aafb9269236a7630bd8d9838ce2ba30fa2a0
   BlocksKit: 7396526b0816734103f6133fbb1a520c8b04e80c
   FlatUIKit: 43b2acaa6f4ef57539b51b00e4ce62d506e33e11
+  GoogleAnalytics-iOS-SDK: ae8e58e771b6dec84c0047154cc0e550a15e6f54
   HorizontalPicker: a63cf6ff5201d8e8996541774f665d588b1f5920
   JSONKit: 409734ab3407fce90ef7eaa95d7168f38d9a6601
   libffi: 64ef39353e747bb2b25e1026afd96a157bf9231c

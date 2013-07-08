@@ -39,6 +39,11 @@ static NSInteger kPasswordTextFieldTag = 2389;
   [self.view addSubview:labelView];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+  [super viewDidAppear:animated];
+  [[GAI sharedInstance].defaultTracker sendView:@"/LoginScreen"];
+}
+
 - (void)viewDidLoad {
   [super viewDidLoad];
   self.actions = [[NITableViewActions alloc] initWithTarget:self];
