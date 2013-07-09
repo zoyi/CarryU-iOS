@@ -10,7 +10,7 @@
 "menu_settings_title" = "Settings";
 "menu_home_title" = "Home";
 "menu_logout_title" = "Logout";
-"pull_to_reload_desc" = "Pull to refresh";
+"pull_to_reload_desc" = "Pull down to refresh";
 "out_of_game_description" = "Try your game.\n It will loaded automatically every information of your team and enemies.";
 "tutorial_btn_title" = "Tutorial Video";
 "preview_game_btn_title" = "View Sample";
@@ -19,3 +19,10 @@
 "Activated_navi_title" = "Activated";
 "normal_wins" = "Normal %@wins";
 "rank_wins" = "Rank %@wins";
+"keep_screen_on" = "Keep Screen On :";
+"faq_n_feedback" = "FAQ & Feedback";
+"search_engine_section_title" = "Search Engines";
+"in_game" = "In Game";
+"home" = "Home";
+"logout" = "Logout";
+"settings" = "Settings";

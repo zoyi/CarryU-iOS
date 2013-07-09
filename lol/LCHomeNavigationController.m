@@ -53,8 +53,8 @@
 
 - (REMenu *)menu {
   if (nil == _menu) {
-    REMenuItem *homeItem = [[REMenuItem alloc] initWithTitle:@"Home" subtitle:nil image:nil highlightedImage:nil action:^(REMenuItem *item){
-      if ([item.title isEqualToString:@"Home"]) {
+    REMenuItem *homeItem = [[REMenuItem alloc] initWithTitle:NSLocalizedString(@"home", nil) subtitle:nil image:nil highlightedImage:nil action:^(REMenuItem *item){
+      if ([item.title isEqualToString:NSLocalizedString(@"home", nil)]) {
         LCHomeViewController *homeViewController = [[LCHomeViewController alloc] initWithStyle:UITableViewStylePlain];
         [self pushViewController:homeViewController animated:NO];
       } else {
@@ -63,12 +63,12 @@
       }
     }];
 
-    REMenuItem *settingsItem = [[REMenuItem alloc] initWithTitle:@"Settings" subtitle:nil image:nil highlightedImage:nil action:^(REMenuItem *item) {
+    REMenuItem *settingsItem = [[REMenuItem alloc] initWithTitle:NSLocalizedString(@"settings", nil) subtitle:nil image:nil highlightedImage:nil action:^(REMenuItem *item) {
       LCSettingsController *settingsController = [[LCSettingsController alloc] initWithStyle:UITableViewStyleGrouped];
       [self pushViewController:settingsController animated:NO];
     }];
 
-    REMenuItem *logOutItem = [[REMenuItem alloc] initWithTitle:@"Log Out" subtitle:nil image:nil highlightedImage:nil action:^(REMenuItem *item) {
+    REMenuItem *logOutItem = [[REMenuItem alloc] initWithTitle:NSLocalizedString(@"logout", nil) subtitle:nil image:nil highlightedImage:nil action:^(REMenuItem *item) {
       LCAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
       [appDelegate logout];
     }];
@@ -93,9 +93,9 @@
 - (void)showMenu {
   LCAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
   if ([appDelegate.stateMachine isInState:@"inGame"]) {
-    [[self.menu.items objectAtIndex:0] setTitle:@"In Game"];
+    [[self.menu.items objectAtIndex:0] setTitle:NSLocalizedString(@"in_game", nil)];
   } else {
-    [[self.menu.items objectAtIndex:0] setTitle:@"Home"];
+    [[self.menu.items objectAtIndex:0] setTitle:NSLocalizedString(@"home", nil)];
   }
   if ([self.menu isOpen]) {
     [self.menu close];

@@ -10,9 +10,11 @@
 #import "LCSettingsInfo.h"
 #import "LCAppDelegate.h"
 #import <objc/message.h>
+#import <uservoice-iphone-sdk/UserVoice.h>
 
 @interface LCSettingsController () <NIRadioGroupDelegate>
 @property (nonatomic, strong) NIMutableTableViewModel *model;
+@property (nonatomic, strong) NITableViewActions *actions;
 @property (nonatomic, strong) NICellFactory *cellFactory;
 @property (nonatomic, readwrite, retain) NIRadioGroup* radioGroup;
 
@@ -33,6 +35,8 @@
   [super loadView];
   [self radioGroup];
   self.cellFactory = [[NICellFactory alloc] init];
+  self.actions = [[NITableViewActions alloc] initWithTarget:self];
+  
   [_cellFactory mapObjectClass:[NITitleCellObject class] toCellClass:[LCRadioTitleCell class]];
   [_cellFactory mapObjectClass:[NISwitchFormElement class] toCellClass:[LCSwitchFormElementCell class]];
 
@@ -51,6 +55,16 @@
     }
   }];
 
+  [_model addSectionWithTitle:@""];
+  [_model addObject:[_actions attachToObject:[NISubtitleCellObject objectWithTitle:NSLocalizedString(@"faq_n_feedback", nil)] tapBlock:^BOOL(id object, id target) {
+    UVConfig *config = [UVConfig configWithSite:@"carryu.uservoice.com"
+                                         andKey:@"rl1xXqEXPx2Q8Co7IZ7TKQ"
+                                      andSecret:@"F9l79tMF92Afx59eU58rXQsAxrtwguKTzKgV5QL8YK4"];
+
+    [UserVoice presentUserVoiceInterfaceForParentViewController:self andConfig:config];
+    return YES;
+  }]];
+
 }
 
 - (void)viewDidLoad {
@@ -60,7 +74,7 @@
   self.tableView.separatorColor = [UIColor carryuColor];
   self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
   self.tableView.dataSource = self.model;
-  self.tableView.delegate = [self.radioGroup forwardingTo:self.tableView.delegate];
+  self.tableView.delegate = [self.radioGroup forwardingTo:[self.actions forwardingTo:self]];
 }
 
 - (void)didReceiveMemoryWarning {

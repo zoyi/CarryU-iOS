@@ -20,6 +20,7 @@
 #import "XMPPIQ+LCCategory.h"
 #import "LCSettingsInfo.h"
 #import "LCOutOfGameView.h"
+#import "LCInQueueStateView.h"
 
 static NSString *kCurrentStateKey = @"currentState";
 static NSString *kGameWillStartKey = @"gameWillStart";
@@ -30,8 +31,7 @@ static NSString *kGameWillStartKey = @"gameWillStart";
 @property (nonatomic, strong) NITableViewActions *actions;
 
 @property (nonatomic, strong) LCOutOfGameView *outOfGameView;
-@property (nonatomic, strong) LCStateView *inQueueStateView;
-@property (nonatomic, strong) LCStateView *championSelectStateView;
+@property (nonatomic, strong) LCInQueueStateView *inQueueStateView;
 
 - (void)resetModel;
 
@@ -71,7 +71,6 @@ static NSString *kGameWillStartKey = @"gameWillStart";
   viewBounds.size.height -= 44;
   self.outOfGameView.frame = viewBounds;
   self.inQueueStateView.frame = viewBounds;
-  self.championSelectStateView.frame = viewBounds;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -103,7 +102,7 @@ static NSString *kGameWillStartKey = @"gameWillStart";
   } else if ([keyPath isEqualToString:kGameWillStartKey]) {
     LCAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     if (appDelegate.gameWillStart.playerTeam.count
-        && [appDelegate.stateMachine isInState:@"championSelect"]
+        && [appDelegate.stateMachine isInState:@"inQueue"]
         ) {
       [self resetModel];
     } else {
@@ -136,22 +135,12 @@ static NSString *kGameWillStartKey = @"gameWillStart";
   return _outOfGameView;
 }
 
-- (LCStateView *)inQueueStateView {
+- (LCInQueueStateView *)inQueueStateView {
   if (nil == _inQueueStateView) {
-    self.inQueueStateView = [[LCStateView alloc] initWithTitle:NSLocalizedString(@"in_queue_title", nil) subtitle:NSLocalizedString(@"searching for new game...", nil) image:nil];
-    _inQueueStateView.backgroundColor = self.tableView.backgroundColor;
+    self.inQueueStateView = [[LCInQueueStateView alloc] initWithFrame:CGRectZero];
   }
   return _inQueueStateView;
 }
-
-- (LCStateView *)championSelectStateView {
-  if (nil == _championSelectStateView) {
-    self.championSelectStateView = [[LCStateView alloc] initWithTitle:NSLocalizedString(@"champion_select_title", nil) subtitle:NSLocalizedString(@"choosing champions", nil) image:nil];
-    _championSelectStateView.backgroundColor = self.tableView.backgroundColor;
-  }
-  return _championSelectStateView;
-}
-
 
 #pragma mark - private method
 
@@ -169,16 +158,14 @@ static NSString *kGameWillStartKey = @"gameWillStart";
 - (void)showStateView {
   LCAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
   if ([appDelegate.stateMachine isInState:@"outOfGame"]) {
+    self.title = NSLocalizedString(@"deactivated_navi_title", nil);
     self.tableView.tableHeaderView = self.outOfGameView;
   } else if ([appDelegate.stateMachine isInState:@"inQueue"]) {
-    self.tableView.tableHeaderView = self.inQueueStateView;
-  } else if ([appDelegate.stateMachine isInState:@"championSelect"]) {
+    self.title = NSLocalizedString(@"Activated_navi_title", nil);
     if (appDelegate.gameWillStart.playerTeam.count) {
-      // show champion select list
       [self resetModel];
-
     } else {
-      self.tableView.tableHeaderView = self.championSelectStateView;
+      self.tableView.tableHeaderView = self.inQueueStateView;
     }
   }
 }

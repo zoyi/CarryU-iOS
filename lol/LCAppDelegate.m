@@ -19,6 +19,7 @@
 #import "DDTTYLogger.h"
 #import "LCServerInfo.h"
 #import "LCSettingsInfo.h"
+#import <uservoice-iphone-sdk/UserVoice.h>
 
 #if DEBUG
 static const int ddLogLevel = LOG_LEVEL_VERBOSE;
@@ -28,7 +29,6 @@ static NSString *kRegionKey = @"_region";
 
 @interface LCAppDelegate () <XMPPStreamDelegate>
 
-- (void)setupStream;
 - (void)teardownStream;
 
 - (void)goOnline;
@@ -58,6 +58,7 @@ static NSString *kRegionKey = @"_region";
   // Override point for customization after application launch.
   self.window.backgroundColor = [UIColor whiteColor];
   [self setupGAI];
+
   [self retrieveServerInfo];
   self.regeion = [[NSUserDefaults standardUserDefaults] objectForKey:kRegionKey];
   [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque];
@@ -65,7 +66,7 @@ static NSString *kRegionKey = @"_region";
   [DDLog addLogger:[DDTTYLogger sharedInstance]];
   [self setupRestkit];
   [self setupApiRouter];
-  [self setupStream];
+  [self xmppStream];
   [self setupAppearence];
   [self stateMachine];
 
@@ -149,7 +150,7 @@ static NSString *kRegionKey = @"_region";
     _regeion = regeion;
     [[LCSettingsInfo sharedInstance] updateRegion];
     [self teardownStream];
-    [self setupStream];
+    [self xmppStream];
     [self setupRestkit];
     [self setupApiRouter];
   }
@@ -159,7 +160,7 @@ static NSString *kRegionKey = @"_region";
 }
 
 - (void)logout {
-  [_xmppStream disconnect];
+  [self teardownStream];
   self.game = nil;
   self.gameWillStart = nil;
   self.groupChatJID = nil;
@@ -171,27 +172,37 @@ static NSString *kRegionKey = @"_region";
 
 #pragma mark - XMPP
 
-- (void)setupStream {
-  self.xmppStream = [[XMPPStream alloc] init];
-  
-  _xmppStream.hostPort = [[LCServerInfo sharedInstance].currentServer.xmppPort integerValue];
-  _xmppStream.hostName = [LCServerInfo sharedInstance].currentServer.xmppHost;
 
-  _xmppStream.enableBackgroundingOnSocket = YES;
-  self.xmppReconnect = [[XMPPReconnect alloc] init];
-  _xmppReconnect.usesOldSchoolSecureConnect = YES;
-	// Activate xmpp modules
-  _xmppReconnect.autoReconnect = YES;
-	[_xmppReconnect         activate:_xmppStream];
+- (XMPPStream *)xmppStream {
+  if (nil == _xmppStream) {
+    self.xmppStream = [[XMPPStream alloc] init];
 
-  [_xmppStream addDelegate:self delegateQueue:dispatch_get_main_queue()];
+    _xmppStream.hostPort = [[LCServerInfo sharedInstance].currentServer.xmppPort integerValue];
+    _xmppStream.hostName = [LCServerInfo sharedInstance].currentServer.xmppHost;
 
+    _xmppStream.enableBackgroundingOnSocket = YES;
+    [_xmppStream addDelegate:self delegateQueue:dispatch_get_main_queue()];
+    [self xmppReconnect];
+  }
+  return _xmppStream;
+}
+
+- (XMPPReconnect *)xmppReconnect {
+  if (nil == _xmppReconnect) {
+    self.xmppReconnect = [[XMPPReconnect alloc] init];
+    _xmppReconnect.usesOldSchoolSecureConnect = YES;
+    // Activate xmpp modules
+    _xmppReconnect.autoReconnect = YES;
+    [_xmppReconnect activate:_xmppStream];
+
+  }
+  return _xmppReconnect;
 }
 
 - (void)teardownStream {
   [_xmppStream removeDelegate:self];
 
-	[_xmppReconnect         deactivate];
+	[_xmppReconnect deactivate];
 
 	[_xmppStream disconnect];
 
@@ -212,8 +223,8 @@ static NSString *kRegionKey = @"_region";
 }
 
 - (BOOL)connectWithJID:(NSString *)jid password:(NSString *)passwd {
-	if (![_xmppStream isDisconnected]) {
-    [_xmppStream disconnect];
+	if (![self.xmppStream isDisconnected]) {
+    [self.xmppStream disconnect];
 	}
 
   [[NSUserDefaults standardUserDefaults] setObject:jid forKey:kUsernameKey];
@@ -312,14 +323,7 @@ static NSString *kRegionKey = @"_region";
         // out of game
         [_stateMachine fireEvent:@"outOfGame" error:&error];
       } else if ([gameStatus isEqualToString:@"inQueue"]) {
-        NSString *skinname = [presence skinname];
-        if (skinname.length && [skinname isEqualToString:@"Random"]) {
-          // champion select
-          [_stateMachine fireEvent:@"championSelect" error:&error];
-        } else {
-          // in Queue
           [_stateMachine fireEvent:@"inQueue" error:&error];
-        }
       } else if ([gameStatus isEqualToString:@"inGame"]) {
         [_stateMachine fireEvent:@"inGame" error:&error];
       }
@@ -335,8 +339,7 @@ static NSString *kRegionKey = @"_region";
 
 - (void)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message {
   NIDPRINT(@"xmpp did receive message => %@", [message.debugDescription stringByReplacingXMLEscape]);
-  if ([_stateMachine isInState:@"championSelect"]
-      || [_stateMachine isInState:@"inQueue"]) {
+  if ([_stateMachine isInState:@"inQueue"]) {
     // message contain x
     NSString *type = [message attributeStringValueForName:@"type"];
     NSString *mid = [message attributeStringValueForName:@"id"];
@@ -356,7 +359,8 @@ static NSString *kRegionKey = @"_region";
   [iq rawSummonerItems];
   if ([fromBareJID isEqualToString:_groupChatJID.description]
       && [toBareJID isEqualToString:sender.myJID.bareJID.description]
-      && [iq isResultIQ]) {
+      && [iq isResultIQ]
+      && [_stateMachine isInState:@"inQueue"]) {
 
     // get items
     NSArray *rawSummoners = [iq rawSummonerItems];
@@ -390,15 +394,11 @@ static NSString *kRegionKey = @"_region";
     TKState *inQueue = [TKState stateWithName:@"inQueue"];
     [inQueue setDidEnterStateBlock:^(TKState *state, TKStateMachine *stateMachine) {
       NIDPRINT(@"User State Did change to inQueue");
-    }];
-
-    TKState *championSelect = [TKState stateWithName:@"championSelect"];
-    [championSelect setDidEnterStateBlock:^(TKState *state, TKStateMachine *stateMachine) {
       self.gameWillStart = nil;
       NIDPRINT(@"group chat id is %@", _groupChatJID.description);
-      NIDPRINT(@"User State Did change to championSelect");
     }];
-    [championSelect setDidExitStateBlock:^(TKState *state, TKStateMachine *stateMachine) {
+
+    [inQueue setDidExitStateBlock:^(TKState *state, TKStateMachine *stateMachine) {
       self.gameWillStart = nil;
     }];
 
@@ -416,15 +416,14 @@ static NSString *kRegionKey = @"_region";
       }
     }];
 
-    [_stateMachine addStates:@[outOfGame, inQueue, championSelect, inGame]];
+    [_stateMachine addStates:@[outOfGame, inQueue, inGame]];
     _stateMachine.initialState = outOfGame;
 
     TKEvent *outOfGameToInQueueEvent = [TKEvent eventWithName:@"inQueue" transitioningFromStates:@[outOfGame] toState:inQueue];
-    TKEvent *inQueueToChampionSelectEvent = [TKEvent eventWithName:@"championSelect" transitioningFromStates:@[outOfGame, inQueue] toState:championSelect];
-    TKEvent *championSelectToInGameEvent = [TKEvent eventWithName:@"inGame" transitioningFromStates:@[outOfGame, championSelect] toState:inGame];
-    TKEvent *stateToOutOfGameEvent = [TKEvent eventWithName:@"outOfGame" transitioningFromStates:@[outOfGame, inGame, championSelect, inQueue] toState:outOfGame];
+    TKEvent *inQueueToInGameEvent = [TKEvent eventWithName:@"inGame" transitioningFromStates:@[outOfGame, inQueue] toState:inGame];
+    TKEvent *stateToOutOfGameEvent = [TKEvent eventWithName:@"outOfGame" transitioningFromStates:@[outOfGame, inGame, inQueue] toState:outOfGame];
 
-    [_stateMachine addEvents:@[outOfGameToInQueueEvent, inQueueToChampionSelectEvent, championSelectToInGameEvent, stateToOutOfGameEvent]];
+    [_stateMachine addEvents:@[outOfGameToInQueueEvent, inQueueToInGameEvent, stateToOutOfGameEvent]];
     [_stateMachine activate];
   }
   return _stateMachine;
