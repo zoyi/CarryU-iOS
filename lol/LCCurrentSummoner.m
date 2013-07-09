@@ -7,6 +7,7 @@
 //
 
 #import "LCCurrentSummoner.h"
+#import "LCAppDelegate.h"
 
 @implementation LCCurrentSummoner
 @synthesize sID = _sID;
@@ -23,12 +24,20 @@
   if (_sID != sID) {
     _sID = sID;
   }
+  LCAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+  __block NSString *summonerNameKey = [NSString stringWithFormat:@"%@_%@", [appDelegate regeion], sID];
+  NSString *archivedSummonerName = [[NSUserDefaults standardUserDefaults] stringForKey:summonerNameKey];
+  if (archivedSummonerName) {
+    [LCCurrentSummoner sharedInstance].name = archivedSummonerName;
+  }
   // retrive summoner name
-  [SVProgressHUD showWithStatus:@"retrive profile info..."];
+  [SVProgressHUD showWithStatus:NSLocalizedString(@"retreive_profile_info", nil)];
   NSURL *url = [[RKObjectManager sharedManager].router URLForRouteNamed:@"summoner_name" method:RKRequestMethodGET object:self];
 
   AFJSONRequestOperation *getSumNameOperation = [AFJSONRequestOperation JSONRequestOperationWithRequest:[NSURLRequest requestWithURL:url] success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
     [LCCurrentSummoner sharedInstance].name = [JSON objectForKey:@"summoner_name"];
+    [[NSUserDefaults standardUserDefaults] setObject:[LCCurrentSummoner sharedInstance].name forKey:summonerNameKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     [SVProgressHUD dismiss];
   } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
     NIDPRINT(@"Retrive summoner name with error => %@", error.debugDescription);
