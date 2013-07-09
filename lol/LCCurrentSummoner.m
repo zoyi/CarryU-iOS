@@ -31,14 +31,14 @@
     [LCCurrentSummoner sharedInstance].name = archivedSummonerName;
   }
   // retrive summoner name
-  [SVProgressHUD showWithStatus:NSLocalizedString(@"retreive_profile_info", nil)];
+  [SVProgressHUD showWithStatus:NSLocalizedString(@"retreive_profile_info", nil) maskType:SVProgressHUDMaskTypeBlack];
   NSURL *url = [[RKObjectManager sharedManager].router URLForRouteNamed:@"summoner_name" method:RKRequestMethodGET object:self];
 
   AFJSONRequestOperation *getSumNameOperation = [AFJSONRequestOperation JSONRequestOperationWithRequest:[NSURLRequest requestWithURL:url] success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
+    [SVProgressHUD dismiss];
     [LCCurrentSummoner sharedInstance].name = [JSON objectForKey:@"summoner_name"];
     [[NSUserDefaults standardUserDefaults] setObject:[LCCurrentSummoner sharedInstance].name forKey:summonerNameKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
-    [SVProgressHUD dismiss];
   } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
     NIDPRINT(@"Retrive summoner name with error => %@", error.debugDescription);
     [SVProgressHUD dismiss];

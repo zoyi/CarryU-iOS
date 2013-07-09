@@ -48,4 +48,12 @@
  }
  */
 
+- (UIView *)backgroundCoverView {
+  if (nil == _backgroundCoverView) {
+    self.backgroundCoverView = [[UIView alloc] initWithFrame:CGRectZero];
+    _backgroundCoverView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
+  }
+  return _backgroundCoverView;
+}
+
 @end

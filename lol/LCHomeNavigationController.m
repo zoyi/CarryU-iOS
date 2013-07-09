@@ -23,6 +23,8 @@
 - (void)showMenu;
 - (void)showSearchBar;
 - (void)menuNavigationItemForViewController:(UIViewController *)viewController;
+- (void)addBackgroundCoverViewToCurrentViewController;
+- (void)removeBackgroundCoverViewFromCurrentViewController;
 @end
 
 @implementation LCHomeNavigationController
@@ -108,9 +110,20 @@
   self.visibleViewController.navigationItem.titleView = self.searchBar;
   self.visibleViewController.navigationItem.leftBarButtonItem = nil;
   self.visibleViewController.navigationItem.rightBarButtonItem = nil;
+  [self addBackgroundCoverViewToCurrentViewController];
   [_searchBar setShowsCancelButton:YES];
   [_searchBar becomeFirstResponder];
 }
+
+- (void)addBackgroundCoverViewToCurrentViewController {
+  self.searchBar.backgroundCoverView.frame = self.visibleViewController.view.bounds;
+  [self.visibleViewController.view addSubview:self.searchBar.backgroundCoverView];
+}
+
+- (void)removeBackgroundCoverViewFromCurrentViewController {
+  [self.searchBar.backgroundCoverView removeFromSuperview];
+}
+
 
 #pragma mark - search delegate
 
@@ -125,6 +138,7 @@
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+  [self removeBackgroundCoverViewFromCurrentViewController];
   [self.searchBar resignFirstResponder];
   [self menuNavigationItemForViewController:self.visibleViewController];
 }

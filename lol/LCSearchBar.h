@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface LCSearchBar : UISearchBar
-
+@property (nonatomic, strong) UIView *backgroundCoverView;
 @end

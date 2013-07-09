@@ -344,8 +344,7 @@ static NSString *kRegionKey = @"_region";
     NSString *type = [message attributeStringValueForName:@"type"];
     NSString *mid = [message attributeStringValueForName:@"id"];
     if ([type isEqualToString:@"groupchat"]
-        && !mid.length
-        ) {
+        && !mid.length) {
       self.groupChatJID = message.from.bareJID;
       NIDPRINT(@"group chat jid => %@", _groupChatJID.debugDescription);
     }
@@ -430,6 +429,9 @@ static NSString *kRegionKey = @"_region";
 }
 
 - (void)setGroupChatJID:(XMPPJID *)groupChatJID {
+  if ([groupChatJID.description rangeOfString:@"~"].location != NSNotFound) {
+    return;
+  }
   if (![groupChatJID.description isEqualToString:_groupChatJID.description]) {
     _groupChatJID = groupChatJID;
     [self performBlock:^(id sender) {
@@ -447,7 +449,7 @@ static NSString *kRegionKey = @"_region";
 }
 
 - (void)getInProcessGameInfo {
-  [SVProgressHUD showWithStatus:@"Retriving game status..." maskType:SVProgressHUDMaskTypeBlack];
+  [SVProgressHUD showWithStatus:NSLocalizedString(@"retrieve_game_status", nil) maskType:SVProgressHUDMaskTypeBlack];
   LCSummoner *tmpSummoner = [LCSummoner new];
   tmpSummoner.name = @"717721473217428";
   // [LCCurrentSummoner sharedInstance]

@@ -111,7 +111,13 @@ static LCSettingsInfo *sharedInstance = nil;
 
 - (NSString *)choosedSearchEngine {
   if (!_choosedSearchEngine.length) {
-    self.choosedSearchEngine = [[self.searchEngines allKeys] objectAtIndex:0];
+    LCAppDelegate *appDelegate  = [UIApplication sharedApplication].delegate;
+    if ([appDelegate.regeion isEqualToString:@"kr"]) {
+      self.choosedSearchEngine =  @"op.gg";
+    } else {
+      self.choosedSearchEngine =  @"carryu.co";
+    }
+    //    self.choosedSearchEngine = [[self.searchEngines allKeys] objectAtIndex:0];
   }
   return _choosedSearchEngine;
 }
