@@ -29,4 +29,5 @@ static NSString *kPasswordKey = @"_password";
 - (void)showInGameTabController;
 - (void)logout;
 - (void)refreshXmppPrecense:(id)sender;
+- (void)fireLocalNotificationWithMessage:(NSString *)message;
 @end

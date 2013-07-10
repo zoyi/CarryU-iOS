@@ -56,6 +56,7 @@ static NSString *kRegionKey = @"_region";
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+  [application cancelAllLocalNotifications];
   self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
   // Override point for customization after application launch.
   self.window.backgroundColor = [UIColor whiteColor];
@@ -84,16 +85,15 @@ static NSString *kRegionKey = @"_region";
 - (void)applicationWillResignActive:(UIApplication *)application {
 }
 
-- (void)applicationDidEnterBackground:(UIApplication *)application
-{
+- (void)applicationDidEnterBackground:(UIApplication *)application {
   DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
-
+  __block UIApplication *app = application;
 	if ([application respondsToSelector:@selector(setKeepAliveTimeout:handler:)]) {
 		[application setKeepAliveTimeout:600 handler:^{
-
 			DDLogVerbose(@"KeepAliveHandler");
-
-			// Do other keep alive stuff here.
+      if (app.applicationState == UIApplicationStateBackground) {
+        // detect user 
+      }
 		}];
 	}
 
@@ -102,6 +102,9 @@ static NSString *kRegionKey = @"_region";
 - (void)applicationWillEnterForeground:(UIApplication *)application {
   // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
   DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
+  // remove all notifications
+  [application cancelAllLocalNotifications];
+
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
@@ -378,6 +381,9 @@ static NSString *kRegionKey = @"_region";
       LCGame *theGame = [LCGame new];
       theGame.playerTeam = championSummoners;
       self.gameWillStart = theGame;
+
+      // fire locale notification
+      [self fireLocalNotificationWithMessage:NSLocalizedString(@"champion_select_noti_msg", nil)];
     }
   }
   return NO;
@@ -409,6 +415,7 @@ static NSString *kRegionKey = @"_region";
     [inGame setDidEnterStateBlock:^(TKState *state, TKStateMachine *stateMachine) {
       NIDPRINT(@"User State Did change to inGame");
       [self getInProcessGameInfo];
+      [self fireLocalNotificationWithMessage:NSLocalizedString(@"in_game_notification_msg", nil)];
     }];
 
     [inGame setDidExitStateBlock:^(TKState *state, TKStateMachine *stateMachine) {
@@ -504,4 +511,18 @@ static NSString *kRegionKey = @"_region";
   NSDictionary *dic = @{@"UserAgent" : [NSString stringWithFormat:@"%@ CarryU", secretAgent]};
   [[NSUserDefaults standardUserDefaults] registerDefaults:dic];
 }
+
+- (void)fireLocalNotificationWithMessage:(NSString *)message {
+  UIApplication *app = [UIApplication sharedApplication];
+  if (app.applicationState == UIApplicationStateBackground) {
+    [app cancelAllLocalNotifications];
+
+    UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+    localNotification.soundName = UILocalNotificationDefaultSoundName;
+    localNotification.alertBody = message;
+
+    [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
+  }
+}
+
 @end
