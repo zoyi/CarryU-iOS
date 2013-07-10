@@ -153,6 +153,12 @@
 		9CDACBED17814F4900E7006A /* LCNetworkTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CDACBEC17814F4900E7006A /* LCNetworkTableViewController.m */; };
 		9CED33ED177B791500C6CF23 /* LCSettingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CED33EC177B791500C6CF23 /* LCSettingsController.m */; };
 		9CED33F0177B7F6400C6CF23 /* LCSummonerSearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CED33EF177B7F6400C6CF23 /* LCSummonerSearchController.m */; };
+		9CFA16B8178C3FF100BEADCD /* myteam@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CFA16B5178C3FF100BEADCD /* myteam@2x.png */; };
+		9CFA16B9178C3FF100BEADCD /* tips@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CFA16B6178C3FF100BEADCD /* tips@2x.png */; };
+		9CFA16BA178C3FF100BEADCD /* enemies_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CFA16B7178C3FF100BEADCD /* enemies_icon@2x.png */; };
+		9CFCC75A178D29670088E1FD /* LCTipWebController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CFCC759178D29670088E1FD /* LCTipWebController.m */; };
+		9CFCC75C178D2B830088E1FD /* back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CFCC75B178D2B830088E1FD /* back@2x.png */; };
+		9CFCC75F178D2BC30088E1FD /* UIBarButtonItem+LCCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CFCC75E178D2BC30088E1FD /* UIBarButtonItem+LCCategory.m */; };
 		B90AA18ECA62449CA6468BE3 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6FAF64CE144990B9B2F5B5 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -388,6 +394,14 @@
 		9CED33EC177B791500C6CF23 /* LCSettingsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCSettingsController.m; sourceTree = "<group>"; };
 		9CED33EE177B7F6300C6CF23 /* LCSummonerSearchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCSummonerSearchController.h; sourceTree = "<group>"; };
 		9CED33EF177B7F6400C6CF23 /* LCSummonerSearchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCSummonerSearchController.m; sourceTree = "<group>"; };
+		9CFA16B5178C3FF100BEADCD /* myteam@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "myteam@2x.png"; sourceTree = "<group>"; };
+		9CFA16B6178C3FF100BEADCD /* tips@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tips@2x.png"; sourceTree = "<group>"; };
+		9CFA16B7178C3FF100BEADCD /* enemies_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "enemies_icon@2x.png"; sourceTree = "<group>"; };
+		9CFCC758178D29670088E1FD /* LCTipWebController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCTipWebController.h; sourceTree = "<group>"; };
+		9CFCC759178D29670088E1FD /* LCTipWebController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCTipWebController.m; sourceTree = "<group>"; };
+		9CFCC75B178D2B830088E1FD /* back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back@2x.png"; sourceTree = "<group>"; };
+		9CFCC75D178D2BC30088E1FD /* UIBarButtonItem+LCCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+LCCategory.h"; sourceTree = "<group>"; };
+		9CFCC75E178D2BC30088E1FD /* UIBarButtonItem+LCCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+LCCategory.m"; sourceTree = "<group>"; };
 		A057152DCF9F4A5DAE6C93A9 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -431,8 +445,10 @@
 		9C138E7A1770824B003CC90C /* image */ = {
 			isa = PBXGroup;
 			children = (
+				9CFA16BB178C3FFE00BEADCD /* tab bar */,
 				9C4534CE178956F700BF0403 /* rank badges */,
 				9C4534CC178948CE00BF0403 /* next@2x.png */,
+				9CFCC75B178D2B830088E1FD /* back@2x.png */,
 				9C9F829D178BEA300081B284 /* searching_match@2x.png */,
 				9C7F144317872FCC0000FBDA /* activated@2x.png */,
 				9C7F144417872FCC0000FBDA /* deactivated@2x.png */,
@@ -915,6 +931,8 @@
 				9C4534CA178942FA00BF0403 /* NSNumber+RomanNumerals.m */,
 				9C52A67E176B44B600A472E5 /* XMPPFramework.h */,
 				9C3A1CAB1785A019000B29A3 /* LCHelperMacro.h */,
+				9CFCC75D178D2BC30088E1FD /* UIBarButtonItem+LCCategory.h */,
+				9CFCC75E178D2BC30088E1FD /* UIBarButtonItem+LCCategory.m */,
 			);
 			name = Helper;
 			sourceTree = "<group>";
@@ -954,6 +972,8 @@
 			children = (
 				9C1B8FDD17775418003677AC /* LCGameTabBarController.h */,
 				9C1B8FDE17775418003677AC /* LCGameTabBarController.m */,
+				9CFCC758178D29670088E1FD /* LCTipWebController.h */,
+				9CFCC759178D29670088E1FD /* LCTipWebController.m */,
 			);
 			name = "In Game Tab";
 			sourceTree = "<group>";
@@ -969,6 +989,16 @@
 				9C2F3542177CAF11005E3232 /* LCSummonerShowController.m */,
 			);
 			name = Summoner;
+			sourceTree = "<group>";
+		};
+		9CFA16BB178C3FFE00BEADCD /* tab bar */ = {
+			isa = PBXGroup;
+			children = (
+				9CFA16B5178C3FF100BEADCD /* myteam@2x.png */,
+				9CFA16B6178C3FF100BEADCD /* tips@2x.png */,
+				9CFA16B7178C3FF100BEADCD /* enemies_icon@2x.png */,
+			);
+			name = "tab bar";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1090,6 +1120,10 @@
 				9C687DF3178AC95F002169F3 /* Default-568h@2x.png in Resources */,
 				9C687DF5178AC962002169F3 /* Default@2x.png in Resources */,
 				9C9F829E178BEA300081B284 /* searching_match@2x.png in Resources */,
+				9CFA16B8178C3FF100BEADCD /* myteam@2x.png in Resources */,
+				9CFA16B9178C3FF100BEADCD /* tips@2x.png in Resources */,
+				9CFA16BA178C3FF100BEADCD /* enemies_icon@2x.png in Resources */,
+				9CFCC75C178D2B830088E1FD /* back@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1203,6 +1237,8 @@
 				9C59186E178826950059428D /* NIAttributedLabel+LCCategory.m in Sources */,
 				9C4534CB178942FA00BF0403 /* NSNumber+RomanNumerals.m in Sources */,
 				9C9F829C178BE9140081B284 /* LCInQueueStateView.m in Sources */,
+				9CFCC75A178D29670088E1FD /* LCTipWebController.m in Sources */,
+				9CFCC75F178D2BC30088E1FD /* UIBarButtonItem+LCCategory.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

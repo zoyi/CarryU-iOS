@@ -26,3 +26,6 @@
 "home" = "Home";
 "logout" = "Logout";
 "settings" = "Settings";
+"retreive_profile_info" = "Retrieve Profile";
+"retrieve_game_status" = "Retrieve Game Status";
+"keep_screen_on_desc" = "Your device could run out of battery faster.";

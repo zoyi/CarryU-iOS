@@ -12,3 +12,7 @@
 @property (nonatomic, strong) LCGame *game;
 - (id)initWithGame:(LCGame *)game;
 @end
+
+@interface LCSampleGameTabBarController : LCGameTabBarController
+
+@end

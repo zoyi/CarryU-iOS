@@ -32,12 +32,15 @@ static NSString *kGameWillStartKey = @"gameWillStart";
 
 @property (nonatomic, strong) LCOutOfGameView *outOfGameView;
 @property (nonatomic, strong) LCInQueueStateView *inQueueStateView;
+@property (nonatomic, strong) UIView *championSelectStateView;
 
 - (void)resetModel;
 
 - (void)fireInGameEvent;
 
 - (void)showStateView;
+
+- (void)showSampleView;
 @end
 
 @implementation LCHomeViewController
@@ -114,7 +117,7 @@ static NSString *kGameWillStartKey = @"gameWillStart";
 }
 
 - (void)resetModel {
-  self.tableView.tableHeaderView = nil;
+  self.tableView.tableHeaderView = self.championSelectStateView;
   LCAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
   NSMutableArray *tableContent = [NSMutableArray arrayWithCapacity:5];
   [appDelegate.gameWillStart.playerTeam each:^(LCSummoner *summoner) {
@@ -130,7 +133,8 @@ static NSString *kGameWillStartKey = @"gameWillStart";
 - (LCOutOfGameView *)outOfGameView {
   if (nil == _outOfGameView) {
     self.outOfGameView = [[LCOutOfGameView alloc] initWithFrame:CGRectZero];
-    //    [_outOfGameView.tutorialVideoButton addTarget:self action:@selector(fireInGameEvent) forControlEvents:UIControlEventTouchUpInside];
+    [_outOfGameView.tutorialVideoButton addTarget:self action:@selector(fireInGameEvent) forControlEvents:UIControlEventTouchUpInside];
+    [_outOfGameView.previewButton addTarget:self action:@selector(showSampleView) forControlEvents:UIControlEventTouchUpInside];
   }
   return _outOfGameView;
 }
@@ -140,6 +144,27 @@ static NSString *kGameWillStartKey = @"gameWillStart";
     self.inQueueStateView = [[LCInQueueStateView alloc] initWithFrame:CGRectZero];
   }
   return _inQueueStateView;
+}
+
+- (UIView *)championSelectStateView {
+  if (nil == _championSelectStateView) {
+    self.championSelectStateView = [[UIView alloc] initWithFrame:CGRectZero];
+    _championSelectStateView.backgroundColor = [UIColor clearColor];
+    NIAttributedLabel *label = [[NIAttributedLabel alloc] initWithFrame:CGRectZero];
+    label.backgroundColor = _championSelectStateView.backgroundColor;
+    label.textColor = [UIColor carryuColor];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.font = [UIFont systemFontOfSize:16];
+    label.numberOfLines = 0;
+    label.width = 300;
+    label.text = NSLocalizedString(@"champion_select_state_desc", nil);
+    [label sizeToFit];
+    label.left = 10;
+    label.width = 300;
+    [_championSelectStateView addSubview:label];
+    _championSelectStateView.frame = CGRectMake(0, 0, 320, label.height);
+  }
+  return _championSelectStateView;
 }
 
 #pragma mark - private method
@@ -168,6 +193,33 @@ static NSString *kGameWillStartKey = @"gameWillStart";
       self.tableView.tableHeaderView = self.inQueueStateView;
     }
   }
+}
+
+- (void)showSampleView {
+  RKRoute *sampleRoute = [[LCApiRouter sharedInstance].routeSet routeForName:@"sample_game"];
+
+  RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:[LCGame mapping] pathPattern:sampleRoute.pathPattern keyPath:nil statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+  responseDescriptor.baseURL = [LCApiRouter sharedInstance].baseURL;
+
+  NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[[LCApiRouter sharedInstance] URLWithRoute:sampleRoute object:nil]];
+
+  RKObjectRequestOperation *operation = [[RKObjectRequestOperation alloc] initWithRequest:urlRequest responseDescriptors:@[responseDescriptor]];
+  [operation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+    [SVProgressHUD dismiss];
+    LCGame *game = [mappingResult.dictionary objectForKey:[NSNull null]];
+    if (game) {
+      LCSampleGameTabBarController *sampleGameTabController = [[LCSampleGameTabBarController alloc] initWithGame:game];
+      [self.navigationController pushViewController:sampleGameTabController animated:YES];
+    } else {
+      // show error message
+      [SIAlertView carryuWarningAlertWithMessage:NSLocalizedString(@"retrieve_sample_game_error", nil)];
+    }
+  } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+    [SVProgressHUD dismiss];
+    NIDPRINT(@"retrieve sample game with error %@", error.debugDescription);
+  }];
+  [operation start];
+  [SVProgressHUD showWithStatus:NSLocalizedString(@"retrieve_sample_game", nil) maskType:SVProgressHUDMaskTypeBlack];
 }
 
 @end

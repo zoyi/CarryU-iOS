@@ -7,6 +7,7 @@
 //
 
 #import "LCSummonerShowController.h"
+#import "UIBarButtonItem+LCCategory.h"
 
 @interface LCSummonerShowController ()
 
@@ -25,11 +26,15 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
 	// Do any additional setup after loading the view.
+  self.navigationItem.hidesBackButton = YES;
+  self.navigationItem.leftBarButtonItem = [UIBarButtonItem carryuBackBarButtonItem];
+
 }
 
 - (void)didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
   // Dispose of any resources that can be recreated.
 }
+
 
 @end

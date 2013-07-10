@@ -8,6 +8,8 @@
 
 #import "LCNetworkTableViewController.h"
 #import "LCAppDelegate.h"
+#import "LCGameTabBarController.h"
+
 @interface LCNetworkTableViewController ()
 @property (nonatomic, strong) ODRefreshControl *refreshControl;
 @end
@@ -24,7 +26,9 @@
 
 - (void)loadView {
   [super loadView];
-  [self refreshControl];
+  if (!self.tabBarController || ![self.tabBarController isKindOfClass:[LCSampleGameTabBarController class]]) {
+    [self refreshControl];
+  }
 }
 
 - (void)viewDidLoad {

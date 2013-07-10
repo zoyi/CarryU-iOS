@@ -10,6 +10,7 @@
 #import "LCSummoner.h"
 
 static NSString *SUMMONER_ACTIVE_GAME_ROUTE = @"/active_game/:name";
+static NSString *SAMPLE_GAME_ROUTE = @"active_game/sample.json";
 
 @implementation LCGame
 
@@ -38,6 +39,11 @@ static NSString *SUMMONER_ACTIVE_GAME_ROUTE = @"/active_game/:name";
   RKResponseDescriptor *activeGameDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:[LCGame mapping] pathPattern:SUMMONER_ACTIVE_GAME_ROUTE keyPath:nil statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
   [manager addResponseDescriptor:activeGameDescriptor];
 
+}
+
++ (void)apiRouting {
+  RKRoute *sampleGameRoute = [RKRoute routeWithName:@"sample_game" pathPattern:SAMPLE_GAME_ROUTE method:RKRequestMethodGET];
+  [[LCApiRouter sharedInstance].routeSet addRoute:sampleGameRoute];
 }
 
 @end

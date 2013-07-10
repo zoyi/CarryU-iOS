@@ -20,7 +20,7 @@ static CGFloat kSpellImageDefaultHeight = 20;
 
 static CGFloat kMediumPadding = 20;
 static CGFloat kSmallPadding = 10;
-
+static const NSInteger kSpellHidingTag = 32890;
 @implementation LCSummonerCell
 
 - (id)initWithFrame:(CGRect)frame {
@@ -57,11 +57,20 @@ static CGFloat kSmallPadding = 10;
 
   {
     CGFloat innerLeft = _actionView.left - kSmallPadding - kSpellImageDefaultWidth*2 - 5;
-    _spell1ImageView.frame = CGRectMake(innerLeft, 0, kSpellImageDefaultWidth, kSpellImageDefaultHeight);
-    _spell1ImageView.centerY = _actionView.centerY;
-    innerLeft += _spell1ImageView.width + 5;
-    _spell2ImageView.frame = CGRectMake(innerLeft, 0, kSpellImageDefaultWidth, kSpellImageDefaultHeight);
-    _spell2ImageView.centerY = _actionView.centerY;
+    if (_spell1ImageView.tag == kSpellHidingTag) {
+      _spell1ImageView.frame = CGRectZero;
+    } else {
+      _spell1ImageView.frame = CGRectMake(innerLeft, 0, kSpellImageDefaultWidth, kSpellImageDefaultHeight);
+      _spell1ImageView.centerY = _actionView.centerY;
+      innerLeft += _spell1ImageView.width + 5;
+    }
+
+    if (_spell2ImageView.tag == kSpellHidingTag) {
+      _spell2ImageView.frame = CGRectZero;
+    } else {
+      _spell2ImageView.frame = CGRectMake(innerLeft, 0, kSpellImageDefaultWidth, kSpellImageDefaultHeight);
+      _spell2ImageView.centerY = _actionView.centerY;
+    }
   }
 }
 
@@ -73,9 +82,20 @@ static CGFloat kSmallPadding = 10;
   } else if (summoner.profileIconID) {
     [self.championAvatarView setImageWithURL:[summoner profileIconUrl]];
   }
+  
+  if (summoner.spell1) {
+    [self.spell1ImageView setImageWithURL:[summoner spell1ImageUrl]];
+    self.spell1ImageView.tag = 0;
+  } else {
+    self.spell1ImageView.tag = kSpellHidingTag;
+  }
 
-  [self.spell1ImageView setImageWithURL:[summoner spell1ImageUrl]];
-  [self.spell2ImageView setImageWithURL:[summoner spell2ImageUrl]];
+  if (summoner.spell2) {
+    [self.spell2ImageView setImageWithURL:[summoner spell2ImageUrl]];
+    self.spell2ImageView.tag = 0;
+  } else {
+    self.spell2ImageView.tag = kSpellHidingTag;
+  }
 
   NSMutableString *rankLevelText = [NSMutableString string];
   if (summoner.leagueRank) {
@@ -88,6 +108,7 @@ static CGFloat kSmallPadding = 10;
   NSMutableString *descriptionText = [NSMutableString string];
   if (summoner.normalRank) {
     [descriptionText appendFormat:NSLocalizedString(@"normal_wins", nil), summoner.normalRank.wins];
+    [descriptionText appendString:@" / "];
   }
   if (summoner.leagueRank) {
     [descriptionText appendFormat:NSLocalizedString(@"rank_wins", nil), summoner.leagueRank.wins];

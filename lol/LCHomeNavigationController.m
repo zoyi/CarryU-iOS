@@ -13,6 +13,7 @@
 #import "LCSettingsController.h"
 #import "LCSummonerShowController.h"
 #import "LCSummonerSearchController.h"
+#import "LCGameTabBarController.h"
 #import "LCSettingsInfo.h"
 #import <REMenu/REMenu.h>
 
@@ -25,6 +26,8 @@
 - (void)menuNavigationItemForViewController:(UIViewController *)viewController;
 - (void)addBackgroundCoverViewToCurrentViewController;
 - (void)removeBackgroundCoverViewFromCurrentViewController;
+
+- (BOOL)shouldResetNavigationBarItemWithViewController:(UIViewController *)viewController;
 @end
 
 @implementation LCHomeNavigationController
@@ -143,17 +146,25 @@
   [self menuNavigationItemForViewController:self.visibleViewController];
 }
 
+- (BOOL)shouldResetNavigationBarItemWithViewController:(UIViewController *)viewController {
+  if ([viewController isKindOfClass:[LCSummonerShowController class]]
+      || [viewController isKindOfClass:[LCSampleGameTabBarController class]]) {
+    return NO;
+  }
+  return YES;
+}
+
 #pragma mark - navigation delegate 
 
 -(void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
-  if ([viewController isKindOfClass:[LCSummonerShowController class]]) {
+  if (![self shouldResetNavigationBarItemWithViewController:viewController]) {
     return;
   }
   viewController.navigationItem.hidesBackButton = YES;
 }
 
 - (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
-  if ([viewController isKindOfClass:[LCSummonerShowController class]]) {
+  if (![self shouldResetNavigationBarItemWithViewController:viewController]) {
     return;
   }
   [self menuNavigationItemForViewController:viewController];

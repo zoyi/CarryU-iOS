@@ -11,7 +11,7 @@
 "menu_home_title" = "홈";
 "menu_logout_title" = "로그아웃";
 "pull_to_reload_desc" = "새로고침하려면 아래로 당기세요.";
-"out_of_game_description" = "게임을 시작해보세요.\n자동으로 내 팀과 적의 정보를 불러옵니다.";
+"out_of_game_description" = "게임을 시작해보세요.\n자동으로 우리, 적 팀의 정보를 불러옵니다.";
 "tutorial_btn_title" = "튜토리얼 영상";
 "preview_game_btn_title" = "샘플보기";
 "search_placeholder" = "소환사 이름";
@@ -26,3 +26,6 @@
 "home" = "홈";
 "logout" = "로그아웃";
 "settings" = "환경설정";
+"retreive_profile_info" = "프로필 갱신";
+"retrieve_game_status" = "게임상태 갱신";
+"keep_screen_on_desc" = "화면 켜두기를 오래 사용하면 배터리가 빨리 소모될 수 있습니다.";

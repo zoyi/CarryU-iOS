@@ -8,6 +8,6 @@
 
 #import "NIWebController.h"
 
-@interface LCSummonerShowController : NIWebController
+@interface LCSummonerShowController : NIWebController <UIWebViewDelegate>
 
 @end

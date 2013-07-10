@@ -43,6 +43,8 @@ static NSString *kRegionKey = @"_region";
 
 - (void)retrieveServerInfo;
 
+- (void)changeUserAgent;
+
 @property (nonatomic, strong) NSString *password;
 
 @end
@@ -58,6 +60,7 @@ static NSString *kRegionKey = @"_region";
   // Override point for customization after application launch.
   self.window.backgroundColor = [UIColor whiteColor];
   [self setupGAI];
+  [self changeUserAgent];
 
   [self retrieveServerInfo];
   self.regeion = [[NSUserDefaults standardUserDefaults] objectForKey:kRegionKey];
@@ -140,6 +143,7 @@ static NSString *kRegionKey = @"_region";
 - (void)setupApiRouter {
   [LCApiRouter setSharedInstance:[[LCApiRouter alloc] initWithBaseURL:[LCServerInfo sharedInstance].currentServer.apiUrl]];
   [LCSummoner apiRouting];
+  [LCGame apiRouting];
 }
 
 - (void)setRegeion:(NSString *)regeion {
@@ -451,9 +455,9 @@ static NSString *kRegionKey = @"_region";
 - (void)getInProcessGameInfo {
   [SVProgressHUD showWithStatus:NSLocalizedString(@"retrieve_game_status", nil) maskType:SVProgressHUDMaskTypeBlack];
   LCSummoner *tmpSummoner = [LCSummoner new];
-  tmpSummoner.name = @"717721473217428";
+  tmpSummoner.name = @"Chaoser";
   // [LCCurrentSummoner sharedInstance]
-  [[RKObjectManager sharedManager] getObjectsAtPathForRouteNamed:@"active_game" object:[LCCurrentSummoner sharedInstance] parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+  [[RKObjectManager sharedManager] getObjectsAtPathForRouteNamed:@"active_game" object:tmpSummoner parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
     NIDPRINT(@"all summoner's info is => %@", mappingResult.debugDescription);
     [SVProgressHUD dismiss];
     self.game = [[mappingResult dictionary] objectForKey:[NSNull null]];
@@ -490,5 +494,14 @@ static NSString *kRegionKey = @"_region";
 - (void)retrieveServerInfo{
   [LCServerInfo sharedInstance];
   [LCSettingsInfo sharedInstance];
+}
+
+- (void)changeUserAgent {
+
+  UIWebView* webView = [[UIWebView alloc] initWithFrame:CGRectZero];
+  NSString* secretAgent = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
+  NIDPRINT(@"default User Agent is %@", secretAgent);
+  NSDictionary *dic = @{@"UserAgent" : [NSString stringWithFormat:@"%@ CarryU", secretAgent]};
+  [[NSUserDefaults standardUserDefaults] registerDefaults:dic];
 }
 @end

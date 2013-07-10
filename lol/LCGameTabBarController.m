@@ -14,9 +14,13 @@
 #import "LCStateView.h"
 #import "XMPPIQ+LCCategory.h"
 #import "XMPPPresence+LCCategory.h"
+#import "LCServerInfo.h"
+#import "LCCurrentSummoner.h"
+#import "LCTipWebController.h"
+#import "UIBarButtonItem+LCCategory.h"
 
 @interface LCGameTabBarController ()
-
+- (NSString *)tipsUrlPath;
 @end
 
 @implementation LCGameTabBarController
@@ -39,13 +43,11 @@
 
 - (void)loadView {
   [super loadView];
-  self.navigationItem.hidesBackButton = YES;
+
 }
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  self.view.backgroundColor = [UIColor cloudsColor];
-
 }
 
 #pragma mark - setter
@@ -55,19 +57,56 @@
     _game = game;
 
     LCSummonerViewController *ourTeamController = [[LCSummonerViewController alloc] initWithSummoners:_game.playerTeam];
-    ourTeamController.tabBarItem.title = @"ourTeam";
-
+    ourTeamController.tabBarItem.title = NSLocalizedString(@"my_team_tab_title", nil);
+    [ourTeamController.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"myteam.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"myteam.png"]];
 
     LCSummonerViewController *enemyTeamController = [[LCSummonerViewController alloc] initWithSummoners:_game.enemyTeam];
-    enemyTeamController.tabBarItem.title = @"enemyTeam";
+    enemyTeamController.tabBarItem.title = NSLocalizedString(@"enemies_team_tab_title", nil);
+    [enemyTeamController.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"enemies_icon.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"enemies_icon.png"]];
 
+   
+    LCTipWebController *webController = [[LCTipWebController alloc] initWithURL:[NSURL URLWithString:[self tipsUrlPath]]];
+    webController.tabBarItem.title = NSLocalizedString(@"tips_tab_title", nil);
+    [webController.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"tips.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"tips.png"]];
 
-    NIWebController *webController = [[NIWebController alloc] initWithURL:[NSURL URLWithString:@"http://m.inven.co.kr/site/lol/champ.php"]];
-    webController.tabBarItem.title = @"builds";
-    webController.toolbarHidden = YES;
+    //    webController.toolbarHidden = YES;
     self.viewControllers = @[ourTeamController, enemyTeamController, webController];
     self.title = NSLocalizedString(@"Activated_navi_title", nil);
   }
+}
+
+- (NSString *)tipsUrlPath {
+  NSString *baseUrl = [LCServerInfo sharedInstance].currentServer.railsHost.absoluteString;
+  __block NSNumber *championId = nil;
+  [_game.playerTeam each:^(LCSummoner *summoner) {
+    if ([summoner.sID isEqualToNumber:[LCCurrentSummoner sharedInstance].sID]) {
+      championId = summoner.sID;
+    }
+  }];
+
+  if (!championId) {
+    [_game.enemyTeam each:^(LCSummoner *summoner) {
+      if ([summoner.sID isEqualToNumber:[LCCurrentSummoner sharedInstance].sID]) {
+        championId = summoner.sID;
+      }
+    }];
+  }
+
+  if (!championId) {
+    championId = [NSNumber numberWithInteger:98];
+  }
+  
+  return [NSString stringWithFormat:@"%@/champions/%@/tips", baseUrl, championId];
+}
+
+@end
+
+@implementation LCSampleGameTabBarController
+
+- (void)viewDidLoad {
+  [super viewDidLoad];
+  self.title = NSLocalizedString(@"sample_game_title", nil);
+  self.navigationItem.leftBarButtonItem = [UIBarButtonItem carryuBackBarButtonItem];
 }
 
 @end

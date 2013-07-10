@@ -15,6 +15,7 @@
 @interface LCSettingsController () <NIRadioGroupDelegate>
 @property (nonatomic, strong) NIMutableTableViewModel *model;
 @property (nonatomic, strong) NITableViewActions *actions;
+@property (nonatomic, strong) NITableViewModelFooter *footer;
 @property (nonatomic, strong) NICellFactory *cellFactory;
 @property (nonatomic, readwrite, retain) NIRadioGroup* radioGroup;
 
@@ -43,6 +44,7 @@
   self.model = [[NIMutableTableViewModel alloc] initWithDelegate:(id)_cellFactory];
   [_model addSectionWithTitle:@""];
   [_model addObject:[NISwitchFormElement switchElementWithID:12 labelText:NSLocalizedString(@"keep_screen_on", nil) value:[LCSettingsInfo sharedInstance].keepScreenOn didChangeTarget:self didChangeSelector:@selector(keepScreenOnControlDidChanged:)]];
+
   [_model addSectionWithTitle:NSLocalizedString(@"search_engine_section_title", nil)];
 
   NSDictionary *searchEngines = [LCSettingsInfo sharedInstance].searchEngines;
@@ -134,6 +136,38 @@
     }
   }
 
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+  NSString *title = nil;
+  if (section == 0) {
+    title = NSLocalizedString(@"keep_screen_on_desc", nil);
+  }
+  UIView *footerView = [[UIView alloc] initWithFrame:CGRectZero];
+  footerView.backgroundColor = [UIColor clearColor];
+  NIAttributedLabel *label = [[NIAttributedLabel alloc] initWithFrame:CGRectZero];
+  label.text = title;
+  label.backgroundColor = footerView.backgroundColor;
+  label.textColor = [UIColor carryuColor];
+  label.textAlignment = NSTextAlignmentCenter;
+  label.lineBreakMode = NSLineBreakByWordWrapping;
+  label.font = [UIFont systemFontOfSize:13];
+  label.numberOfLines = 0;
+  if (label.text.length) {
+    label.width = 200;
+    [label sizeToFit];
+    label.width = 200;
+    label.top = 15;
+    label.left = 60;
+    [footerView addSubview:label];
+    footerView.frame = CGRectMake(0, 0, 320, label.height + 30);
+  }
+  return footerView;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+  UIView *footerView = [self tableView:tableView viewForFooterInSection:section];
+  return footerView.height;
 }
 
 @end
