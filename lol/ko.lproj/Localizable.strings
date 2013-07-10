@@ -6,7 +6,7 @@
 "login_btn_label" = "로그인";
 "my_team_tab_title" = "우리팀";
 "enemies_team_tab_title" = "적팀";
-"tips_tab_title" = "공략";
+"guides_tab_title" = "가이드";
 "menu_settings_title" = "설정";
 "menu_home_title" = "홈";
 "menu_logout_title" = "로그아웃";
@@ -29,3 +29,4 @@
 "retreive_profile_info" = "프로필 갱신";
 "retrieve_game_status" = "게임상태 갱신";
 "keep_screen_on_desc" = "화면 켜두기를 오래 사용하면 배터리가 빨리 소모될 수 있습니다.";
+"champion_select_state_desc" = "챔피언을 선택하는 중입니다.";

@@ -8,6 +8,6 @@
 
 #import "NIWebController.h"
 
-@interface LCTipWebController : NIWebController
+@interface LCGuidesWebController : NIWebController
 
 @end

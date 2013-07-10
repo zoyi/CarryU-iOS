@@ -6,7 +6,7 @@
 "login_btn_label" = "LOGIN";
 "my_team_tab_title" = "My Team";
 "enemies_team_tab_title" = "Enemies";
-"tips_tab_title" = "Tips";
+"guides_tab_title" = "Guides";
 "menu_settings_title" = "Settings";
 "menu_home_title" = "Home";
 "menu_logout_title" = "Logout";
@@ -29,3 +29,4 @@
 "retreive_profile_info" = "Retrieve Profile";
 "retrieve_game_status" = "Retrieve Game Status";
 "keep_screen_on_desc" = "Your device could run out of battery faster.";
+"champion_select_state_desc" = "Selecting champions...";

@@ -6,13 +6,13 @@
 //  Copyright (c) 2013 WUDI. All rights reserved.
 //
 
-#import "LCTipWebController.h"
+#import "LCGuidesWebController.h"
 
-@interface LCTipWebController ()<UIWebViewDelegate>
+@interface LCGuidesWebController ()<UIWebViewDelegate>
 - (NSString *)tabBarTitle;
 @end
 
-@implementation LCTipWebController
+@implementation LCGuidesWebController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
   self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -33,7 +33,7 @@
 }
 
 - (NSString *)tabBarTitle {
-  return NSLocalizedString(@"tips_tab_title", nil);
+  return NSLocalizedString(@"guides_tab_title", nil);
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {

@@ -156,7 +156,7 @@
 		9CFA16B8178C3FF100BEADCD /* myteam@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CFA16B5178C3FF100BEADCD /* myteam@2x.png */; };
 		9CFA16B9178C3FF100BEADCD /* tips@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CFA16B6178C3FF100BEADCD /* tips@2x.png */; };
 		9CFA16BA178C3FF100BEADCD /* enemies_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CFA16B7178C3FF100BEADCD /* enemies_icon@2x.png */; };
-		9CFCC75A178D29670088E1FD /* LCTipWebController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CFCC759178D29670088E1FD /* LCTipWebController.m */; };
+		9CFCC75A178D29670088E1FD /* LCGuidesWebController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CFCC759178D29670088E1FD /* LCGuidesWebController.m */; };
 		9CFCC75C178D2B830088E1FD /* back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CFCC75B178D2B830088E1FD /* back@2x.png */; };
 		9CFCC75F178D2BC30088E1FD /* UIBarButtonItem+LCCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CFCC75E178D2BC30088E1FD /* UIBarButtonItem+LCCategory.m */; };
 		B90AA18ECA62449CA6468BE3 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E6FAF64CE144990B9B2F5B5 /* libPods.a */; };
@@ -397,8 +397,8 @@
 		9CFA16B5178C3FF100BEADCD /* myteam@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "myteam@2x.png"; sourceTree = "<group>"; };
 		9CFA16B6178C3FF100BEADCD /* tips@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tips@2x.png"; sourceTree = "<group>"; };
 		9CFA16B7178C3FF100BEADCD /* enemies_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "enemies_icon@2x.png"; sourceTree = "<group>"; };
-		9CFCC758178D29670088E1FD /* LCTipWebController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCTipWebController.h; sourceTree = "<group>"; };
-		9CFCC759178D29670088E1FD /* LCTipWebController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCTipWebController.m; sourceTree = "<group>"; };
+		9CFCC758178D29670088E1FD /* LCGuidesWebController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCGuidesWebController.h; sourceTree = "<group>"; };
+		9CFCC759178D29670088E1FD /* LCGuidesWebController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCGuidesWebController.m; sourceTree = "<group>"; };
 		9CFCC75B178D2B830088E1FD /* back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back@2x.png"; sourceTree = "<group>"; };
 		9CFCC75D178D2BC30088E1FD /* UIBarButtonItem+LCCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+LCCategory.h"; sourceTree = "<group>"; };
 		9CFCC75E178D2BC30088E1FD /* UIBarButtonItem+LCCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+LCCategory.m"; sourceTree = "<group>"; };
@@ -972,8 +972,8 @@
 			children = (
 				9C1B8FDD17775418003677AC /* LCGameTabBarController.h */,
 				9C1B8FDE17775418003677AC /* LCGameTabBarController.m */,
-				9CFCC758178D29670088E1FD /* LCTipWebController.h */,
-				9CFCC759178D29670088E1FD /* LCTipWebController.m */,
+				9CFCC758178D29670088E1FD /* LCGuidesWebController.h */,
+				9CFCC759178D29670088E1FD /* LCGuidesWebController.m */,
 			);
 			name = "In Game Tab";
 			sourceTree = "<group>";
@@ -1237,7 +1237,7 @@
 				9C59186E178826950059428D /* NIAttributedLabel+LCCategory.m in Sources */,
 				9C4534CB178942FA00BF0403 /* NSNumber+RomanNumerals.m in Sources */,
 				9C9F829C178BE9140081B284 /* LCInQueueStateView.m in Sources */,
-				9CFCC75A178D29670088E1FD /* LCTipWebController.m in Sources */,
+				9CFCC75A178D29670088E1FD /* LCGuidesWebController.m in Sources */,
 				9CFCC75F178D2BC30088E1FD /* UIBarButtonItem+LCCategory.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1359,6 +1359,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/XMPPFramework/Vendor/libidn\"",
 					"\"$(SYSTEM_APPS_DIR)/League of Legends.app/Contents/LOL/RADS/projects/lol_launcher/releases/0.0.0.78/deploy/LoLLauncher.app/Contents/Frameworks/RiotLibs\"",
+					"\"$(SYSTEM_APPS_DIR)/League of Legends.app/Contents/LOL/RADS/projects/lol_launcher/releases/0.0.0.83/deploy/LoLLauncher.app/Contents/MacOS\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -1380,6 +1381,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/XMPPFramework/Vendor/libidn\"",
 					"\"$(SYSTEM_APPS_DIR)/League of Legends.app/Contents/LOL/RADS/projects/lol_launcher/releases/0.0.0.78/deploy/LoLLauncher.app/Contents/Frameworks/RiotLibs\"",
+					"\"$(SYSTEM_APPS_DIR)/League of Legends.app/Contents/LOL/RADS/projects/lol_launcher/releases/0.0.0.83/deploy/LoLLauncher.app/Contents/MacOS\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;

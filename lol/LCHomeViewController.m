@@ -74,6 +74,7 @@ static NSString *kGameWillStartKey = @"gameWillStart";
   viewBounds.size.height -= 44;
   self.outOfGameView.frame = viewBounds;
   self.inQueueStateView.frame = viewBounds;
+  [self championSelectStateView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -108,16 +109,19 @@ static NSString *kGameWillStartKey = @"gameWillStart";
         && [appDelegate.stateMachine isInState:@"inQueue"]
         ) {
       [self resetModel];
+      self.championSelectStateView.hidden = NO;
     } else {
       self.model = [[NIMutableTableViewModel alloc] initWithDelegate:(id)[NICellFactory class]];
       self.tableView.dataSource = _model;
       [self.tableView reloadData];
+      self.championSelectStateView.hidden = YES;
     }
   }
 }
 
 - (void)resetModel {
-  self.tableView.tableHeaderView = self.championSelectStateView;
+  self.tableView.tableHeaderView = nil;
+
   LCAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
   NSMutableArray *tableContent = [NSMutableArray arrayWithCapacity:5];
   [appDelegate.gameWillStart.playerTeam each:^(LCSummoner *summoner) {
@@ -149,9 +153,9 @@ static NSString *kGameWillStartKey = @"gameWillStart";
 - (UIView *)championSelectStateView {
   if (nil == _championSelectStateView) {
     self.championSelectStateView = [[UIView alloc] initWithFrame:CGRectZero];
-    _championSelectStateView.backgroundColor = [UIColor clearColor];
+    _championSelectStateView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6];
     NIAttributedLabel *label = [[NIAttributedLabel alloc] initWithFrame:CGRectZero];
-    label.backgroundColor = _championSelectStateView.backgroundColor;
+    label.backgroundColor = [UIColor clearColor];
     label.textColor = [UIColor carryuColor];
     label.textAlignment = NSTextAlignmentCenter;
     label.font = [UIFont systemFontOfSize:16];
@@ -159,10 +163,13 @@ static NSString *kGameWillStartKey = @"gameWillStart";
     label.width = 300;
     label.text = NSLocalizedString(@"champion_select_state_desc", nil);
     [label sizeToFit];
-    label.left = 10;
+    label.origin = CGPointMake(10, 15);
     label.width = 300;
     [_championSelectStateView addSubview:label];
-    _championSelectStateView.frame = CGRectMake(0, 0, 320, label.height);
+    _championSelectStateView.frame = CGRectMake(0, 0, 320, label.height + 30);
+    _championSelectStateView.top = self.view.height - 44 - _championSelectStateView.height;
+    _championSelectStateView.hidden = YES;
+    [self.view addSubview:_championSelectStateView];
   }
   return _championSelectStateView;
 }

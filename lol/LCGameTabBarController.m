@@ -16,11 +16,11 @@
 #import "XMPPPresence+LCCategory.h"
 #import "LCServerInfo.h"
 #import "LCCurrentSummoner.h"
-#import "LCTipWebController.h"
+#import "LCGuidesWebController.h"
 #import "UIBarButtonItem+LCCategory.h"
 
 @interface LCGameTabBarController ()
-- (NSString *)tipsUrlPath;
+- (NSString *)guidesUrlPath;
 @end
 
 @implementation LCGameTabBarController
@@ -65,17 +65,16 @@
     [enemyTeamController.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"enemies_icon.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"enemies_icon.png"]];
 
    
-    LCTipWebController *webController = [[LCTipWebController alloc] initWithURL:[NSURL URLWithString:[self tipsUrlPath]]];
-    webController.tabBarItem.title = NSLocalizedString(@"tips_tab_title", nil);
+    LCGuidesWebController *webController = [[LCGuidesWebController alloc] initWithURL:[NSURL URLWithString:[self guidesUrlPath]]];
+    webController.tabBarItem.title = NSLocalizedString(@"guides_tab_title", nil);
     [webController.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"tips.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"tips.png"]];
 
-    //    webController.toolbarHidden = YES;
     self.viewControllers = @[ourTeamController, enemyTeamController, webController];
     self.title = NSLocalizedString(@"Activated_navi_title", nil);
   }
 }
 
-- (NSString *)tipsUrlPath {
+- (NSString *)guidesUrlPath {
   NSString *baseUrl = [LCServerInfo sharedInstance].currentServer.railsHost.absoluteString;
   __block NSNumber *championId = nil;
   [_game.playerTeam each:^(LCSummoner *summoner) {
@@ -96,7 +95,7 @@
     championId = [NSNumber numberWithInteger:98];
   }
   
-  return [NSString stringWithFormat:@"%@/champions/%@/tips", baseUrl, championId];
+  return [NSString stringWithFormat:@"%@/champions/%@/guides", baseUrl, championId];
 }
 
 @end
