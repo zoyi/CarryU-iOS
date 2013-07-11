@@ -464,7 +464,7 @@ static NSString *kRegionKey = @"_region";
   LCSummoner *tmpSummoner = [LCSummoner new];
   tmpSummoner.name = @"Chaoser";
   // [LCCurrentSummoner sharedInstance]
-  [[RKObjectManager sharedManager] getObjectsAtPathForRouteNamed:@"active_game" object:tmpSummoner parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+  [[RKObjectManager sharedManager] getObjectsAtPathForRouteNamed:@"active_game" object:[LCCurrentSummoner sharedInstance] parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
     NIDPRINT(@"all summoner's info is => %@", mappingResult.debugDescription);
     [SVProgressHUD dismiss];
     self.game = [[mappingResult dictionary] objectForKey:[NSNull null]];

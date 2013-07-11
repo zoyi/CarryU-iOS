@@ -85,6 +85,7 @@
 		9C7F144817872FCC0000FBDA /* deactivated@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C7F144417872FCC0000FBDA /* deactivated@2x.png */; };
 		9C7F144917872FCC0000FBDA /* refresh@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C7F144517872FCC0000FBDA /* refresh@2x.png */; };
 		9C7F144A17872FCC0000FBDA /* summon_game@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C7F144617872FCC0000FBDA /* summon_game@2x.png */; };
+		9C7F8C60178E849200A3E52C /* NSDictionary+LCCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C7F8C5F178E849200A3E52C /* NSDictionary+LCCategory.m */; };
 		9C90FEBE1786AE8B00EDD88B /* checkmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C90FEBD1786AE8B00EDD88B /* checkmark@2x.png */; };
 		9C90FEC11786BBE200EDD88B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9C90FEBF1786BBE200EDD88B /* InfoPlist.strings */; };
 		9C9F829C178BE9140081B284 /* LCInQueueStateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9F829B178BE9140081B284 /* LCInQueueStateView.m */; };
@@ -268,6 +269,8 @@
 		9C7F144417872FCC0000FBDA /* deactivated@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "deactivated@2x.png"; sourceTree = "<group>"; };
 		9C7F144517872FCC0000FBDA /* refresh@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "refresh@2x.png"; sourceTree = "<group>"; };
 		9C7F144617872FCC0000FBDA /* summon_game@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "summon_game@2x.png"; sourceTree = "<group>"; };
+		9C7F8C5E178E849200A3E52C /* NSDictionary+LCCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+LCCategory.h"; sourceTree = "<group>"; };
+		9C7F8C5F178E849200A3E52C /* NSDictionary+LCCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+LCCategory.m"; sourceTree = "<group>"; };
 		9C90FEBD1786AE8B00EDD88B /* checkmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkmark@2x.png"; sourceTree = "<group>"; };
 		9C90FEC01786BBE200EDD88B /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = InfoPlist.strings; sourceTree = "<group>"; };
 		9C9F829A178BE9140081B284 /* LCInQueueStateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCInQueueStateView.h; sourceTree = "<group>"; };
@@ -909,6 +912,8 @@
 			children = (
 				9C59186C178826950059428D /* NIAttributedLabel+LCCategory.h */,
 				9C59186D178826950059428D /* NIAttributedLabel+LCCategory.m */,
+				9C7F8C5E178E849200A3E52C /* NSDictionary+LCCategory.h */,
+				9C7F8C5F178E849200A3E52C /* NSDictionary+LCCategory.m */,
 				9C3A1C8D17855256000B29A3 /* UIFont+LCCategory.h */,
 				9C3A1C8E17855256000B29A3 /* UIFont+LCCategory.m */,
 				9C3A1CA817859AA3000B29A3 /* UIColor+LCCategory.h */,
@@ -929,10 +934,10 @@
 				9C138E74177081CE003CC90C /* UIView+APCategory.m */,
 				9C4534C9178942FA00BF0403 /* NSNumber+RomanNumerals.h */,
 				9C4534CA178942FA00BF0403 /* NSNumber+RomanNumerals.m */,
-				9C52A67E176B44B600A472E5 /* XMPPFramework.h */,
-				9C3A1CAB1785A019000B29A3 /* LCHelperMacro.h */,
 				9CFCC75D178D2BC30088E1FD /* UIBarButtonItem+LCCategory.h */,
 				9CFCC75E178D2BC30088E1FD /* UIBarButtonItem+LCCategory.m */,
+				9C52A67E176B44B600A472E5 /* XMPPFramework.h */,
+				9C3A1CAB1785A019000B29A3 /* LCHelperMacro.h */,
 			);
 			name = Helper;
 			sourceTree = "<group>";
@@ -1239,6 +1244,7 @@
 				9C9F829C178BE9140081B284 /* LCInQueueStateView.m in Sources */,
 				9CFCC75A178D29670088E1FD /* LCGuidesWebController.m in Sources */,
 				9CFCC75F178D2BC30088E1FD /* UIBarButtonItem+LCCategory.m in Sources */,
+				9C7F8C60178E849200A3E52C /* NSDictionary+LCCategory.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

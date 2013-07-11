@@ -86,6 +86,11 @@ static NSString *kGameWillStartKey = @"gameWillStart";
   [self showStateView];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+  [super viewDidAppear:animated];
+  [[GAI sharedInstance].defaultTracker sendView:@"/HomeScreen"];
+}
+
 - (void)viewDidLoad {
   [super viewDidLoad];
   self.title = NSLocalizedString(@"deactivated_navi_title", nil);
@@ -192,12 +197,15 @@ static NSString *kGameWillStartKey = @"gameWillStart";
   if ([appDelegate.stateMachine isInState:@"outOfGame"]) {
     self.title = NSLocalizedString(@"deactivated_navi_title", nil);
     self.tableView.tableHeaderView = self.outOfGameView;
+    [[GAI sharedInstance].defaultTracker sendView:@"/HomeScreen/outOfGame"];
   } else if ([appDelegate.stateMachine isInState:@"inQueue"]) {
     self.title = NSLocalizedString(@"Activated_navi_title", nil);
     if (appDelegate.gameWillStart.playerTeam.count) {
       [self resetModel];
+      [[GAI sharedInstance].defaultTracker sendView:@"/HomeScreen/championSelect"];
     } else {
       self.tableView.tableHeaderView = self.inQueueStateView;
+      [[GAI sharedInstance].defaultTracker sendView:@"/HomeScreen/inQueue"];
     }
   }
 }

@@ -21,6 +21,8 @@
 
 @interface LCGameTabBarController ()
 - (NSString *)guidesUrlPath;
+- (NSString *)GAIScreenName;
+- (NSString *)controllerTitle;
 @end
 
 @implementation LCGameTabBarController
@@ -50,6 +52,19 @@
   [super viewDidLoad];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+  [super viewDidAppear:animated];
+  [[GAI sharedInstance].defaultTracker sendView:[self GAIScreenName]];
+}
+
+- (NSString *)GAIScreenName {
+  return @"/InGameTabScreen";
+}
+
+- (NSString *)controllerTitle {
+  return NSLocalizedString(@"Activated_navi_title", nil);
+}
+
 #pragma mark - setter
 
 - (void)setGame:(LCGame *)game {
@@ -70,7 +85,7 @@
     [webController.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"tips.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"tips.png"]];
 
     self.viewControllers = @[ourTeamController, enemyTeamController, webController];
-    self.title = NSLocalizedString(@"Activated_navi_title", nil);
+    self.title = self.controllerTitle;
   }
 }
 
@@ -104,8 +119,15 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  self.title = NSLocalizedString(@"sample_game_title", nil);
   self.navigationItem.leftBarButtonItem = [UIBarButtonItem carryuBackBarButtonItem];
+}
+
+- (NSString *)controllerTitle {
+  return  NSLocalizedString(@"sample_game_title", nil);
+}
+
+- (NSString *)GAIScreenName {
+  return @"/HomeScreen/SampleGameTabScreen";
 }
 
 @end

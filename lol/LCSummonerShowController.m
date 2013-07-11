@@ -7,6 +7,7 @@
 //
 
 #import "LCSummonerShowController.h"
+#import "LCGameTabBarController.h"
 #import "UIBarButtonItem+LCCategory.h"
 
 @interface LCSummonerShowController ()
@@ -21,6 +22,17 @@
     // Custom initialization
   }
   return self;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+  [super viewDidAppear:animated];
+  if (!self.tabBarController) {
+    [[GAI sharedInstance].defaultTracker sendView:@"/HomeScreen/ChampionSelectScreen/SummonerShow"];
+  } else if ([self.tabBarController isKindOfClass:[LCGameTabBarController class]]) {
+    [[GAI sharedInstance].defaultTracker sendView:@"/InGameTabScreen/SummonerShow"];
+  } else if ([self.tabBarController isKindOfClass:[LCSampleGameTabBarController class]]) {
+    [[GAI sharedInstance].defaultTracker sendView:@"/HomeScreen/SampleGameTabScreen/SummonerShow"];
+  }
 }
 
 - (void)viewDidLoad {

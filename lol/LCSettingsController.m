@@ -32,6 +32,11 @@
   return self;
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+  [super viewDidAppear:animated];
+  [[GAI sharedInstance].defaultTracker sendView:@"/SettingsScreen"];
+}
+
 - (void)loadView {
   [super loadView];
   [self radioGroup];
@@ -49,8 +54,8 @@
 
   NSDictionary *searchEngines = [LCSettingsInfo sharedInstance].searchEngines;
 
-  [[searchEngines allKeys] each:^(NSString *key) {
-    NSUInteger index = [[searchEngines allKeys] indexOfObject:key];
+  [[searchEngines sortedAllKeys] each:^(NSString *key) {
+    NSUInteger index = [[searchEngines sortedAllKeys] indexOfObject:key];
     [_model addObject:[_radioGroup mapObject:[NITitleCellObject objectWithTitle:key] toIdentifier:index]];
     if ([key isEqualToString:[LCSettingsInfo sharedInstance].choosedSearchEngine]) {
       [_radioGroup setSelectedIdentifier:index];
@@ -64,6 +69,8 @@
                                       andSecret:@"F9l79tMF92Afx59eU58rXQsAxrtwguKTzKgV5QL8YK4"];
 
     [UserVoice presentUserVoiceInterfaceForParentViewController:self andConfig:config];
+
+    [[GAI sharedInstance].defaultTracker sendView:@"/SettingsScreen/Feedback"];
     return YES;
   }]];
 

@@ -22,6 +22,11 @@
   return self;
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+  [super viewDidAppear:animated];
+  [[GAI sharedInstance].defaultTracker sendView:@"/SearchSummonerScreen"];
+}
+
 - (void)viewDidLoad {
   [super viewDidLoad];
 	// Do any additional setup after loading the view.

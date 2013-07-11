@@ -7,6 +7,7 @@
 //
 
 #import "LCGuidesWebController.h"
+#import "LCGameTabBarController.h"
 
 @interface LCGuidesWebController ()<UIWebViewDelegate>
 - (NSString *)tabBarTitle;
@@ -25,6 +26,15 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
 	// Do any additional setup after loading the view.
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+  [super viewDidAppear:animated];
+  if ([self.tabBarController isKindOfClass:[LCGameTabBarController class]]) {
+    [[GAI sharedInstance].defaultTracker sendView:@"/InGameTabScreen/Guide"];
+  } else if ([self.tabBarController isKindOfClass:[LCSampleGameTabBarController class]]) {
+    [[GAI sharedInstance].defaultTracker sendView:@"/HomeScreen/SampleGameTabScreen/Guide"];
+  }
 }
 
 - (void)didReceiveMemoryWarning {
