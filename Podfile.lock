@@ -77,6 +77,7 @@ PODS:
   - SIAlertView (1.2)
   - SOCKit (1.1)
   - SVProgressHUD (0.9)
+  - TestFlightSDK (1.2.6)
   - TransitionKit (1.1.1)
   - uservoice-iphone-sdk (2.0.10)
 
@@ -93,6 +94,7 @@ DEPENDENCIES:
   - RestKit
   - SIAlertView
   - SVProgressHUD
+  - TestFlightSDK (~> 1.2.6)
   - TransitionKit
   - uservoice-iphone-sdk
 
@@ -113,6 +115,7 @@ SPEC CHECKSUMS:
   SIAlertView: fd188f66278761f4ff069f517c3deb2be16ecdcc
   SOCKit: ed67aeeca4a697b63a933229e53f4670d5b9300f
   SVProgressHUD: 03d4845ec8e64591726428a08236c6a5489d45f8
+  TestFlightSDK: 7d9abce62f5a17191c4df84fd88e05797e6776e0
   TransitionKit: 3b3836af6887d16a0834fa35031028792d1d5c0c
   uservoice-iphone-sdk: 806238f9e392c04d72865d942459fc31bf8da940
 

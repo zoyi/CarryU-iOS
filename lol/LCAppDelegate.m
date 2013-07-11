@@ -19,11 +19,7 @@
 #import "DDTTYLogger.h"
 #import "LCServerInfo.h"
 #import "LCSettingsInfo.h"
-#import <uservoice-iphone-sdk/UserVoice.h>
-
-#if DEBUG
-static const int ddLogLevel = LOG_LEVEL_VERBOSE;
-#endif
+#import <TestFlightSDK/TestFlight.h>
 
 static NSString *kRegionKey = @"_region";
 
@@ -60,6 +56,7 @@ static NSString *kRegionKey = @"_region";
   self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
   // Override point for customization after application launch.
   self.window.backgroundColor = [UIColor whiteColor];
+  //  [TestFlight takeOff:@"1ded3e52-07bf-4d98-8179-61f9790080c0"];
   [self setupGAI];
   [self changeUserAgent];
 
@@ -86,11 +83,9 @@ static NSString *kRegionKey = @"_region";
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-  DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
   __block UIApplication *app = application;
 	if ([application respondsToSelector:@selector(setKeepAliveTimeout:handler:)]) {
 		[application setKeepAliveTimeout:600 handler:^{
-			DDLogVerbose(@"KeepAliveHandler");
       if (app.applicationState == UIApplicationStateBackground) {
         // detect user 
       }
@@ -101,7 +96,6 @@ static NSString *kRegionKey = @"_region";
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
   // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-  DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
   // remove all notifications
   [application cancelAllLocalNotifications];
 
@@ -119,7 +113,9 @@ static NSString *kRegionKey = @"_region";
   // Optional: set Google Analytics dispatch interval to e.g. 20 seconds.
   [GAI sharedInstance].dispatchInterval = 20;
   // Optional: set debug to YES for extra debugging information.
+#ifdef DEBUG
   [GAI sharedInstance].debug = YES;
+#endif
   // Create tracker instance.
   id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:@"UA-42254758-2"];
   [GAI sharedInstance].defaultTracker = tracker;
@@ -140,7 +136,11 @@ static NSString *kRegionKey = @"_region";
   [RKObjectManager setSharedManager:manager];
   [LCSummoner routing];
   [LCGame routing];
-  //  RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
+#ifdef DEBUG
+  RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
+#else
+  RKLogConfigureByName("RestKit/Network", RKLogLevelOff);
+#endif
 }
 
 - (void)setupApiRouter {
@@ -151,7 +151,13 @@ static NSString *kRegionKey = @"_region";
 
 - (void)setRegeion:(NSString *)regeion {
   if (regeion == nil) {
-    regeion = @"kr";
+    NSString * language = [[NSLocale preferredLanguages] objectAtIndex:0];
+    if ([language isEqualToString:@"ko"]) {
+      regeion = @"kr";
+    } else {
+      regeion = @"na";
+    }
+
   }
   if (![regeion isEqualToString:_regeion]) {
     _regeion = regeion;
@@ -241,7 +247,7 @@ static NSString *kRegionKey = @"_region";
 	[_xmppStream setMyJID:[XMPPJID jidWithString:[NSString stringWithFormat:@"%@@pvp.net", jid]]];
 	self.password = [NSString stringWithFormat:@"AIR_%@", passwd];
 
-  [SVProgressHUD showWithStatus:@"Authing..." maskType:SVProgressHUDMaskTypeBlack];
+  [SVProgressHUD showWithStatus:NSLocalizedString(@"authenticating", nil) maskType:SVProgressHUDMaskTypeBlack];
 	NSError *error = nil;
 	if (![_xmppStream oldSchoolSecureConnectWithTimeout:XMPPStreamTimeoutNone error:&error]) {
 		NIDPRINT(@"Error connecting: %@", error);
@@ -260,7 +266,7 @@ static NSString *kRegionKey = @"_region";
 
 - (void)xmppStream:(XMPPStream *)sender socketDidConnect:(GCDAsyncSocket *)socket {
   NIDPRINT(@"socket did connect");
-	DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
+
 }
 
 
@@ -274,12 +280,12 @@ static NSString *kRegionKey = @"_region";
 
 	NSError *error = nil;
 	if (![[self xmppStream] authenticateWithPassword:_password error:&error]) {
-		DDLogError(@"Error authenticating: %@", error);
+
+		NIDPRINT(@"Error authenticating: %@", error);
 	}
 }
 
 - (void)xmppStreamDidAuthenticate:(XMPPStream *)sender {
-	DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
   [SVProgressHUD dismiss];
 
   NSString *sumID = [sender.myJID.user substringFromIndex:3];
@@ -298,16 +304,15 @@ static NSString *kRegionKey = @"_region";
   [sender disconnect];
 
   [[SIAlertView carryuWarningAlertWithMessage:NSLocalizedString(@"wrong_username_or_password", nil)] show];
-	DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
+  NIDPRINT(@"xmpp did not authenticate with error %@", error.debugDescription);
 }
 
 - (void)xmppStream:(XMPPStream *)sender didReceiveError:(id)error {
-	DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
+  NIDPRINT(@"xmpp did receive error %@", [error debugDescription]);
   [SVProgressHUD dismiss];
 }
 
 - (void)xmppStreamDidDisconnect:(XMPPStream *)sender withError:(NSError *)error {
-	DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
   [SVProgressHUD dismiss];
   NIDPRINT(@"did disconnect with error => %@", error.debugDescription);
   if (error.code == 7 &&

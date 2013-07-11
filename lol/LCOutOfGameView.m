@@ -9,7 +9,7 @@
 #import "LCOutOfGameView.h"
 
 static CGFloat kOutOfGameViewButtonDefaultHeight = 44;
-static CGFloat kOutOfGameViewButtonDefaultWidth = (320-30)/2;
+static CGFloat kOutOfGameViewButtonDefaultWidth = 320-20;
 @implementation LCOutOfGameView
 
 - (id)initWithFrame:(CGRect)frame {
@@ -55,8 +55,8 @@ static CGFloat kOutOfGameViewButtonDefaultWidth = (320-30)/2;
 
     CGFloat innerTop = self.height - kOutOfGameViewButtonDefaultHeight - 10;
     CGFloat innerLeft = 10.f;
-    self.tutorialVideoButton.frame = CGRectMake(innerLeft, innerTop, kOutOfGameViewButtonDefaultWidth, kOutOfGameViewButtonDefaultHeight);
-    innerLeft += kOutOfGameViewButtonDefaultWidth + 10;
+//    self.tutorialVideoButton.frame = CGRectMake(innerLeft, innerTop, kOutOfGameViewButtonDefaultWidth, kOutOfGameViewButtonDefaultHeight);
+//  innerLeft += kOutOfGameViewButtonDefaultWidth + 10;
 
     self.previewButton.frame = CGRectMake(innerLeft, innerTop, kOutOfGameViewButtonDefaultWidth, kOutOfGameViewButtonDefaultHeight);
   }

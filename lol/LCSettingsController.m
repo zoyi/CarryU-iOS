@@ -64,9 +64,16 @@
 
   [_model addSectionWithTitle:@""];
   [_model addObject:[_actions attachToObject:[NISubtitleCellObject objectWithTitle:NSLocalizedString(@"faq_n_feedback", nil)] tapBlock:^BOOL(id object, id target) {
-    UVConfig *config = [UVConfig configWithSite:@"carryu.uservoice.com"
+    LCAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+    UVConfig *config = nil;
+    if ([appDelegate.regeion isEqualToString:@"kr"]) {
+      config = [UVConfig configWithSite:@"carryukr.uservoice.com" andKey:@"HTYpZ28NKWvR1rBQo23Q" andSecret:@"yeApEnh3yvHWtgIpasWy3Zp21TlhmIzTQtGD7nO1Ow"];
+
+    } else {
+      config = [UVConfig configWithSite:@"carryu.uservoice.com"
                                          andKey:@"rl1xXqEXPx2Q8Co7IZ7TKQ"
                                       andSecret:@"F9l79tMF92Afx59eU58rXQsAxrtwguKTzKgV5QL8YK4"];
+    }
 
     [UserVoice presentUserVoiceInterfaceForParentViewController:self andConfig:config];
 

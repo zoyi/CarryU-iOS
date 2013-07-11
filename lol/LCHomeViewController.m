@@ -61,8 +61,9 @@ static NSString *kGameWillStartKey = @"gameWillStart";
   [_actions attachToClass:[LCSummonerCellObject class] tapBlock:^BOOL(LCSummonerCellObject *object, id target) {
     NIDPRINT(@"object is => %@", object.debugDescription);
     
-    LCSummonerShowController *webController = [[LCSummonerShowController alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",[LCSettingsInfo sharedInstance].searchEngine, [object.summoner.name stringByAddingPercentEscapesForURLParameter]]]];
+    LCSummonerShowController *webController = [[LCSummonerShowController alloc] init];
     [self.navigationController pushViewController:webController animated:YES];
+    [webController openURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",[LCSettingsInfo sharedInstance].searchEngine, [object.summoner.name stringByAddingPercentEscapesForURLParameter]]]];
     return YES;
   }];
   self.tableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg.png"]];
@@ -114,19 +115,16 @@ static NSString *kGameWillStartKey = @"gameWillStart";
         && [appDelegate.stateMachine isInState:@"inQueue"]
         ) {
       [self resetModel];
-      self.championSelectStateView.hidden = NO;
     } else {
       self.model = [[NIMutableTableViewModel alloc] initWithDelegate:(id)[NICellFactory class]];
       self.tableView.dataSource = _model;
       [self.tableView reloadData];
-      self.championSelectStateView.hidden = YES;
     }
   }
 }
 
 - (void)resetModel {
-  self.tableView.tableHeaderView = nil;
-
+  self.tableView.tableHeaderView = self.championSelectStateView;
   LCAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
   NSMutableArray *tableContent = [NSMutableArray arrayWithCapacity:5];
   [appDelegate.gameWillStart.playerTeam each:^(LCSummoner *summoner) {
@@ -173,8 +171,6 @@ static NSString *kGameWillStartKey = @"gameWillStart";
     [_championSelectStateView addSubview:label];
     _championSelectStateView.frame = CGRectMake(0, 0, 320, label.height + 30);
     _championSelectStateView.top = self.view.height - 44 - _championSelectStateView.height;
-    _championSelectStateView.hidden = YES;
-    [self.view addSubview:_championSelectStateView];
   }
   return _championSelectStateView;
 }

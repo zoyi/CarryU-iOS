@@ -10,13 +10,13 @@
 
 @implementation SIAlertView (LCCategory)
 + (SIAlertView *)carryuWarningAlertWithMessage:(NSString *)message {
-  SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"Warning", nil) andMessage:message];
+  SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"alert", nil) andMessage:message];
 
   alertView.titleColor = [UIColor cloudsColor];
   alertView.messageColor = [UIColor cloudsColor];
   alertView.transitionStyle = SIAlertViewTransitionStyleBounce;
 
-  [alertView addButtonWithTitle:NSLocalizedString(@"OK", nil) type:SIAlertViewButtonTypeDestructive handler:^(SIAlertView *alertView) {
+  [alertView addButtonWithTitle:NSLocalizedString(@"okay", nil) type:SIAlertViewButtonTypeDestructive handler:^(SIAlertView *alertView) {
     [alertView dismissAnimated:YES];
   }];
 

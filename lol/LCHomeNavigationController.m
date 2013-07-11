@@ -135,8 +135,9 @@
   [self.searchBar resignFirstResponder];
   if (self.searchBar.text.length) {
     NSString *searchUrlpath = [NSString stringWithFormat:@"%@%@",[LCSettingsInfo sharedInstance].searchEngine, [self.searchBar.text stringByAddingPercentEscapesForURLParameter]];
-    LCSummonerSearchController *webController = [[LCSummonerSearchController alloc] initWithURL:[NSURL URLWithString:searchUrlpath]];
+    LCSummonerSearchController *webController = [[LCSummonerSearchController alloc] init];
     [self pushViewController:webController animated:NO];
+    [webController openURL:[NSURL URLWithString:searchUrlpath]];
   }
 }
 
