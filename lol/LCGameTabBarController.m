@@ -9,6 +9,7 @@
 #import "LCGameTabBarController.h"
 #import "LCGame.h"
 #import "LCSummoner.h"
+#import "LCChampion.h"
 #import "LCSummonerViewController.h"
 #import "LCAppDelegate.h"
 #import "LCStateView.h"
@@ -94,14 +95,14 @@
   __block NSNumber *championId = nil;
   [_game.playerTeam each:^(LCSummoner *summoner) {
     if ([summoner.sID isEqualToNumber:[LCCurrentSummoner sharedInstance].sID]) {
-      championId = summoner.sID;
+      championId = summoner.champion.cid;
     }
   }];
 
   if (!championId) {
     [_game.enemyTeam each:^(LCSummoner *summoner) {
       if ([summoner.sID isEqualToNumber:[LCCurrentSummoner sharedInstance].sID]) {
-        championId = summoner.sID;
+        championId = summoner.champion.cid;
       }
     }];
   }

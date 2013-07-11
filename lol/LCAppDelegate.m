@@ -71,9 +71,6 @@ static NSString *kRegionKey = @"_region";
   [self setupAppearence];
   [self stateMachine];
 
-  LCHomeNavigationController *navigationController = [[LCHomeNavigationController alloc] initWithRootViewController:[[LCHomeViewController alloc] initWithStyle:UITableViewStylePlain]];
-  //  self.window.rootViewController = navigationController;
-
   [self.window setRootViewController:loginController];
   [self.window makeKeyAndVisible];
   return YES;
