@@ -134,10 +134,9 @@
   NIDPRINT(@"search did clicked");
   [self.searchBar resignFirstResponder];
   if (self.searchBar.text.length) {
-    NSString *searchUrlpath = [NSString stringWithFormat:@"%@%@",[LCSettingsInfo sharedInstance].searchEngine, [self.searchBar.text stringByAddingPercentEscapesForURLParameter]];
-    LCSummonerSearchController *webController = [[LCSummonerSearchController alloc] init];
+    NSURL *searchUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",[LCSettingsInfo sharedInstance].searchEngine, [self.searchBar.text stringByAddingPercentEscapesForURLParameter]]];
+    LCSummonerSearchController *webController = [[LCSummonerSearchController alloc] initWithURL:searchUrl];
     [self pushViewController:webController animated:NO];
-    [webController openURL:[NSURL URLWithString:searchUrlpath]];
   }
 }
 

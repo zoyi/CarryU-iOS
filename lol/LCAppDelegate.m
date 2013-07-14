@@ -20,6 +20,7 @@
 #import "LCServerInfo.h"
 #import "LCSettingsInfo.h"
 #import <TestFlightSDK/TestFlight.h>
+#import <GCOLaunchImageTransition/GCOLaunchImageTransition.h>
 
 static NSString *kRegionKey = @"_region";
 
@@ -56,7 +57,7 @@ static NSString *kRegionKey = @"_region";
   self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
   // Override point for customization after application launch.
   self.window.backgroundColor = [UIColor whiteColor];
-  //  [TestFlight takeOff:@"1ded3e52-07bf-4d98-8179-61f9790080c0"];
+    [TestFlight takeOff:@"1ded3e52-07bf-4d98-8179-61f9790080c0"];
   [self setupGAI];
   [self changeUserAgent];
 
@@ -99,6 +100,7 @@ static NSString *kRegionKey = @"_region";
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
+  [GCOLaunchImageTransition transitionWithDuration:0.5 style:GCOLaunchImageTransitionAnimationStyleZoomIn];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {

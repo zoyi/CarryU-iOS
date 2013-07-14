@@ -1535,10 +1535,12 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "lol/lol-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
 					"${PODS_HEADERS_SEARCH_PATHS}",
 					"\"$(SDK_DIR)\"/usr/include/libxml2",
 				);
 				INFOPLIST_FILE = "lol/lol-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/XMPPFramework/Vendor/libidn\"",
@@ -1548,6 +1550,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "8ED346AE-CBC4-435F-95D3-D0B00AF49F4F";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8ED346AE-CBC4-435F-95D3-D0B00AF49F4F";
+				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1561,10 +1564,12 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "lol/lol-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
 					"${PODS_HEADERS_SEARCH_PATHS}",
 					"\"$(SDK_DIR)\"/usr/include/libxml2",
 				);
 				INFOPLIST_FILE = "lol/lol-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/XMPPFramework/Vendor/libidn\"",
@@ -1574,6 +1579,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "03D4F46C-4A3F-49F5-BEE9-D3876EF2E099";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "03D4F46C-4A3F-49F5-BEE9-D3876EF2E099";
+				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

@@ -113,7 +113,7 @@
 }
 
 - (void)radioGroup:(NIRadioGroup *)radioGroup didSelectIdentifier:(NSInteger)identifier {
-  [LCSettingsInfo sharedInstance].choosedSearchEngine = [[[LCSettingsInfo sharedInstance].searchEngines allKeys] objectAtIndex:identifier];
+  [LCSettingsInfo sharedInstance].choosedSearchEngine = [[[LCSettingsInfo sharedInstance].searchEngines sortedAllKeys] objectAtIndex:identifier];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {

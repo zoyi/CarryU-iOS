@@ -35,8 +35,9 @@
 "wrong_username_or_password" = "계정이름 혹은 비밀번호가 올바르지 않습니다.";
 "username_or_password_cant_be_blank_msg" = "계정이름 혹은 비밀번호가 빈칸 입니다.";
 "sample_game_title" = "샘플 게임";
-"authenticating" = "로그인...";
-"okay" = "학인";
+"authenticating" = "로그인 중 입니다...";
+"okay" = "확인";
 "alert" = "경고";
 "retrieve_sample_game_error" = "샘플 게임 정보를 불러오는 중 에러가 발생했습니다.";
 "retrieve_sample_game" = "샘플 게임 로드중...";
+"use_your_lol_account_desc" = "LoL 계정을 입력하세요.";

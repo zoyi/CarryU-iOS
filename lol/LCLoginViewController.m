@@ -12,6 +12,7 @@
 
 static NSInteger kUsernameTextFieldTag = 234;
 static NSInteger kPasswordTextFieldTag = 2389;
+static CGFloat kDefaultServerIndicatorWidth = 30;
 
 @interface LCLoginViewController () <UITextFieldDelegate, NIPagingScrollViewDataSource, NIPagingScrollViewDelegate>
 
@@ -27,6 +28,9 @@ static NSInteger kPasswordTextFieldTag = 2389;
 - (void)login;
 - (void)hideKeyboard;
 - (NSArray *)pickerDataSource;
+
+- (void)setPrevServer;
+- (void)setNextServer;
 @end
 
 @implementation LCLoginViewController
@@ -52,7 +56,7 @@ static NSInteger kPasswordTextFieldTag = 2389;
 
   NSArray *tableForm =
   @[
-    @"",
+    NSLocalizedString(@"use_your_lol_account_desc", nil),
     [NITextInputFormElement textInputElementWithID:kUsernameTextFieldTag placeholderText:NSLocalizedString(@"name_placeholder", nil) value:[[NSUserDefaults standardUserDefaults] stringForKey:kUsernameKey] delegate:self],
     [NITextInputFormElement passwordInputElementWithID:kPasswordTextFieldTag placeholderText:NSLocalizedString(@"password_placeholder", nil) value:[[NSUserDefaults standardUserDefaults] stringForKey:kPasswordKey] delegate:self]
     ];
@@ -96,18 +100,41 @@ static NSInteger kPasswordTextFieldTag = 2389;
   loginButton.frame = CGRectMake(left, top, [UIScreen mainScreen].bounds.size.width - 2*left, 44);
   [loginButton addTarget:self action:@selector(login) forControlEvents:UIControlEventTouchUpInside];
   [footerView addSubview:loginButton];
-  top += loginButton.frame.size.height + 30;
+  CGFloat serverTopPadding = 20;
+  if (isiPhone5) {
+    serverTopPadding = 30;
+  }
+  top += loginButton.frame.size.height + serverTopPadding;
 
   {
     CGFloat innerLeft = left;
+
     // prev
-    UIImageView *prevIndicatorView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"server_prev.png"]];
+     
+    NINetworkImageView *prevIndicatorView = [[NINetworkImageView alloc] initWithImage:[UIImage imageNamed:@"server_prev.png"]];
+    prevIndicatorView.contentMode = UIViewContentModeTopLeft;
+    prevIndicatorView.size = CGSizeMake(kDefaultServerIndicatorWidth, kDefaultServerIndicatorWidth);
     prevIndicatorView.origin = CGPointMake(innerLeft, top);
+
+    prevIndicatorView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *prevTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(setPrevServer)];
+    prevTapGesture.numberOfTapsRequired = 1;
+    prevTapGesture.numberOfTouchesRequired = 1;
+    [prevIndicatorView addGestureRecognizer:prevTapGesture];
+    
     [footerView addSubview:prevIndicatorView];
 
     // next
-    UIImageView *nextIndicatorView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"server_next.png"]];
+    NINetworkImageView *nextIndicatorView = [[NINetworkImageView alloc] initWithImage:[UIImage imageNamed:@"server_next.png"]];
     nextIndicatorView.top = top;
+    nextIndicatorView.contentMode = UIViewContentModeTopRight;
+    nextIndicatorView.size = CGSizeMake(kDefaultServerIndicatorWidth, kDefaultServerIndicatorWidth);
+    nextIndicatorView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *nextTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(setNextServer)];
+    nextTapGesture.numberOfTapsRequired = 1;
+    nextTapGesture.numberOfTouchesRequired = 1;
+    [nextIndicatorView addGestureRecognizer:nextTapGesture];
+    
     nextIndicatorView.right = [UIScreen mainScreen].bounds.size.width - innerLeft;
     [footerView addSubview:nextIndicatorView];
 
@@ -148,6 +175,31 @@ static NSInteger kPasswordTextFieldTag = 2389;
   return headerView;
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+  if (section == 0) {
+    NSString *title = [_model tableView:tableView titleForHeaderInSection:section];
+    UIView *sectionHeader = [[UIView alloc] initWithFrame:CGRectZero];
+    if (isiPhone5) {
+      sectionHeader.height = 50;
+    }
+    NIAttributedLabel *label = [[NIAttributedLabel alloc] initWithFrame:CGRectZero];
+    label.textColor = [UIColor carryuColor];
+    label.text = title;
+    label.backgroundColor = [UIColor clearColor];
+    label.font = [UIFont systemFontOfSize:13];
+    label.width = 300;
+    [label sizeToFit];
+    CGFloat labelTop = MAX(sectionHeader.height - label.height, 0);
+    label.origin = CGPointMake(10, labelTop);
+
+    [sectionHeader addSubview:label];
+    sectionHeader.frame = CGRectMake(0, 0, 320, MAX(sectionHeader.height, label.height) + 5);
+    NIDPRINT(@"section header frame = %@", NSStringFromCGRect(label.frame));
+    return sectionHeader;
+  }
+  return nil;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - picker methods
 
@@ -182,10 +234,7 @@ static NSInteger kPasswordTextFieldTag = 2389;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-  if (isiPhone5) {
-    return 60;
-  }
-  return 0.5;
+  return [self tableView:tableView viewForHeaderInSection:section].height;
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
@@ -223,6 +272,22 @@ static NSInteger kPasswordTextFieldTag = 2389;
   [UIView animateWithDuration:0.25 animations:^{
     self.view.top = NIStatusBarHeight();
   }];
+}
+
+- (void)setPrevServer {
+  if ([_regionPickerView hasPrevious]) {
+    [_regionPickerView moveToPreviousAnimated:YES];
+  } else {
+    [_regionPickerView moveToPageAtIndex:_regionPickerView.numberOfPages -1 animated:YES];
+  }
+}
+
+- (void)setNextServer {
+  if ([_regionPickerView hasNext]) {
+    [_regionPickerView moveToNextAnimated:YES];
+  } else {
+    [_regionPickerView moveToPageAtIndex:0 animated:YES];
+  }
 }
 
 - (void)login {

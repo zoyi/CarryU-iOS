@@ -14,6 +14,7 @@ static NSString *kAppDelegateRegionKey = @"regeion";
 
 @interface LCSettingsInfo ()
 - (NSString *)archiveKey;
+
 @end
 
 @implementation LCSettingsInfo
@@ -67,7 +68,6 @@ static LCSettingsInfo *sharedInstance = nil;
       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NIDPRINT(@"retive server sinfo error = %@", error.debugDescription);
       }];
-
     } else {
       // load from plist backup
       NSString *settingsPlistPath = [[NSBundle mainBundle] pathForResource:@"search_engines" ofType:@"plist"];
