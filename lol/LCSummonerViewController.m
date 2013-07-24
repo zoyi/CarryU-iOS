@@ -59,7 +59,9 @@
   [_actions attachToClass:[LCSummonerCellObject class] tapBlock:^BOOL(LCSummonerCellObject *object, id target) {
     NIDPRINT(@"object is => %@", object.debugDescription);
     NSURL *summonerUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",[LCSettingsInfo sharedInstance].searchEngine, [object.summoner.name stringByAddingPercentEscapesForURLParameter]]];
+
     LCSummonerShowController *webController = [[LCSummonerShowController alloc] initWithURL:summonerUrl];
+
     [self.navigationController pushViewController:webController animated:YES];
     return YES;
   }];

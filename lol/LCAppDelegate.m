@@ -19,7 +19,6 @@
 #import "DDTTYLogger.h"
 #import "LCServerInfo.h"
 #import "LCSettingsInfo.h"
-#import <TestFlightSDK/TestFlight.h>
 #import <GCOLaunchImageTransition/GCOLaunchImageTransition.h>
 
 static NSString *kRegionKey = @"_region";
@@ -57,7 +56,9 @@ static NSString *kRegionKey = @"_region";
   self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
   // Override point for customization after application launch.
   self.window.backgroundColor = [UIColor whiteColor];
-    [TestFlight takeOff:@"1ded3e52-07bf-4d98-8179-61f9790080c0"];
+#ifdef TESTFLIGHT
+  [TestFlight takeOff:@"1ded3e52-07bf-4d98-8179-61f9790080c0"];
+#endif
   [self setupGAI];
   [self changeUserAgent];
 
@@ -81,14 +82,6 @@ static NSString *kRegionKey = @"_region";
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-  __block UIApplication *app = application;
-	if ([application respondsToSelector:@selector(setKeepAliveTimeout:handler:)]) {
-		[application setKeepAliveTimeout:600 handler:^{
-      if (app.applicationState == UIApplicationStateBackground) {
-        // detect user 
-      }
-		}];
-	}
 
 }
 
@@ -292,8 +285,16 @@ static NSString *kRegionKey = @"_region";
     [LCCurrentSummoner sharedInstance].sID = [sumID toNumber];
   }
 	[self goOnline];
+
   LCHomeNavigationController *navigationController = [[LCHomeNavigationController alloc] initWithRootViewController:[[LCHomeViewController alloc] initWithStyle:UITableViewStylePlain]];
-  self.window.rootViewController = navigationController;
+
+#ifdef IAD
+  UIViewController *rootViewController = [[LCADHomeViewController alloc] initWithContentViewController:navigationController];
+#else
+  UIViewController *rootViewController = navigationController;
+#endif
+
+  self.window.rootViewController = rootViewController;
 
   NIDPRINT(@"now jid is %@", sender.myJID.debugDescription);
 }
@@ -413,6 +414,7 @@ static NSString *kRegionKey = @"_region";
 
     [inQueue setDidExitStateBlock:^(TKState *state, TKStateMachine *stateMachine) {
       self.gameWillStart = nil;
+      self.groupChatJID = nil;
     }];
 
     TKState *inGame = [TKState stateWithName:@"inGame"];
@@ -449,32 +451,40 @@ static NSString *kRegionKey = @"_region";
   }
   if (![groupChatJID.description isEqualToString:_groupChatJID.description]) {
     _groupChatJID = groupChatJID;
-    [self performBlock:^(id sender) {
-      NSXMLElement *query = [NSXMLElement elementWithName:@"query" xmlns:@"http://jabber.org/protocol/disco#items"];
-      NSXMLElement *iq = [NSXMLElement elementWithName:@"iq"];
-      XMPPJID *myJID = _xmppStream.myJID;
-      [iq addAttributeWithName:@"from" stringValue:myJID.description];
-      [iq addAttributeWithName:@"to" stringValue:_groupChatJID.description];
-      [iq addAttributeWithName:@"id" stringValue:[XMPPStream generateUUID]];
-      [iq addAttributeWithName:@"type" stringValue:@"get"];
-      [iq addChild:query];
-      [_xmppStream sendElement:iq];
-    } afterDelay:3];
+    if (_groupChatJID.description.length) {
+      [self performBlock:^(id sender) {
+        NSXMLElement *query = [NSXMLElement elementWithName:@"query" xmlns:@"http://jabber.org/protocol/disco#items"];
+        NSXMLElement *iq = [NSXMLElement elementWithName:@"iq"];
+        XMPPJID *myJID = _xmppStream.myJID;
+        [iq addAttributeWithName:@"from" stringValue:myJID.description];
+        [iq addAttributeWithName:@"to" stringValue:_groupChatJID.description];
+        [iq addAttributeWithName:@"id" stringValue:[XMPPStream generateUUID]];
+        [iq addAttributeWithName:@"type" stringValue:@"get"];
+        [iq addChild:query];
+        [_xmppStream sendElement:iq];
+      } afterDelay:4];
+    }
   }
 }
 
 - (void)getInProcessGameInfo {
   [SVProgressHUD showWithStatus:NSLocalizedString(@"retrieve_game_status", nil) maskType:SVProgressHUDMaskTypeBlack];
   LCSummoner *tmpSummoner = [LCSummoner new];
-  tmpSummoner.name = @"Chaoser";
+  tmpSummoner.name = @"MVP Looper";
   // [LCCurrentSummoner sharedInstance]
   [[RKObjectManager sharedManager] getObjectsAtPathForRouteNamed:@"active_game" object:[LCCurrentSummoner sharedInstance] parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
     NIDPRINT(@"all summoner's info is => %@", mappingResult.debugDescription);
     [SVProgressHUD dismiss];
     self.game = [[mappingResult dictionary] objectForKey:[NSNull null]];
-    if (_game && [self.window.rootViewController isKindOfClass:[LCHomeNavigationController class]]) {
-      LCHomeNavigationController *homeNaviController = (LCHomeNavigationController *)self.window.rootViewController;
-      if ([[homeNaviController.viewControllers objectAtIndex:0] isKindOfClass:[LCHomeViewController class]]) {
+    if (_game) {
+      LCHomeNavigationController *homeNaviController = nil;
+      if ([self.window.rootViewController isKindOfClass:[LCADHomeViewController class]]) {
+        homeNaviController = (LCHomeNavigationController *)[(LCADHomeViewController *)self.window.rootViewController contentController];
+      } else if ([self.window.rootViewController isKindOfClass:[LCHomeNavigationController class]]) {
+        homeNaviController = (LCHomeNavigationController *)self.window.rootViewController;
+      }
+      UIViewController *visiableController = [homeNaviController.viewControllers objectAtIndex:0];
+      if ([visiableController isKindOfClass:[LCHomeViewController class]]) {
         [self showInGameTabController];
       }
     }
@@ -486,8 +496,13 @@ static NSString *kRegionKey = @"_region";
 }
 
 - (void)showInGameTabController {
-  if (_game && [self.window.rootViewController isKindOfClass:[LCHomeNavigationController class]]) {
-    LCHomeNavigationController *homeNaviController = (LCHomeNavigationController *)self.window.rootViewController;
+  if (_game) {
+    LCHomeNavigationController *homeNaviController = nil;
+    if ([self.window.rootViewController isKindOfClass:[LCADHomeViewController class]]) {
+      homeNaviController = (LCHomeNavigationController *)[(LCADHomeViewController *)self.window.rootViewController contentController];
+    } else if ([self.window.rootViewController isKindOfClass:[LCHomeNavigationController class]]) {
+      homeNaviController = (LCHomeNavigationController *)self.window.rootViewController;
+    }
     LCGameTabBarController *gameController = [[LCGameTabBarController alloc] initWithGame:_game];
     [homeNaviController pushViewController:gameController animated:NO];
   }
@@ -512,7 +527,11 @@ static NSString *kRegionKey = @"_region";
   UIWebView* webView = [[UIWebView alloc] initWithFrame:CGRectZero];
   NSString* secretAgent = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
   NIDPRINT(@"default User Agent is %@", secretAgent);
+#ifdef IAD
+  NSDictionary *dic = @{@"UserAgent" : [NSString stringWithFormat:@"%@ CarryU_Free", secretAgent]};
+#else
   NSDictionary *dic = @{@"UserAgent" : [NSString stringWithFormat:@"%@ CarryU", secretAgent]};
+#endif
   [[NSUserDefaults standardUserDefaults] registerDefaults:dic];
 }
 

@@ -193,6 +193,7 @@
 		9CAF5F281779F0BB004153E6 /* menu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CAF5F261779F0BB004153E6 /* menu@2x.png */; };
 		9CBD9293176DD42E006ED0BE /* FUIButton+LCCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CBD9292176DD42E006ED0BE /* FUIButton+LCCategory.m */; };
 		9CC0AAEB176F4BBC00FA1A00 /* LCHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CC0AAEA176F4BBC00FA1A00 /* LCHomeViewController.m */; };
+		9CC6186D179FA45D006293DB /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CC6186C179FA45D006293DB /* iAd.framework */; };
 		9CDACBED17814F4900E7006A /* LCNetworkTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CDACBEC17814F4900E7006A /* LCNetworkTableViewController.m */; };
 		9CED33ED177B791500C6CF23 /* LCSettingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CED33EC177B791500C6CF23 /* LCSettingsController.m */; };
 		9CED33F0177B7F6400C6CF23 /* LCSummonerSearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CED33EF177B7F6400C6CF23 /* LCSummonerSearchController.m */; };
@@ -475,6 +476,7 @@
 		9CBD9292176DD42E006ED0BE /* FUIButton+LCCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FUIButton+LCCategory.m"; sourceTree = "<group>"; };
 		9CC0AAE9176F4BBC00FA1A00 /* LCHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCHomeViewController.h; sourceTree = "<group>"; };
 		9CC0AAEA176F4BBC00FA1A00 /* LCHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCHomeViewController.m; sourceTree = "<group>"; };
+		9CC6186C179FA45D006293DB /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		9CDACBEB17814F4900E7006A /* LCNetworkTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCNetworkTableViewController.h; sourceTree = "<group>"; };
 		9CDACBEC17814F4900E7006A /* LCNetworkTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCNetworkTableViewController.m; sourceTree = "<group>"; };
 		9CED33EB177B791500C6CF23 /* LCSettingsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCSettingsController.h; sourceTree = "<group>"; };
@@ -497,6 +499,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9CC6186D179FA45D006293DB /* iAd.framework in Frameworks */,
 				9C52A747176B4D7900A472E5 /* CoreLocation.framework in Frameworks */,
 				9C52A6F7176B45D600A472E5 /* CoreData.framework in Frameworks */,
 				9CA56975176A131100A16B7B /* libxml2.dylib in Frameworks */,
@@ -730,6 +733,7 @@
 		9CA5690D176A0BA300A16B7B = {
 			isa = PBXGroup;
 			children = (
+				9CC6186C179FA45D006293DB /* iAd.framework */,
 				9C7F8C61178ECFFA00A3E52C /* Default.png */,
 				9C687DF4178AC962002169F3 /* Default@2x.png */,
 				9C687DF2178AC95F002169F3 /* Default-568h@2x.png */,
@@ -1534,6 +1538,11 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jaehong Kim (4Q4HGWJCWC)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "lol/lol-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"IAD=1",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"${PODS_HEADERS_SEARCH_PATHS}",
@@ -1563,6 +1572,12 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: ZOYI INC.";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "lol/lol-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"TESTFLIGHT=1",
+					"IAD=1",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"${PODS_HEADERS_SEARCH_PATHS}",

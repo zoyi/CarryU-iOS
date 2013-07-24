@@ -48,9 +48,22 @@ static NSString *kGameWillStartKey = @"gameWillStart";
 - (id)initWithStyle:(UITableViewStyle)style {
   self = [self initWithStyle:style activityIndicatorStyle:UIActivityIndicatorViewStyleGray];
   if (self) {
+    LCAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
 
+    [appDelegate.stateMachine addObserver:self forKeyPath:kCurrentStateKey options:NSKeyValueObservingOptionNew context:nil];
+    [appDelegate addObserver:self forKeyPath:kGameWillStartKey options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionInitial context:nil];
   }
   return self;
+}
+
+- (void)dealloc {
+  LCAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+  @try {
+    [appDelegate.stateMachine removeObserver:self forKeyPath:kCurrentStateKey context:nil];
+  }@catch (NSException *exception) { }
+  @try {
+    [appDelegate removeObserver:self forKeyPath:kGameWillStartKey context:nil];
+  } @catch (NSException *exception) { }
 }
 
 - (void)loadView {
@@ -80,10 +93,6 @@ static NSString *kGameWillStartKey = @"gameWillStart";
 
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
-  LCAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-
-  [appDelegate.stateMachine addObserver:self forKeyPath:kCurrentStateKey options:NSKeyValueObservingOptionNew context:nil];
-  [appDelegate addObserver:self forKeyPath:kGameWillStartKey options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionInitial context:nil];
   [self showStateView];
 }
 
@@ -100,9 +109,7 @@ static NSString *kGameWillStartKey = @"gameWillStart";
 
 - (void)viewWillDisappear:(BOOL)animated {
   [super viewWillDisappear:animated];
-  LCAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-  [appDelegate.stateMachine removeObserver:self forKeyPath:kCurrentStateKey context:nil];
-  [appDelegate removeObserver:self forKeyPath:kGameWillStartKey context:nil];
+
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -142,6 +149,7 @@ static NSString *kGameWillStartKey = @"gameWillStart";
     self.outOfGameView = [[LCOutOfGameView alloc] initWithFrame:CGRectZero];
     [_outOfGameView.tutorialVideoButton addTarget:self action:@selector(fireInGameEvent) forControlEvents:UIControlEventTouchUpInside];
     [_outOfGameView.previewButton addTarget:self action:@selector(showSampleView) forControlEvents:UIControlEventTouchUpInside];
+//    [_outOfGameView.previewButton addTarget:self action:@selector(fireInGameEvent) forControlEvents:UIControlEventTouchUpInside];
   }
   return _outOfGameView;
 }
@@ -216,7 +224,7 @@ static NSString *kGameWillStartKey = @"gameWillStart";
 
   RKObjectRequestOperation *operation = [[RKObjectRequestOperation alloc] initWithRequest:urlRequest responseDescriptors:@[responseDescriptor]];
   [operation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-    [SVProgressHUD dismiss];
+
     LCGame *game = [mappingResult.dictionary objectForKey:[NSNull null]];
     if (game) {
       LCSampleGameTabBarController *sampleGameTabController = [[LCSampleGameTabBarController alloc] initWithGame:game];
@@ -225,12 +233,13 @@ static NSString *kGameWillStartKey = @"gameWillStart";
       // show error message
       [SIAlertView carryuWarningAlertWithMessage:NSLocalizedString(@"retrieve_sample_game_error", nil)];
     }
+    [SVProgressHUD dismiss];
   } failure:^(RKObjectRequestOperation *operation, NSError *error) {
     [SVProgressHUD dismiss];
     NIDPRINT(@"retrieve sample game with error %@", error.debugDescription);
   }];
-  [operation start];
   [SVProgressHUD showWithStatus:NSLocalizedString(@"retrieve_sample_game", nil) maskType:SVProgressHUDMaskTypeBlack];
+  [operation start];
 }
 
 @end

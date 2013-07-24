@@ -40,4 +40,11 @@
 }
 
 
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+  [super webView:webView didFailLoadWithError:error];
+#ifdef TESTFLIGHT
+  TFLog(@"Web View did fail load with error => %@", error.debugDescription);
+#endif
+}
+
 @end

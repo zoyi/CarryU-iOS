@@ -52,8 +52,11 @@ static CGFloat kOutOfGameViewButtonDefaultWidth = 320-20;
   [_pullReloadDescLabel sizeToFit];
   _pullReloadDescLabel.origin = CGPointMake((screenWidth - _pullReloadDescLabel.width)/2, top);
   {
-
-    CGFloat innerTop = self.height - kOutOfGameViewButtonDefaultHeight - 10;
+    CGFloat bottomPadding = 10;
+#ifdef IAD
+    bottomPadding += 50;
+#endif
+    CGFloat innerTop = self.height - kOutOfGameViewButtonDefaultHeight - bottomPadding;
     CGFloat innerLeft = 10.f;
 //    self.tutorialVideoButton.frame = CGRectMake(innerLeft, innerTop, kOutOfGameViewButtonDefaultWidth, kOutOfGameViewButtonDefaultHeight);
 //  innerLeft += kOutOfGameViewButtonDefaultWidth + 10;

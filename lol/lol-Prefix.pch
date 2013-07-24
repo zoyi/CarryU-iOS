@@ -58,3 +58,7 @@
   #import "XMPPFramework.h"
   #import "LCApiRouter.h"
 #endif
+
+#ifdef TESTFLIGHT
+  #import <TestFlightSDK/TestFlight.h>
+#endif
