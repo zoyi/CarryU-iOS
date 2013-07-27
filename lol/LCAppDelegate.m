@@ -558,7 +558,7 @@ NSString * const kTestFilghtToken = @"1ded3e52-07bf-4d98-8179-61f9790080c0";
 
 - (void)showHomeStatusController {
   id naviController = nil;
-  LCHomeViewController *homeViewController = [[LCHomeViewController alloc] initWithStyle:UITableViewStylePlain activityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+  LCHomeViewController *homeViewController = [[LCHomeViewController alloc] initWithStyle:UITableViewStylePlain];
 #ifdef IAD
   naviController = [(LCADHomeViewController *)self.window.rootViewController contentController];
 #else
