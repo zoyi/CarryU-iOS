@@ -23,6 +23,14 @@
 
 static NSString *kRegionKey = @"_region";
 
+NSString * const kUsernameKey = @"username";
+NSString * const kPasswordKey = @"_password";
+#ifdef IAD
+NSString * const kTestFilghtToken= @"48673066-e6fc-4f04-9708-798d441c6d96";
+#else
+NSString * const kTestFilghtToken = @"1ded3e52-07bf-4d98-8179-61f9790080c0";
+#endif
+
 @interface LCAppDelegate () <XMPPStreamDelegate>
 
 - (void)teardownStream;
@@ -41,9 +49,12 @@ static NSString *kRegionKey = @"_region";
 
 - (void)changeUserAgent;
 
+- (void)showHomeStatusController;
+
 @property (nonatomic, strong) NSString *password;
 
 @end
+
 
 @implementation LCAppDelegate
 
@@ -57,7 +68,7 @@ static NSString *kRegionKey = @"_region";
   // Override point for customization after application launch.
   self.window.backgroundColor = [UIColor whiteColor];
 #ifdef TESTFLIGHT
-  [TestFlight takeOff:@"1ded3e52-07bf-4d98-8179-61f9790080c0"];
+  [TestFlight takeOff:kTestFilghtToken];
 #endif
   [self setupGAI];
   [self changeUserAgent];
@@ -426,10 +437,7 @@ static NSString *kRegionKey = @"_region";
 
     [inGame setDidExitStateBlock:^(TKState *state, TKStateMachine *stateMachine) {
       NIDPRINT(@"user did left game");
-      LCHomeViewController *homeViewController = [[LCHomeViewController alloc] initWithStyle:UITableViewStylePlain activityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-      if ([self.window.rootViewController isKindOfClass:[UINavigationController class]]) {
-        [(UINavigationController *)self.window.rootViewController pushViewController:homeViewController animated:NO];
-      }
+      [self showHomeStatusController];
     }];
 
     [_stateMachine addStates:@[outOfGame, inQueue, inGame]];
@@ -462,7 +470,7 @@ static NSString *kRegionKey = @"_region";
         [iq addAttributeWithName:@"type" stringValue:@"get"];
         [iq addChild:query];
         [_xmppStream sendElement:iq];
-      } afterDelay:4];
+      } afterDelay:3.5];
     }
   }
 }
@@ -545,6 +553,19 @@ static NSString *kRegionKey = @"_region";
     localNotification.alertBody = message;
 
     [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
+  }
+}
+
+- (void)showHomeStatusController {
+  id naviController = nil;
+  LCHomeViewController *homeViewController = [[LCHomeViewController alloc] initWithStyle:UITableViewStylePlain activityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+#ifdef IAD
+  naviController = [(LCADHomeViewController *)self.window.rootViewController contentController];
+#else
+  naviController = self.window.rootViewController;
+#endif
+  if ([naviController isKindOfClass:[UINavigationController class]]) {
+    [(UINavigationController *)naviController pushViewController:homeViewController animated:NO];
   }
 }
 
