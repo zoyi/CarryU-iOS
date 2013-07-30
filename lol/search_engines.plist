@@ -5,18 +5,18 @@
 	<key>na</key>
 	<dict>
 		<key>carryu.co</key>
-		<string>http://na.lol.red.zoyi.co/summoners/=%@</string>
+		<string>http://na.carryu.co/summoners/</string>
 		<key>lolking.net</key>
-		<string>http://www.lolking.net/search?name=%@</string>
+		<string>http://www.lolking.net/search?name=</string>
 	</dict>
 	<key>kr</key>
 	<dict>
 		<key>op.gg</key>
-		<string>http://op.gg/summoner/userName=%@</string>
+		<string>http://op.gg/summoner/userName=</string>
 		<key>carryu.co</key>
-		<string>http://kr.lol.red.zoyi.co/summoners/=%@</string>
+		<string>http://kr.carryu.co/summoners/</string>
 		<key>iplol.kr</key>
-		<string>http://iplol.kr/search.iplol?q=%@</string>
+		<string>http://iplol.kr/search.iplol?q=</string>
 	</dict>
 </dict>
 </plist>
