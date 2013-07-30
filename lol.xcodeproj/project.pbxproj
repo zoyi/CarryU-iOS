@@ -1583,7 +1583,6 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"COCOAPODS=1",
-					"TESTFLIGHT=1",
 					"IAD=1",
 				);
 				HEADER_SEARCH_PATHS = (
