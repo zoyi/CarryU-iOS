@@ -23,6 +23,7 @@ static NSString *kAppDelegateRegionKey = @"regeion";
 @synthesize searchEngines = _searchEngines;
 @synthesize choosedSearchEngine = _choosedSearchEngine;
 static LCSettingsInfo *sharedInstance = nil;
+static BOOL isUpdated = NO;
 
 + (LCSettingsInfo *)sharedInstance {
 
@@ -57,18 +58,21 @@ static LCSettingsInfo *sharedInstance = nil;
     }
     if (archivedSettingsInfo != nil) {
       self = archivedSettingsInfo;
+      if (!isUpdated) {
+        NSURL *url = [NSURL URLWithString:@"http://carryu.co/api/v1/search_engines.json"];
 
-      NSURL *url = [NSURL URLWithString:@"http://carryu.co/api/v1/search_engines.json"];
-
-      AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:[NSURLRequest requestWithURL:url] success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
-        self.searchEngines = JSON;
-      } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
-        NIDPRINT(@"retive search engines info error = %@", error.debugDescription);
+        AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:[NSURLRequest requestWithURL:url] success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
+          self.searchEngines = JSON;
+          isUpdated = YES;
+        } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
+          NIDPRINT(@"retive search engines info error = %@", error.debugDescription);
 #ifdef TESTFLIGHT
-        TFLog(@"retive search engines info error = %@", error.debugDescription);
+          TFLog(@"retive search engines info error = %@", error.debugDescription);
 #endif
-      }];
-      [operation start];
+        }];
+        [operation start];
+      }
+      
     } else {
       // load from plist backup
       NSString *settingsPlistPath = [[NSBundle mainBundle] pathForResource:@"search_engines" ofType:@"plist"];

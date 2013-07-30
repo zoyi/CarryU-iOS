@@ -167,7 +167,7 @@ NSString * const kTestFilghtToken = @"1ded3e52-07bf-4d98-8179-61f9790080c0";
   }
   if (![regeion isEqualToString:_regeion]) {
     _regeion = regeion;
-    //    [[LCSettingsInfo sharedInstance] updateRegion];
+    [[LCSettingsInfo sharedInstance] updateRegion];
     [self teardownStream];
     [self xmppStream];
     [self setupRestkit];
