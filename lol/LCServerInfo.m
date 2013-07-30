@@ -7,8 +7,8 @@
 //
 
 #import "LCServerInfo.h"
-#import <JSONKit/JSONKit.h>
 #import "LCAppDelegate.h"
+#import <TestFlightSDK/TestFlight.h>
 
 @implementation LCServerInfo
 
@@ -34,19 +34,16 @@
     }
     if (archivedServerInfo != nil) {
       self = archivedServerInfo;
-      // update from gist http://lol-gist.wudi.me
-      NSURL *url = [NSURL URLWithString:@"http://lol-gist.wudi.me"];
-      AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:url];
-      [httpClient getPath:@"/" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSString *responseStr = [[[NSString alloc] initWithData:responseObject encoding:NSASCIIStringEncoding] stringByReplacingXMLEscape];
-        NSDictionary *jsonResult = [responseStr objectFromJSONString];
-        if (jsonResult) {
-          self.servers = [self parseWithJSON:jsonResult];
-        }
-      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NIDPRINT(@"retive server sinfo error = %@", error.debugDescription);
+      NSURL *url = [NSURL URLWithString:@"http://carryu.co/api/v1/endpoints.json"];
+      AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:[NSURLRequest requestWithURL:url] success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
+        self.servers = [self parseWithJSON:JSON];
+      } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
+        NIDPRINT(@"retive server info error = %@", error.debugDescription);
+#ifdef TESTFLIGHT
+        TFLog(@"retive server info error = %@", error.debugDescription);
+#endif
       }];
-
+      [operation start];
     } else {
       // load from plist backup
       NSString *serverPlistPath = [[NSBundle mainBundle] pathForResource:@"server_info" ofType:@"plist"];
@@ -85,7 +82,6 @@
   self = [super init];
   if (self) {
     _servers = [aDecoder decodeObjectForKey:@"servers"];
-    _currentServer = [aDecoder decodeObjectForKey:@"current_server"];
   }
   return self;
 }
@@ -93,9 +89,6 @@
 - (void)encodeWithCoder:(NSCoder *)aCoder {
   if (self.servers) {
     [aCoder encodeObject:self.servers forKey:@"servers"];
-  }
-  if (self.currentServer) {
-    [aCoder encodeObject:self.currentServer forKey:@"current_server"];
   }
 }
 

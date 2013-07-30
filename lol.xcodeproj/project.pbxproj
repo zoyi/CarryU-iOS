@@ -1549,6 +1549,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"COCOAPODS=1",
+					"IAD=1",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1564,8 +1565,8 @@
 					"\"$(SYSTEM_APPS_DIR)/League of Legends.app/Contents/LOL/RADS/projects/lol_launcher/releases/0.0.0.83/deploy/LoLLauncher.app/Contents/MacOS\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "8ED346AE-CBC4-435F-95D3-D0B00AF49F4F";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8ED346AE-CBC4-435F-95D3-D0B00AF49F4F";
+				PROVISIONING_PROFILE = "5B55AC33-8E36-4C3C-902B-22D3CCB28B2F";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "5B55AC33-8E36-4C3C-902B-22D3CCB28B2F";
 				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1583,6 +1584,7 @@
 					"$(inherited)",
 					"COCOAPODS=1",
 					"TESTFLIGHT=1",
+					"IAD=1",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1598,8 +1600,8 @@
 					"\"$(SYSTEM_APPS_DIR)/League of Legends.app/Contents/LOL/RADS/projects/lol_launcher/releases/0.0.0.83/deploy/LoLLauncher.app/Contents/MacOS\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "03D4F46C-4A3F-49F5-BEE9-D3876EF2E099";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "03D4F46C-4A3F-49F5-BEE9-D3876EF2E099";
+				PROVISIONING_PROFILE = "C933AFDA-08E8-4D02-B3CC-E92A86163E38";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C933AFDA-08E8-4D02-B3CC-E92A86163E38";
 				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};

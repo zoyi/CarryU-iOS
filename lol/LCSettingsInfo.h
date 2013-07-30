@@ -16,6 +16,7 @@
 @property (nonatomic, strong) NSDictionary *searchEngines;
 @property (nonatomic, strong) NSString *choosedSearchEngine;
 
+- (NSDictionary *)currentRegionSearchEngines;
 - (NSString *)searchEngine;
 - (void)updateRegion;
 @end

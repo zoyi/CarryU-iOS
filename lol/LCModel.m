@@ -19,7 +19,7 @@
 }
 
 + (void)apiRouting {
-  
+
 }
 
 @end

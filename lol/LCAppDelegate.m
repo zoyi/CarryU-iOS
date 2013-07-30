@@ -77,7 +77,9 @@ NSString * const kTestFilghtToken = @"1ded3e52-07bf-4d98-8179-61f9790080c0";
   self.regeion = [[NSUserDefaults standardUserDefaults] objectForKey:kRegionKey];
   [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque];
   LCLoginViewController *loginController = [[LCLoginViewController alloc] initWithStyle:UITableViewStyleGrouped];
+#ifdef DEBUG
   [DDLog addLogger:[DDTTYLogger sharedInstance]];
+#endif
   [self setupRestkit];
   [self setupApiRouter];
   [self xmppStream];
@@ -150,6 +152,7 @@ NSString * const kTestFilghtToken = @"1ded3e52-07bf-4d98-8179-61f9790080c0";
   [LCApiRouter setSharedInstance:[[LCApiRouter alloc] initWithBaseURL:[LCServerInfo sharedInstance].currentServer.apiUrl]];
   [LCSummoner apiRouting];
   [LCGame apiRouting];
+
 }
 
 - (void)setRegeion:(NSString *)regeion {
@@ -164,7 +167,7 @@ NSString * const kTestFilghtToken = @"1ded3e52-07bf-4d98-8179-61f9790080c0";
   }
   if (![regeion isEqualToString:_regeion]) {
     _regeion = regeion;
-    [[LCSettingsInfo sharedInstance] updateRegion];
+    //    [[LCSettingsInfo sharedInstance] updateRegion];
     [self teardownStream];
     [self xmppStream];
     [self setupRestkit];

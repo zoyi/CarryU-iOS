@@ -13,7 +13,8 @@
 + (LCServerInfo *)sharedInstance;
 
 @property (nonatomic, strong) NSDictionary *servers;
-@property (nonatomic, strong) LCServer *currentServer;
+@property (nonatomic, readonly) LCServer *currentServer;
+
 @end
 
 

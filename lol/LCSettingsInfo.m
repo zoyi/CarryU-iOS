@@ -9,6 +9,7 @@
 #import "LCSettingsInfo.h"
 #import <JSONKit/JSONKit.h>
 #import "LCAppDelegate.h"
+#import <TestFlightSDK/TestFlight.h>
 
 static NSString *kAppDelegateRegionKey = @"regeion";
 
@@ -56,18 +57,18 @@ static LCSettingsInfo *sharedInstance = nil;
     }
     if (archivedSettingsInfo != nil) {
       self = archivedSettingsInfo;
-      // update from gist http://lol-gist.wudi.me/default_search_engines
-      NSURL *url = [NSURL URLWithString:@"http://lol-gist.wudi.me"];
-      AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:url];
-      [httpClient getPath:@"/default_search_engines" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSString *responseStr = [[[NSString alloc] initWithData:responseObject encoding:NSASCIIStringEncoding] stringByReplacingXMLEscape];
-        NSDictionary *jsonResult = [responseStr objectFromJSONString];
-        if (jsonResult) {
-          self.searchEngines = jsonResult;
-        }
-      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NIDPRINT(@"retive server sinfo error = %@", error.debugDescription);
+
+      NSURL *url = [NSURL URLWithString:@"http://carryu.co/api/v1/search_engines.json"];
+
+      AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:[NSURLRequest requestWithURL:url] success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
+        self.searchEngines = JSON;
+      } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
+        NIDPRINT(@"retive search engines info error = %@", error.debugDescription);
+#ifdef TESTFLIGHT
+        TFLog(@"retive search engines info error = %@", error.debugDescription);
+#endif
       }];
+      [operation start];
     } else {
       // load from plist backup
       NSString *settingsPlistPath = [[NSBundle mainBundle] pathForResource:@"search_engines" ofType:@"plist"];
@@ -80,11 +81,10 @@ static LCSettingsInfo *sharedInstance = nil;
 }
 
 - (void)updateRegion {
-
   sharedInstance = [[LCSettingsInfo alloc] init];
 }
 
-- (NSDictionary *)searchEngines {
+- (NSDictionary *)currentRegionSearchEngines {
   LCAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
   return [_searchEngines objectForKey:appDelegate.regeion];
 }
@@ -117,7 +117,12 @@ static LCSettingsInfo *sharedInstance = nil;
 }
 
 - (NSString *)searchEngine {
-  return [self.searchEngines objectForKey:self.choosedSearchEngine];
+  NSString *searchEngine = [[self currentRegionSearchEngines] objectForKey:self.choosedSearchEngine];
+  if (!searchEngine.length) {
+    LCAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+    return [NSString stringWithFormat:@"http://%@.carryu.co/summoners/", appDelegate.regeion];
+  }
+  return searchEngine;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {

@@ -52,7 +52,7 @@
 
   [_model addSectionWithTitle:NSLocalizedString(@"search_engine_section_title", nil)];
 
-  NSDictionary *searchEngines = [LCSettingsInfo sharedInstance].searchEngines;
+  NSDictionary *searchEngines = [LCSettingsInfo sharedInstance].currentRegionSearchEngines;
 
   [[searchEngines sortedAllKeys] each:^(NSString *key) {
     NSUInteger index = [[searchEngines sortedAllKeys] indexOfObject:key];
@@ -113,7 +113,7 @@
 }
 
 - (void)radioGroup:(NIRadioGroup *)radioGroup didSelectIdentifier:(NSInteger)identifier {
-  [LCSettingsInfo sharedInstance].choosedSearchEngine = [[[LCSettingsInfo sharedInstance].searchEngines sortedAllKeys] objectAtIndex:identifier];
+  [LCSettingsInfo sharedInstance].choosedSearchEngine = [[[LCSettingsInfo sharedInstance].currentRegionSearchEngines sortedAllKeys] objectAtIndex:identifier];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {

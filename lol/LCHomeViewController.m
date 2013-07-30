@@ -73,10 +73,10 @@ static NSString *kGameWillStartKey = @"gameWillStart";
   self.actions = [[NITableViewActions alloc] initWithTarget:self];
   [_actions attachToClass:[LCSummonerCellObject class] tapBlock:^BOOL(LCSummonerCellObject *object, id target) {
     NIDPRINT(@"object is => %@", object.debugDescription);
-    
-    LCSummonerShowController *webController = [[LCSummonerShowController alloc] init];
+    NSURL *summonerUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",[LCSettingsInfo sharedInstance].searchEngine, [object.summoner.name stringByAddingPercentEscapesForURLParameter]]];
+    LCSummonerShowController *webController = [[LCSummonerShowController alloc] initWithURL:summonerUrl];
     [self.navigationController pushViewController:webController animated:YES];
-    [webController openURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",[LCSettingsInfo sharedInstance].searchEngine, [object.summoner.name stringByAddingPercentEscapesForURLParameter]]]];
+
     return YES;
   }];
   self.tableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg.png"]];
