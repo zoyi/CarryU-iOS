@@ -182,7 +182,6 @@
 		9CA5692A176A0BA300A16B7B /* LCAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CA56929176A0BA300A16B7B /* LCAppDelegate.m */; };
 		9CA56954176A11F800A16B7B /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CA56953176A11F800A16B7B /* CFNetwork.framework */; };
 		9CA56958176A121100A16B7B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CA56957176A121100A16B7B /* Security.framework */; };
-		9CA5696D176A127500A16B7B /* libidn.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CA5696B176A127500A16B7B /* libidn.a */; };
 		9CA5696F176A128F00A16B7B /* libresolv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CA5696E176A128F00A16B7B /* libresolv.dylib */; };
 		9CA56975176A131100A16B7B /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CA56974176A131100A16B7B /* libxml2.dylib */; };
 		9CA5697C176A183D00A16B7B /* LCLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CA5697B176A183D00A16B7B /* LCLoginViewController.m */; };
@@ -520,7 +519,6 @@
 				9CA5691C176A0BA300A16B7B /* Foundation.framework in Frameworks */,
 				9CA5691E176A0BA300A16B7B /* CoreGraphics.framework in Frameworks */,
 				B90AA18ECA62449CA6468BE3 /* libPods.a in Frameworks */,
-				9CA5696D176A127500A16B7B /* libidn.a in Frameworks */,
 				9C8E89FB17AF994A0085B3E0 /* libidn.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
