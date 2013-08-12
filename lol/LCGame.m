@@ -9,7 +9,7 @@
 #import "LCGame.h"
 #import "LCSummoner.h"
 
-static NSString *SUMMONER_ACTIVE_GAME_ROUTE = @"/active_game/:name";
+static NSString *SUMMONER_ACTIVE_GAME_ROUTE = @"active_games/:name";
 static NSString *SAMPLE_GAME_ROUTE = @"active_game/sample.json";
 
 @implementation LCGame
@@ -31,19 +31,23 @@ static NSString *SAMPLE_GAME_ROUTE = @"active_game/sample.json";
 }
 
 + (void)routing {
-  RKObjectManager *manager = [RKObjectManager sharedManager];
-  RKRoute *activeGameRoute = [RKRoute routeWithName:@"active_game" pathPattern:SUMMONER_ACTIVE_GAME_ROUTE method:RKRequestMethodGET];
-  activeGameRoute.shouldEscapePath = YES;
-  [manager.router.routeSet addRoute:activeGameRoute];
-
-  RKResponseDescriptor *activeGameDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:[LCGame mapping] pathPattern:SUMMONER_ACTIVE_GAME_ROUTE keyPath:nil statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-  [manager addResponseDescriptor:activeGameDescriptor];
+//  RKObjectManager *manager = [RKObjectManager sharedManager];
+//  RKRoute *activeGameRoute = [RKRoute routeWithName:@"active_game" pathPattern:SUMMONER_ACTIVE_GAME_ROUTE method:RKRequestMethodGET];
+//  activeGameRoute.shouldEscapePath = YES;
+//  [manager.router.routeSet addRoute:activeGameRoute];
+//
+//  RKResponseDescriptor *activeGameDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:[LCGame mapping] pathPattern:SUMMONER_ACTIVE_GAME_ROUTE keyPath:nil statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+//  [manager addResponseDescriptor:activeGameDescriptor];
 
 }
 
 + (void)apiRouting {
   RKRoute *sampleGameRoute = [RKRoute routeWithName:@"sample_game" pathPattern:SAMPLE_GAME_ROUTE method:RKRequestMethodGET];
   [[LCApiRouter sharedInstance].routeSet addRoute:sampleGameRoute];
+
+  RKRoute *activeGameRoute = [RKRoute routeWithRelationshipName:@"active_game" objectClass:[LCSummoner class] pathPattern:SUMMONER_ACTIVE_GAME_ROUTE method:RKRequestMethodGET];
+  activeGameRoute.shouldEscapePath = YES;
+  [[LCApiRouter sharedInstance].routeSet addRoute:activeGameRoute];
 }
 
 @end

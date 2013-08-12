@@ -478,9 +478,14 @@ NSString * const kTestFilghtToken = @"1ded3e52-07bf-4d98-8179-61f9790080c0";
 - (void)getInProcessGameInfo {
   [SVProgressHUD showWithStatus:NSLocalizedString(@"retrieve_game_status", nil) maskType:SVProgressHUDMaskTypeBlack];
   LCSummoner *tmpSummoner = [LCSummoner new];
-  tmpSummoner.name = @"MVP Looper";
+  tmpSummoner.name = @"Mst ultra";
   // [LCCurrentSummoner sharedInstance]
-  [[RKObjectManager sharedManager] getObjectsAtPathForRouteNamed:@"active_game" object:[LCCurrentSummoner sharedInstance] parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+
+  RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:[LCGame mapping] pathPattern:nil keyPath:nil statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+
+  NSURL *url = [[LCApiRouter sharedInstance] URLForRelationship:@"active_game" ofObject:[LCCurrentSummoner sharedInstance] method:RKRequestMethodGET];
+  RKObjectRequestOperation *operation = [[RKObjectRequestOperation alloc] initWithRequest:[NSURLRequest requestWithURL:url] responseDescriptors:@[responseDescriptor]];
+  [operation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
     NIDPRINT(@"all summoner's info is => %@", mappingResult.debugDescription);
     [SVProgressHUD dismiss];
     self.game = [[mappingResult dictionary] objectForKey:[NSNull null]];
@@ -496,11 +501,14 @@ NSString * const kTestFilghtToken = @"1ded3e52-07bf-4d98-8179-61f9790080c0";
         [self rebuildHomeRootViewController];
       }
     }
+
   } failure:^(RKObjectRequestOperation *operation, NSError *error) {
     NIDPRINT(@"retrive all summoners info error => %@", error.debugDescription);
     [SVProgressHUD dismiss];
     [self.stateMachine fireEvent:@"outOfGame" error:nil];
+
   }];
+  [operation start];
 }
 
 - (void)refreshXmppPrecense:(id)sender {

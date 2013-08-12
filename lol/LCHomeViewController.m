@@ -148,8 +148,10 @@ static NSString *kGameWillStartKey = @"gameWillStart";
   if (nil == _outOfGameView) {
     self.outOfGameView = [[LCOutOfGameView alloc] initWithFrame:CGRectZero];
     [_outOfGameView.tutorialVideoButton addTarget:self action:@selector(fireInGameEvent) forControlEvents:UIControlEventTouchUpInside];
+
+    //    [_outOfGameView.previewButton addTarget:self action:@selector(fireInGameEvent) forControlEvents:UIControlEventTouchUpInside];
+
     [_outOfGameView.previewButton addTarget:self action:@selector(showSampleView) forControlEvents:UIControlEventTouchUpInside];
-//    [_outOfGameView.previewButton addTarget:self action:@selector(fireInGameEvent) forControlEvents:UIControlEventTouchUpInside];
   }
   return _outOfGameView;
 }
