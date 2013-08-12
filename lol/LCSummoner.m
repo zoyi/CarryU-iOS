@@ -31,9 +31,9 @@ static NSString *SUMMONER_LEVEL_ROUTE = @"summoners/:name\\.json";
    @"spell2" : @"spell2"
    }];
 
-  [mapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"league_solo_5x5" toKeyPath:@"leagueRank" withMapping:[LCRank mapping]]];
+  [mapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"ranked_solo_stat" toKeyPath:@"leagueRank" withMapping:[LCRank mapping]]];
 
-  [mapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"player_stat_unranked" toKeyPath:@"normalRank" withMapping:[LCRank mapping]]];
+  [mapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"unranked_stat" toKeyPath:@"normalRank" withMapping:[LCRank mapping]]];
 
   [mapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"champion" toKeyPath:@"champion" withMapping:[LCChampion mapping]]];
   return mapping;
@@ -92,7 +92,8 @@ static NSString *SUMMONER_LEVEL_ROUTE = @"summoners/:name\\.json";
     @"rank": @"rank",
     @"tier": @"tier",
     @"wins": @"wins",
-    @"losses": @"losses"
+    @"losses": @"losses",
+    @"rating" : @"rating"
    }];
   return mapping;
 }

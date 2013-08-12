@@ -99,21 +99,29 @@ static const NSInteger kSpellHidingTag = 32890;
 
   NSMutableString *rankLevelText = [NSMutableString string];
   if (summoner.leagueRank) {
-    [rankLevelText appendFormat:@"%@ %@ / ", summoner.leagueRank.tier.capitalizedString, [summoner.leagueRank.rank romanNumeral]];
+    [rankLevelText appendFormat:@"%@ %@", summoner.leagueRank.tier.capitalizedString, [summoner.leagueRank.rank romanNumeral]];
   }
   if (summoner.level) {
+    if (rankLevelText.length) {
+      [rankLevelText appendString:@" / "];
+    }
     [rankLevelText appendFormat:@"Lv %@", summoner.level];
   }
 
   NSMutableString *descriptionText = [NSMutableString string];
-  if (summoner.normalRank) {
-    [descriptionText appendFormat:NSLocalizedString(@"normal_wins", nil), summoner.normalRank.wins];
-    [descriptionText appendString:@" / "];
-  }
+  NSNumber *mmr = nil;
   if (summoner.leagueRank) {
     [descriptionText appendFormat:NSLocalizedString(@"rank_wins", nil), summoner.leagueRank.wins];
+    mmr = summoner.leagueRank.rating ? summoner.leagueRank.rating : nil;
+  } else if (summoner.normalRank) {
+    [descriptionText appendFormat:NSLocalizedString(@"normal_wins", nil), summoner.normalRank.wins];
+    mmr = summoner.normalRank.rating ? summoner.normalRank.rating : nil;
   }
 
+  if (mmr) {
+    [descriptionText appendFormat:@" / MMR %@", mmr];
+  }
+  
   if (!descriptionText.length
       && !summoner.level) {
     [descriptionText appendString:NSLocalizedString(@"loading", nil)];

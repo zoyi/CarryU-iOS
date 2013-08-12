@@ -38,5 +38,6 @@
 @property (nonatomic, strong) NSString *tier;
 @property (nonatomic, strong) NSNumber *wins;
 @property (nonatomic, strong) NSNumber *losses;
+@property (nonatomic, strong) NSNumber *rating;
 
 @end
