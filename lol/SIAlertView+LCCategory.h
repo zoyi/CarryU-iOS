@@ -10,4 +10,5 @@
 
 @interface SIAlertView (LCCategory)
 + (SIAlertView *)carryuWarningAlertWithMessage:(NSString *)message;
++ (SIAlertView *)carryuAlertWithTitle:(NSString *)title message:(NSString *)message;
 @end

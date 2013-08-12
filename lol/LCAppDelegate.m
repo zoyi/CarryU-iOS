@@ -260,10 +260,6 @@ NSString * const kTestFilghtToken = @"1ded3e52-07bf-4d98-8179-61f9790080c0";
 	return YES;
 }
 
-- (void)disconnect {
-	[self goOffline];
-	[_xmppStream disconnect];
-}
 
 #pragma mark XMPPStream Delegate
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

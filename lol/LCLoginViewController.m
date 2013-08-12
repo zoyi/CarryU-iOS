@@ -9,6 +9,7 @@
 #import "LCLoginViewController.h"
 #import "LCAppDelegate.h"
 #import <ActionSheetPicker2/ActionSheetStringPicker.h>
+#import <CoreText/CoreText.h>
 
 static NSInteger kUsernameTextFieldTag = 234;
 static NSInteger kPasswordTextFieldTag = 2389;
@@ -31,6 +32,8 @@ static CGFloat kDefaultServerIndicatorWidth = 30;
 
 - (void)setPrevServer;
 - (void)setNextServer;
+
+- (void)showUsingPasswordDescription;
 @end
 
 @implementation LCLoginViewController
@@ -191,8 +194,16 @@ static CGFloat kDefaultServerIndicatorWidth = 30;
     [label sizeToFit];
     CGFloat labelTop = MAX(sectionHeader.height - label.height, 0);
     label.origin = CGPointMake(10, labelTop);
-
     [sectionHeader addSubview:label];
+
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button addTarget:self action:@selector(showUsingPasswordDescription) forControlEvents:UIControlEventTouchUpInside];
+    [button setImage:[UIImage imageNamed:@"more_info.png"] forState:UIControlStateNormal];
+    [button sizeToFit];
+    button.left = label.right + 4;
+    button.top = labelTop - (button.height - label.height)/2;
+    [sectionHeader addSubview:button];
+
     sectionHeader.frame = CGRectMake(0, 0, 320, MAX(sectionHeader.height, label.height) + 5);
     NIDPRINT(@"section header frame = %@", NSStringFromCGRect(label.frame));
     return sectionHeader;
@@ -221,7 +232,7 @@ static CGFloat kDefaultServerIndicatorWidth = 30;
 }
 
 - (NSArray *)pickerDataSource {
-  return @[@"kr", @"na"];
+  return @[@"kr", @"na", @"euw"];
 }
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -266,6 +277,10 @@ static CGFloat kDefaultServerIndicatorWidth = 30;
 - (void)didTapTableView {
   [self hideKeyboard];
   [self.view endEditing:YES];
+}
+
+- (void)showUsingPasswordDescription {
+  [[SIAlertView carryuAlertWithTitle:nil message:NSLocalizedString(@"using_password_description", nil)] show];
 }
 
 - (void)hideKeyboard {

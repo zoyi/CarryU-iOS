@@ -10,7 +10,11 @@
 
 @implementation SIAlertView (LCCategory)
 + (SIAlertView *)carryuWarningAlertWithMessage:(NSString *)message {
-  SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:NSLocalizedString(@"alert", nil) andMessage:message];
+  return [SIAlertView carryuAlertWithTitle:NSLocalizedString(@"alert", nil) message:message];
+}
+
++ (SIAlertView *)carryuAlertWithTitle:(NSString *)title message:(NSString *)message {
+  SIAlertView *alertView = [[SIAlertView alloc] initWithTitle:title andMessage:message];
 
   alertView.titleColor = [UIColor cloudsColor];
   alertView.messageColor = [UIColor cloudsColor];

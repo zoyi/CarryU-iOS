@@ -195,6 +195,7 @@
 		9CBD9293176DD42E006ED0BE /* FUIButton+LCCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CBD9292176DD42E006ED0BE /* FUIButton+LCCategory.m */; };
 		9CC0AAEB176F4BBC00FA1A00 /* LCHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CC0AAEA176F4BBC00FA1A00 /* LCHomeViewController.m */; };
 		9CC6186D179FA45D006293DB /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CC6186C179FA45D006293DB /* iAd.framework */; };
+		9CCAE79517B8C2ED0056641B /* more_info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CCAE79417B8C2ED0056641B /* more_info@2x.png */; };
 		9CDACBED17814F4900E7006A /* LCNetworkTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CDACBEC17814F4900E7006A /* LCNetworkTableViewController.m */; };
 		9CED33ED177B791500C6CF23 /* LCSettingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CED33EC177B791500C6CF23 /* LCSettingsController.m */; };
 		9CED33F0177B7F6400C6CF23 /* LCSummonerSearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CED33EF177B7F6400C6CF23 /* LCSummonerSearchController.m */; };
@@ -484,6 +485,7 @@
 		9CC0AAE9176F4BBC00FA1A00 /* LCHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCHomeViewController.h; sourceTree = "<group>"; };
 		9CC0AAEA176F4BBC00FA1A00 /* LCHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCHomeViewController.m; sourceTree = "<group>"; };
 		9CC6186C179FA45D006293DB /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
+		9CCAE79417B8C2ED0056641B /* more_info@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "more_info@2x.png"; sourceTree = "<group>"; };
 		9CDACBEB17814F4900E7006A /* LCNetworkTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCNetworkTableViewController.h; sourceTree = "<group>"; };
 		9CDACBEC17814F4900E7006A /* LCNetworkTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCNetworkTableViewController.m; sourceTree = "<group>"; };
 		9CED33EB177B791500C6CF23 /* LCSettingsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCSettingsController.h; sourceTree = "<group>"; };
@@ -560,6 +562,7 @@
 				9C3A1C9417857C81000B29A3 /* server_prev@2x.png */,
 				9C3A1C9517857C81000B29A3 /* server_next@2x.png */,
 				9C3A1C9017855967000B29A3 /* bg@2x.png */,
+				9CCAE79417B8C2ED0056641B /* more_info@2x.png */,
 				9CAF5F261779F0BB004153E6 /* menu@2x.png */,
 			);
 			name = image;
@@ -1344,6 +1347,7 @@
 				9CFE0C0917A0050F00BF2626 /* icon57_free.png in Resources */,
 				9C8E89F517AF994A0085B3E0 /* README.txt in Resources */,
 				9C8E89FA17AF994A0085B3E0 /* build-libidn.sh in Resources */,
+				9CCAE79517B8C2ED0056641B /* more_info@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

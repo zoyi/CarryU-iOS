@@ -27,7 +27,6 @@ extern NSString * const kPasswordKey;
 @property (nonatomic, strong) NSString *defaultStatus;
 
 - (BOOL)connectWithJID:(NSString *)jid password:(NSString *)passwd;
-- (void)disconnect;
 - (void)rebuildHomeRootViewController;
 - (void)logout;
 - (void)refreshXmppPrecense:(id)sender;

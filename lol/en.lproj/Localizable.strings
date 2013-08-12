@@ -1,5 +1,6 @@
 "na" = "North America";
 "kr" = "Korea";
+"euw" = "EU West";
 "server_picker_format" = "%@ Server";
 "name_placeholder" = "Username";
 "password_placeholder" = "Password";
