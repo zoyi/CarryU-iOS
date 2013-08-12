@@ -28,5 +28,18 @@
 		<key>api_version</key>
 		<string>v1</string>
 	</dict>
+	<key>euw</key>
+	<dict>
+		<key>rtmp_host</key>
+		<string>http://euw.rtmp.carryu.co</string>
+		<key>xmpp_host</key>
+		<string>chat.eu.lol.riotgames.com</string>
+		<key>xmpp_port</key>
+		<integer>5223</integer>
+		<key>rails_host</key>
+		<string>http://euw.carryu.co</string>
+		<key>api_version</key>
+		<string>v1</string>
+	</dict>
 </dict>
 </plist>

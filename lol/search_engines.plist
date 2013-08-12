@@ -18,5 +18,12 @@
 		<key>iplol.kr</key>
 		<string>http://iplol.kr/search.iplol?q=</string>
 	</dict>
+	<key>euw</key>
+	<dict>
+		<key>carryu.co</key>
+		<string>http://euw.carryu.co/summoners/</string>
+		<key>lolking.net</key>
+		<string>http://www.lolking.net/search?name=</string>
+	</dict>
 </dict>
 </plist>
