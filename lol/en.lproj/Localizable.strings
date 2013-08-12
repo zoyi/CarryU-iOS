@@ -40,4 +40,5 @@
 "alert" = "Alert";
 "retrieve_sample_game_error" = "Sample Game is not available right now.";
 "retrieve_sample_game" = "Retrieving sample game...";
-"use_your_lol_account_desc" = "Enter your LoL account.";
+"use_your_lol_account_desc" = "Using your LoL account";
+"carryu_default_signature" = "Proudly using CarryU.";

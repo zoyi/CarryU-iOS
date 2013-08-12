@@ -59,13 +59,8 @@
 - (REMenu *)menu {
   if (nil == _menu) {
     REMenuItem *homeItem = [[REMenuItem alloc] initWithTitle:NSLocalizedString(@"home", nil) subtitle:nil image:nil highlightedImage:nil action:^(REMenuItem *item){
-      if ([item.title isEqualToString:NSLocalizedString(@"home", nil)]) {
-        LCHomeViewController *homeViewController = [[LCHomeViewController alloc] initWithStyle:UITableViewStylePlain];
-        [self pushViewController:homeViewController animated:NO];
-      } else {
-        LCAppDelegate *delegate = [UIApplication sharedApplication].delegate;
-        [delegate showInGameTabController];
-      }
+      LCAppDelegate *delegate = [UIApplication sharedApplication].delegate;
+      [delegate rebuildHomeRootViewController];
     }];
 
     REMenuItem *settingsItem = [[REMenuItem alloc] initWithTitle:NSLocalizedString(@"settings", nil) subtitle:nil image:nil highlightedImage:nil action:^(REMenuItem *item) {

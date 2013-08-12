@@ -41,3 +41,4 @@
 "retrieve_sample_game_error" = "샘플 게임 정보를 불러오는 중 에러가 발생했습니다.";
 "retrieve_sample_game" = "샘플 게임 로드중...";
 "use_your_lol_account_desc" = "LoL 계정을 입력하세요.";
+"carryu_default_signature" = "캐리유 사용 중";

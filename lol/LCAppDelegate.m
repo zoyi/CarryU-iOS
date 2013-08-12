@@ -49,7 +49,7 @@ NSString * const kTestFilghtToken = @"1ded3e52-07bf-4d98-8179-61f9790080c0";
 
 - (void)changeUserAgent;
 
-- (void)showHomeStatusController;
+- (void)showCarryuPresence;
 
 @property (nonatomic, strong) NSString *password;
 
@@ -119,7 +119,7 @@ NSString * const kTestFilghtToken = @"1ded3e52-07bf-4d98-8179-61f9790080c0";
   [GAI sharedInstance].dispatchInterval = 20;
   // Optional: set debug to YES for extra debugging information.
 #ifdef DEBUG
-  [GAI sharedInstance].debug = YES;
+  //  [GAI sharedInstance].debug = YES;
 #endif
   // Create tracker instance.
   id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:@"UA-42254758-2"];
@@ -230,9 +230,7 @@ NSString * const kTestFilghtToken = @"1ded3e52-07bf-4d98-8179-61f9790080c0";
 }
 
 - (void)goOnline {
-	XMPPPresence *presence = [XMPPPresence presence]; // type="available" is implicit
-
-	[[self xmppStream] sendElement:presence];
+  [self showCarryuPresence];
 }
 
 - (void)goOffline {
@@ -338,13 +336,13 @@ NSString * const kTestFilghtToken = @"1ded3e52-07bf-4d98-8179-61f9790080c0";
 
 - (void)xmppStream:(XMPPStream *)sender didReceivePresence:(XMPPPresence *)presence {
 
-  if ([sender.myJID.bareJID.description isEqualToString:presence.from.bareJID.description]) {
+  if ([sender.myJID.bareJID.description isEqualToString:presence.from.bareJID.description] && [presence.from.resource isEqualToString:@"xiff"]) {
     // my status update.
     NSString *gameStatus = [presence gameStatus];
     if (gameStatus.length) {
       // change state machine
       NSError *error = nil;
-
+      self.defaultStatus = presence.status;
       if ([gameStatus isEqualToString:@"outOfGame"]) {
         // out of game
         [_stateMachine fireEvent:@"outOfGame" error:&error];
@@ -357,7 +355,7 @@ NSString * const kTestFilghtToken = @"1ded3e52-07bf-4d98-8179-61f9790080c0";
       if (error) {
         NIDPRINT(@"state machine fire with error %@", error.debugDescription);
       }
-
+      [self showCarryuPresence];
     }
   }
 
@@ -369,6 +367,8 @@ NSString * const kTestFilghtToken = @"1ded3e52-07bf-4d98-8179-61f9790080c0";
     // message contain x
     NSString *type = [message attributeStringValueForName:@"type"];
     NSString *mid = [message attributeStringValueForName:@"id"];
+    NSString *mucStatusCode = [[message elementForName:@"status"] attributeStringValueForName:@"code"];
+    NIDPRINT(@"muc status code is %@", mucStatusCode);
     if ([type isEqualToString:@"groupchat"]
         && !mid.length) {
       self.groupChatJID = message.from.bareJID;
@@ -413,8 +413,8 @@ NSString * const kTestFilghtToken = @"1ded3e52-07bf-4d98-8179-61f9790080c0";
 - (TKStateMachine *)stateMachine {
   if (nil == _stateMachine) {
     self.stateMachine = [TKStateMachine new];
-
     TKState *outOfGame = [TKState stateWithName:@"outOfGame"];
+
     [outOfGame setDidEnterStateBlock:^(TKState *state, TKStateMachine *stateMachine) {
       NIDPRINT(@"User State Did change to outOfGame");
     }];
@@ -440,7 +440,8 @@ NSString * const kTestFilghtToken = @"1ded3e52-07bf-4d98-8179-61f9790080c0";
 
     [inGame setDidExitStateBlock:^(TKState *state, TKStateMachine *stateMachine) {
       NIDPRINT(@"user did left game");
-      [self showHomeStatusController];
+      [self rebuildHomeRootViewController];
+      self.game = nil;
     }];
 
     [_stateMachine addStates:@[outOfGame, inQueue, inGame]];
@@ -496,7 +497,7 @@ NSString * const kTestFilghtToken = @"1ded3e52-07bf-4d98-8179-61f9790080c0";
       }
       UIViewController *visiableController = [homeNaviController.viewControllers objectAtIndex:0];
       if ([visiableController isKindOfClass:[LCHomeViewController class]]) {
-        [self showInGameTabController];
+        [self rebuildHomeRootViewController];
       }
     }
   } failure:^(RKObjectRequestOperation *operation, NSError *error) {
@@ -504,19 +505,6 @@ NSString * const kTestFilghtToken = @"1ded3e52-07bf-4d98-8179-61f9790080c0";
     [SVProgressHUD dismiss];
     [self.stateMachine fireEvent:@"outOfGame" error:nil];
   }];
-}
-
-- (void)showInGameTabController {
-  if (_game) {
-    LCHomeNavigationController *homeNaviController = nil;
-    if ([self.window.rootViewController isKindOfClass:[LCADHomeViewController class]]) {
-      homeNaviController = (LCHomeNavigationController *)[(LCADHomeViewController *)self.window.rootViewController contentController];
-    } else if ([self.window.rootViewController isKindOfClass:[LCHomeNavigationController class]]) {
-      homeNaviController = (LCHomeNavigationController *)self.window.rootViewController;
-    }
-    LCGameTabBarController *gameController = [[LCGameTabBarController alloc] initWithGame:_game];
-    [homeNaviController pushViewController:gameController animated:NO];
-  }
 }
 
 - (void)refreshXmppPrecense:(id)sender {
@@ -559,17 +547,62 @@ NSString * const kTestFilghtToken = @"1ded3e52-07bf-4d98-8179-61f9790080c0";
   }
 }
 
-- (void)showHomeStatusController {
-  id naviController = nil;
-  LCHomeViewController *homeViewController = [[LCHomeViewController alloc] initWithStyle:UITableViewStylePlain];
-#ifdef IAD
-  naviController = [(LCADHomeViewController *)self.window.rootViewController contentController];
-#else
-  naviController = self.window.rootViewController;
-#endif
-  if ([naviController isKindOfClass:[UINavigationController class]]) {
-    [(UINavigationController *)naviController pushViewController:homeViewController animated:NO];
+- (void)rebuildHomeRootViewController {
+  id navigationController = nil;
+  if ([self.window.rootViewController isKindOfClass:[LCADHomeViewController class]]) {
+    navigationController = [(LCADHomeViewController *)self.window.rootViewController contentController];
+  } else if ([self.window.rootViewController isKindOfClass:[LCHomeNavigationController class]]) {
+    navigationController = self.window.rootViewController;
+  }
+
+  if (self.game && [self.stateMachine isInState:@"inGame"]) {
+    // show in game tab view controller
+    LCGameTabBarController *gameController = [[LCGameTabBarController alloc] initWithGame:_game];
+    [navigationController pushViewController:gameController animated:NO];
+  } else {
+    // show home view controller;
+    LCHomeViewController *homeViewController = [[LCHomeViewController alloc] initWithStyle:UITableViewStylePlain];
+    [navigationController pushViewController:homeViewController animated:NO];
   }
 }
 
+- (void)setDefaultStatus:(NSString *)defaultStatus {
+  if ([_stateMachine isInState:@"outOfGame"] && defaultStatus.length) {
+      _defaultStatus = defaultStatus;
+    NSXMLElement *ele = [[NSXMLElement alloc] initWithXMLString:_defaultStatus error:nil];
+    NSString *statusMsg = [[ele elementForName:@"statusMsg"] stringValue];
+    if (!statusMsg.length) {
+      [[ele elementForName:@"statusMsg"] setStringValue:@"CarryU"];
+    }
+    _defaultStatus = ele.description;
+  }
+}
+
+- (void)showCarryuPresence {
+
+  XMPPPresence *statusPresence = [XMPPPresence presence];
+  NSXMLElement *showElement = [NSXMLElement elementWithName:@"show" stringValue:@"chat"];
+  if (![self.stateMachine isInState:@"outOfGame"]) {
+    [showElement setStringValue:@"dnd"];
+  }
+  [statusPresence addChild:showElement];
+
+  if (_defaultStatus.length) {
+    [statusPresence addChild:[NSXMLElement elementWithName:@"status" stringValue:_defaultStatus]];
+  } else {
+    NSXMLElement *statusBody = [NSXMLElement elementWithName:@"body"];
+    [statusBody addChild:[NSXMLElement elementWithName:@"statusMsg" stringValue:@"캐리유 사용 중"]];
+
+    [statusBody addChild:[NSXMLElement elementWithName:@"profileIcon" stringValue:@"7"]];
+
+    [statusBody addChild:[NSXMLElement elementWithName:@"gameStatus" stringValue:self.stateMachine.currentState.name]];
+
+    NSXMLElement *statusElement = [NSXMLElement elementWithName:@"status" stringValue:statusBody.description];
+    [statusPresence addChild:statusElement];
+  }
+  
+  [statusPresence addChild:[NSXMLElement elementWithName:@"priority" stringValue:@"0"]];
+
+  [self.xmppStream sendElement:statusPresence];
+}
 @end

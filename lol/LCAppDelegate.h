@@ -24,10 +24,11 @@ extern NSString * const kPasswordKey;
 @property (nonatomic, strong) LCGame *game;
 @property (nonatomic, strong) LCGame *gameWillStart;
 @property (nonatomic, strong) NSString *regeion;
+@property (nonatomic, strong) NSString *defaultStatus;
 
 - (BOOL)connectWithJID:(NSString *)jid password:(NSString *)passwd;
 - (void)disconnect;
-- (void)showInGameTabController;
+- (void)rebuildHomeRootViewController;
 - (void)logout;
 - (void)refreshXmppPrecense:(id)sender;
 - (void)fireLocalNotificationWithMessage:(NSString *)message;
