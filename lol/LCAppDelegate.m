@@ -567,12 +567,12 @@ NSString * const kTestFilghtToken = @"1ded3e52-07bf-4d98-8179-61f9790080c0";
 }
 
 - (void)setDefaultStatus:(NSString *)defaultStatus {
-  if ([_stateMachine isInState:@"outOfGame"] && defaultStatus.length) {
+  if (defaultStatus.length) {
       _defaultStatus = defaultStatus;
     NSXMLElement *ele = [[NSXMLElement alloc] initWithXMLString:_defaultStatus error:nil];
     NSString *statusMsg = [[ele elementForName:@"statusMsg"] stringValue];
     if (!statusMsg.length) {
-      [[ele elementForName:@"statusMsg"] setStringValue:@"CarryU"];
+      [[ele elementForName:@"statusMsg"] setStringValue:NSLocalizedString(@"carryu_default_signature", nil)];
     }
     _defaultStatus = ele.description;
   }
@@ -591,7 +591,7 @@ NSString * const kTestFilghtToken = @"1ded3e52-07bf-4d98-8179-61f9790080c0";
     [statusPresence addChild:[NSXMLElement elementWithName:@"status" stringValue:_defaultStatus]];
   } else {
     NSXMLElement *statusBody = [NSXMLElement elementWithName:@"body"];
-    [statusBody addChild:[NSXMLElement elementWithName:@"statusMsg" stringValue:@"캐리유 사용 중"]];
+    [statusBody addChild:[NSXMLElement elementWithName:@"statusMsg" stringValue:NSLocalizedString(@"carryu_default_signature", nil)]];
 
     [statusBody addChild:[NSXMLElement elementWithName:@"profileIcon" stringValue:@"7"]];
 
