@@ -110,14 +110,19 @@ static const NSInteger kSpellHidingTag = 32890;
 
   NSMutableString *descriptionText = [NSMutableString string];
   NSNumber *mmr = nil;
-  if (summoner.leagueRank) {
-    [descriptionText appendFormat:NSLocalizedString(@"rank_wins", nil), summoner.leagueRank.wins];
-    mmr = summoner.leagueRank.rating ? summoner.leagueRank.rating : nil;
-  } else if (summoner.normalRank) {
-    [descriptionText appendFormat:NSLocalizedString(@"normal_wins", nil), summoner.normalRank.wins];
-    mmr = summoner.normalRank.rating ? summoner.normalRank.rating : nil;
+  if (cellObject.gameMode == kRankedGame) {
+    if (summoner.leagueRank) {
+      [descriptionText appendFormat:NSLocalizedString(@"rank_wins", nil), summoner.leagueRank.wins];
+      mmr = summoner.leagueRank.rating ? summoner.leagueRank.rating : nil;
+    }
   }
 
+  if (cellObject.gameMode == kNormalGame) {
+    if (summoner.normalRank) {
+      [descriptionText appendFormat:NSLocalizedString(@"normal_wins", nil), summoner.normalRank.wins];
+      mmr = summoner.normalRank.rating ? summoner.normalRank.rating : nil;
+    }
+  }
   if (mmr) {
     [descriptionText appendFormat:@" / MMR %@", mmr];
   }

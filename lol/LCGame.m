@@ -31,16 +31,7 @@ static NSString *SAMPLE_GAME_ROUTE = @"active_game/sample.json";
   return mapping;
 }
 
-+ (void)routing {
-//  RKObjectManager *manager = [RKObjectManager sharedManager];
-//  RKRoute *activeGameRoute = [RKRoute routeWithName:@"active_game" pathPattern:SUMMONER_ACTIVE_GAME_ROUTE method:RKRequestMethodGET];
-//  activeGameRoute.shouldEscapePath = YES;
-//  [manager.router.routeSet addRoute:activeGameRoute];
-//
-//  RKResponseDescriptor *activeGameDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:[LCGame mapping] pathPattern:SUMMONER_ACTIVE_GAME_ROUTE keyPath:nil statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-//  [manager addResponseDescriptor:activeGameDescriptor];
-
-}
++ (void)routing {}
 
 + (void)apiRouting {
   RKRoute *sampleGameRoute = [RKRoute routeWithName:@"sample_game" pathPattern:SAMPLE_GAME_ROUTE method:RKRequestMethodGET];
@@ -51,4 +42,12 @@ static NSString *SAMPLE_GAME_ROUTE = @"active_game/sample.json";
   [[LCApiRouter sharedInstance].routeSet addRoute:activeGameRoute];
 }
 
+- (void)setQueue:(NSString *)queue {
+  _queue = queue;
+  if ([_queue rangeOfString:@"RANKED"].location != NSNotFound) {
+    self.lcGameMode = kRankedGame;
+  } else {
+    self.lcGameMode = kNormalGame;
+  }
+}
 @end

@@ -15,9 +15,10 @@
   [_summoner removeObserver:self forKeyPath:@"level" context:nil];
 }
 
-- (id)initWithCellClass:(Class)cellClass summoner:(LCSummoner *)summoner delegate:(id)delegate {
+- (id)initWithCellClass:(Class)cellClass summoner:(LCSummoner *)summoner gameMode:(LCGameMode)gameMode delegate:(id)delegate {
   self = [super initWithCellClass:cellClass];
   if (self) {
+    self.gameMode = gameMode;
     self.summoner = summoner;
     self.delegate = delegate;
     [_summoner addObserver:self forKeyPath:@"level" options:NSKeyValueObservingOptionNew context:nil];

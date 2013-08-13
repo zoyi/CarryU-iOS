@@ -7,9 +7,12 @@
 //
 
 #import "LCNetworkTableViewController.h"
+#import "LCGame.h"
+
 @class LCSummoner;
 @interface LCSummonerViewController : LCNetworkTableViewController
 @property (nonatomic, strong) NSArray *summoners;
+@property (nonatomic, assign) LCGameMode gameMode;
 @property (nonatomic, strong) UIImageView *backgroundView;
-- (id)initWithSummoners:(NSArray *)summoners;
+- (id)initWithSummoners:(NSArray *)summoners gameMode:(LCGameMode)gameMode;
 @end

@@ -30,11 +30,11 @@
     return self;
 }
 
-- (id)initWithSummoners:(NSArray *)summoners {
+- (id)initWithSummoners:(NSArray *)summoners gameMode:(LCGameMode)gameMode {
   self = [super initWithStyle:UITableViewStylePlain activityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
   if (self) {
     self.summoners = summoners;
-
+    self.gameMode = gameMode;
   }
   return self;
 }
@@ -54,7 +54,7 @@
   self.actions = [[NITableViewActions alloc] initWithTarget:self];
   NSMutableArray *tableContents = [NSMutableArray arrayWithCapacity:5];
   [_summoners each:^(LCSummoner *summoner) {
-    [tableContents addObject:[[LCSummonerCellObject alloc] initWithCellClass:[LCSummonerCell class] summoner:summoner delegate:self.tableView]];
+    [tableContents addObject:[[LCSummonerCellObject alloc] initWithCellClass:[LCSummonerCell class] summoner:summoner gameMode:_gameMode delegate:self.tableView]];
   }];
   [_actions attachToClass:[LCSummonerCellObject class] tapBlock:^BOOL(LCSummonerCellObject *object, id target) {
     NIDPRINT(@"object is => %@", object.debugDescription);

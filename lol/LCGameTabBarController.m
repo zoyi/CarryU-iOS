@@ -63,6 +63,11 @@
 }
 
 - (NSString *)controllerTitle {
+  if (_game.lcGameMode == kNormalGame) {
+    return NSLocalizedString(@"Normal_navi_title", nil);
+  } else if (_game.lcGameMode == kRankedGame) {
+    return NSLocalizedString(@"Ranked_navi_title", nil);
+  }
   return NSLocalizedString(@"Activated_navi_title", nil);
 }
 
@@ -72,11 +77,11 @@
   if (game != _game) {
     _game = game;
 
-    LCSummonerViewController *ourTeamController = [[LCSummonerViewController alloc] initWithSummoners:_game.playerTeam];
+    LCSummonerViewController *ourTeamController = [[LCSummonerViewController alloc] initWithSummoners:_game.playerTeam gameMode:_game.lcGameMode];
     ourTeamController.tabBarItem.title = NSLocalizedString(@"my_team_tab_title", nil);
     [ourTeamController.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"myteam.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"myteam.png"]];
 
-    LCSummonerViewController *enemyTeamController = [[LCSummonerViewController alloc] initWithSummoners:_game.enemyTeam];
+    LCSummonerViewController *enemyTeamController = [[LCSummonerViewController alloc] initWithSummoners:_game.enemyTeam gameMode:_game.lcGameMode];
     enemyTeamController.tabBarItem.title = NSLocalizedString(@"enemies_team_tab_title", nil);
     [enemyTeamController.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"enemies_icon.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"enemies_icon.png"]];
 

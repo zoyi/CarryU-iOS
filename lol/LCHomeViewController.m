@@ -135,7 +135,7 @@ static NSString *kGameWillStartKey = @"gameWillStart";
   LCAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
   NSMutableArray *tableContent = [NSMutableArray arrayWithCapacity:5];
   [appDelegate.gameWillStart.playerTeam each:^(LCSummoner *summoner) {
-    [tableContent addObject:[[LCSummonerCellObject alloc] initWithCellClass:[LCSummonerCell class] summoner:summoner delegate:self.tableView]];
+    [tableContent addObject:[[LCSummonerCellObject alloc] initWithCellClass:[LCSummonerCell class] summoner:summoner gameMode:appDelegate.gameWillStart.lcGameMode delegate:self.tableView]];
   }];
   self.model = [[NIMutableTableViewModel alloc] initWithListArray:tableContent delegate:(id)[NICellFactory class]];
   self.tableView.dataSource = _model;
