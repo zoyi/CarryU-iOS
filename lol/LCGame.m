@@ -8,6 +8,7 @@
 
 #import "LCGame.h"
 #import "LCSummoner.h"
+#import "LCCurrentSummoner.h"
 
 static NSString *SUMMONER_ACTIVE_GAME_ROUTE = @"active_games/:name";
 static NSString *SAMPLE_GAME_ROUTE = @"active_game/sample.json";
@@ -45,7 +46,7 @@ static NSString *SAMPLE_GAME_ROUTE = @"active_game/sample.json";
   RKRoute *sampleGameRoute = [RKRoute routeWithName:@"sample_game" pathPattern:SAMPLE_GAME_ROUTE method:RKRequestMethodGET];
   [[LCApiRouter sharedInstance].routeSet addRoute:sampleGameRoute];
 
-  RKRoute *activeGameRoute = [RKRoute routeWithRelationshipName:@"active_game" objectClass:[LCSummoner class] pathPattern:SUMMONER_ACTIVE_GAME_ROUTE method:RKRequestMethodGET];
+  RKRoute *activeGameRoute = [RKRoute routeWithRelationshipName:@"active_game" objectClass:[LCCurrentSummoner class] pathPattern:SUMMONER_ACTIVE_GAME_ROUTE method:RKRequestMethodGET];
   activeGameRoute.shouldEscapePath = YES;
   [[LCApiRouter sharedInstance].routeSet addRoute:activeGameRoute];
 }
