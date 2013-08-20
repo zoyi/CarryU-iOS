@@ -9,5 +9,5 @@
 #import "NINetworkTableViewController.h"
 
 @interface LCNetworkTableViewController : NINetworkTableViewController
-
+- (void)refreshTableView;
 @end

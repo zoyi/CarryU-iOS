@@ -239,6 +239,11 @@ NSString * const kTestFilghtToken = @"1ded3e52-07bf-4d98-8179-61f9790080c0";
 	[[self xmppStream] sendElement:presence];
 }
 
+- (void)goAway {
+  XMPPPresence *presence = [XMPPPresence presenceWithType:@"away"];
+  [[self xmppStream] sendElement:presence];
+}
+
 - (BOOL)connectWithJID:(NSString *)jid password:(NSString *)passwd {
 	if (![self.xmppStream isDisconnected]) {
     [self.xmppStream disconnect];
@@ -333,26 +338,31 @@ NSString * const kTestFilghtToken = @"1ded3e52-07bf-4d98-8179-61f9790080c0";
 - (void)xmppStream:(XMPPStream *)sender didReceivePresence:(XMPPPresence *)presence {
 
   if ([sender.myJID.bareJID.description isEqualToString:presence.from.bareJID.description] && [presence.from.resource isEqualToString:@"xiff"]) {
-    // my status update.
-    NSString *gameStatus = [presence gameStatus];
-    if (gameStatus.length) {
-      // change state machine
-      NSError *error = nil;
-      self.defaultStatus = presence.status;
-      if ([gameStatus isEqualToString:@"outOfGame"]) {
-        // out of game
-        [_stateMachine fireEvent:@"outOfGame" error:&error];
-      } else if ([gameStatus isEqualToString:@"inQueue"]) {
+    if ([presence.type isEqualToString:@"available"]) {
+      // my status update.
+      NSString *gameStatus = [presence gameStatus];
+      if (gameStatus.length) {
+        // change state machine
+        NSError *error = nil;
+        self.defaultStatus = presence.status;
+        if ([gameStatus isEqualToString:@"outOfGame"]) {
+          // out of game
+          [_stateMachine fireEvent:@"outOfGame" error:&error];
+        } else if ([gameStatus isEqualToString:@"inQueue"]) {
           [_stateMachine fireEvent:@"inQueue" error:&error];
-      } else if ([gameStatus isEqualToString:@"inGame"]) {
-        [_stateMachine fireEvent:@"inGame" error:&error];
-      }
+        } else if ([gameStatus isEqualToString:@"inGame"]) {
+          [_stateMachine fireEvent:@"inGame" error:&error];
+        }
 
-      if (error) {
-        NIDPRINT(@"state machine fire with error %@", error.debugDescription);
+        if (error) {
+          NIDPRINT(@"state machine fire with error %@", error.debugDescription);
+        }
+
       }
-      [self showCarryuPresence];
+    } else if ([presence.type isEqualToString:@"unavailable"]) {
+      [self.stateMachine fireEvent:@"outOfGame" error:nil];
     }
+    [self showCarryuPresence];
   }
 
 }
@@ -571,8 +581,8 @@ NSString * const kTestFilghtToken = @"1ded3e52-07bf-4d98-8179-61f9790080c0";
 }
 
 - (void)setDefaultStatus:(NSString *)defaultStatus {
+  _defaultStatus = defaultStatus;
   if (defaultStatus.length) {
-      _defaultStatus = defaultStatus;
     NSXMLElement *ele = [[NSXMLElement alloc] initWithXMLString:_defaultStatus error:nil];
     NSString *statusMsg = [[ele elementForName:@"statusMsg"] stringValue];
     if (!statusMsg.length) {
@@ -585,9 +595,9 @@ NSString * const kTestFilghtToken = @"1ded3e52-07bf-4d98-8179-61f9790080c0";
 - (void)showCarryuPresence {
 
   XMPPPresence *statusPresence = [XMPPPresence presence];
-  NSXMLElement *showElement = [NSXMLElement elementWithName:@"show" stringValue:@"chat"];
-  if (![self.stateMachine isInState:@"outOfGame"]) {
-    [showElement setStringValue:@"dnd"];
+  NSXMLElement *showElement = [NSXMLElement elementWithName:@"show" stringValue:@"dnd"];
+  if ([self.stateMachine isInState:@"outOfGame"]) {
+    [showElement setStringValue:@"chat"];
   }
   [statusPresence addChild:showElement];
 
@@ -602,11 +612,14 @@ NSString * const kTestFilghtToken = @"1ded3e52-07bf-4d98-8179-61f9790080c0";
     [statusBody addChild:[NSXMLElement elementWithName:@"gameStatus" stringValue:self.stateMachine.currentState.name]];
 
     NSXMLElement *statusElement = [NSXMLElement elementWithName:@"status" stringValue:statusBody.description];
+    [showElement setStringValue:@"away"];
     [statusPresence addChild:statusElement];
   }
   
   [statusPresence addChild:[NSXMLElement elementWithName:@"priority" stringValue:@"0"]];
 
   [self.xmppStream sendElement:statusPresence];
+
+  self.defaultStatus = nil;
 }
 @end

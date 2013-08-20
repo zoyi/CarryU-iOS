@@ -43,13 +43,18 @@
 
 - (ODRefreshControl *)refreshControl {
   if (nil == _refreshControl) {
-    LCAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+
     self.refreshControl = [[ODRefreshControl alloc] initInScrollView:self.tableView];
     _refreshControl.tintColor = [UIColor carryuColor];
     _refreshControl.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhite;
-    [_refreshControl addTarget:appDelegate action:@selector(refreshXmppPrecense:) forControlEvents:UIControlEventValueChanged];
+    [_refreshControl addTarget:self action:@selector(refreshTableView) forControlEvents:UIControlEventValueChanged];
   }
   return _refreshControl;
+}
+
+- (void)refreshTableView {
+  LCAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+  [appDelegate refreshXmppPrecense:_refreshControl];
 }
 
 @end

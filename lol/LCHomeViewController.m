@@ -135,6 +135,7 @@ static NSString *kGameWillStartKey = @"gameWillStart";
   LCAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
   NSMutableArray *tableContent = [NSMutableArray arrayWithCapacity:5];
   [appDelegate.gameWillStart.playerTeam each:^(LCSummoner *summoner) {
+    summoner.level = 0;
     [tableContent addObject:[[LCSummonerCellObject alloc] initWithCellClass:[LCSummonerCell class] summoner:summoner gameMode:appDelegate.gameWillStart.lcGameMode delegate:self.tableView]];
   }];
   self.model = [[NIMutableTableViewModel alloc] initWithListArray:tableContent delegate:(id)[NICellFactory class]];
@@ -142,7 +143,6 @@ static NSString *kGameWillStartKey = @"gameWillStart";
   [self.tableView reloadData];
   [self.view bringSubviewToFront:self.tableView];
 }
-
 
 - (LCOutOfGameView *)outOfGameView {
   if (nil == _outOfGameView) {

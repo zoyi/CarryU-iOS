@@ -110,15 +110,16 @@ static const NSInteger kSpellHidingTag = 32890;
 
   NSMutableString *descriptionText = [NSMutableString string];
   NSNumber *mmr = nil;
-  if (cellObject.gameMode == kRankedGame) {
-    if (summoner.leagueRank) {
-      [descriptionText appendFormat:NSLocalizedString(@"rank_wins", nil), summoner.leagueRank.wins];
-      mmr = summoner.leagueRank.rating ? summoner.leagueRank.rating : nil;
-    }
+
+  if (summoner.leagueRank) {
+    [descriptionText appendFormat:NSLocalizedString(@"rank_wins", nil), summoner.leagueRank.wins];
+    mmr = summoner.leagueRank.rating ? summoner.leagueRank.rating : nil;
   }
 
-  if (cellObject.gameMode == kNormalGame) {
+
+  if (cellObject.gameMode == kNormalGame || !descriptionText.length) {
     if (summoner.normalRank) {
+      descriptionText = [NSMutableString string];
       [descriptionText appendFormat:NSLocalizedString(@"normal_wins", nil), summoner.normalRank.wins];
       mmr = summoner.normalRank.rating ? summoner.normalRank.rating : nil;
     }
@@ -220,6 +221,7 @@ static const NSInteger kSpellHidingTag = 32890;
     self.descriptionLabel = [[NIAttributedLabel alloc] initWithFrame:CGRectZero];
     _descriptionLabel.backgroundColor = [UIColor clearColor];
     _descriptionLabel.font = [UIFont systemFontOfSize:13];
+    _descriptionLabel.minimumScaleFactor = 10/13.f;
     _descriptionLabel.textColor = [UIColor carryuColor];
     [self.contentView addSubview:_descriptionLabel];
   }

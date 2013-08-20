@@ -9,6 +9,7 @@
 #import "LCModel.h"
 
 typedef enum {
+  kUnknown,
   kNormalGame,
   kRankedGame
 }LCGameMode;

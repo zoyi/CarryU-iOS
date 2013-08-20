@@ -12,7 +12,7 @@
 "menu_home_title" = "Home";
 "menu_logout_title" = "Logout";
 "pull_to_reload_desc" = "Pull down to refresh.";
-"out_of_game_description" = "Start the game.\nThe stats of both team will show automatically.";
+"out_of_game_description" = "Start the game!\nThe stats of both team will show automatically.";
 "tutorial_btn_title" = "Tutorial Video";
 "preview_game_btn_title" = "Preview Sample";
 "search_placeholder" = "Summoner's Name";
@@ -40,6 +40,11 @@
 "okay" = "Okay";
 "alert" = "Alert";
 "retrieve_sample_game_error" = "Sample Game is not available right now.";
-"retrieve_sample_game" = "Retrieving sample game...";
+"retrieve_sample_game" = "Retrieving Sample Game...";
 "use_your_lol_account_desc" = "Using your LoL account";
-"carryu_default_signature" = "Proudly using CarryU.";
+"carryu_default_signature" = "CarryU is awesome";
+"using_password_description" = "We use your Riot account just for auto detecting your game status. \nCarryU will NEVER EVER store your Riot account on our server.";
+"Normal_navi_title" = "Normal Game";
+"Ranked_navi_title" = "Ranked Game";
+"logout_tip" = "Your LoL chatting status may go offline when logging out the app. In this case, please turn your status back to online on your LoL client.";
+"dont_show_me_again" = "Don't show again";

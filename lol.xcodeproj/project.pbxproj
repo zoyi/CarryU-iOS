@@ -1612,7 +1612,6 @@
 				GCC_PREFIX_HEADER = "lol/lol-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
-					"TESTFLIGHT=1",
 					"COCOAPODS=1",
 				);
 				HEADER_SEARCH_PATHS = (

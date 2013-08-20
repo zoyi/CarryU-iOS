@@ -46,8 +46,9 @@ static NSString *SAMPLE_GAME_ROUTE = @"active_game/sample.json";
   _queue = queue;
   if ([_queue rangeOfString:@"RANKED"].location != NSNotFound) {
     self.lcGameMode = kRankedGame;
-  } else {
+  } else if ([_queue rangeOfString:@"NORMAL"].location != NSNotFound){
     self.lcGameMode = kNormalGame;
   }
+  self.lcGameMode = kUnknown;
 }
 @end

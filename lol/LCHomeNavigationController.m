@@ -17,6 +17,8 @@
 #import "LCSettingsInfo.h"
 #import <REMenu/REMenu.h>
 
+static NSString * const kHideLogoutAlert = @"hideLogoutAlert";
+
 @interface LCHomeNavigationController () <UISearchBarDelegate, UINavigationControllerDelegate>
 @property (nonatomic, strong) LCSearchBar *searchBar;
 @property (nonatomic, strong) REMenu *menu;
@@ -28,6 +30,7 @@
 - (void)removeBackgroundCoverViewFromCurrentViewController;
 
 - (BOOL)shouldResetNavigationBarItemWithViewController:(UIViewController *)viewController;
+- (void)logout;
 @end
 
 @implementation LCHomeNavigationController
@@ -69,8 +72,25 @@
     }];
 
     REMenuItem *logOutItem = [[REMenuItem alloc] initWithTitle:NSLocalizedString(@"logout", nil) subtitle:nil image:nil highlightedImage:nil action:^(REMenuItem *item) {
-      LCAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-      [appDelegate logout];
+
+      BOOL hideLogoutAlert = [[NSUserDefaults standardUserDefaults] boolForKey:kHideLogoutAlert];
+      if (hideLogoutAlert) {
+        [self logout];
+        return ;
+      }
+
+      SIAlertView *alterView = [SIAlertView carryuAlertWithTitle:nil message:NSLocalizedString(@"logout_tip", nil)];
+      [alterView addButtonWithTitle:NSLocalizedString(@"dont_show_me_again", nil) type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        [userDefaults setBool:YES forKey:kHideLogoutAlert];
+        [userDefaults synchronize];
+      }];
+      alterView.buttonFont = [UIFont flatFontOfSize:13];
+      alterView.willDismissHandler = ^(SIAlertView *alertView) {
+        [self logout];
+      };
+      [alterView show];
+
     }];
 
     self.menu = [[REMenu alloc] initWithItems:@[homeItem, settingsItem, logOutItem]];
@@ -122,6 +142,10 @@
   [self.searchBar.backgroundCoverView removeFromSuperview];
 }
 
+- (void)logout {
+  LCAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+  [appDelegate logout];
+}
 
 #pragma mark - search delegate
 
