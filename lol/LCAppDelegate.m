@@ -20,6 +20,7 @@
 #import "LCServerInfo.h"
 #import "LCSettingsInfo.h"
 #import <GCOLaunchImageTransition/GCOLaunchImageTransition.h>
+#import <Appirater/Appirater.h>
 
 static NSString *kRegionKey = @"_region";
 
@@ -27,8 +28,10 @@ NSString * const kUsernameKey = @"username";
 NSString * const kPasswordKey = @"_password";
 #ifdef IAD
 NSString * const kTestFilghtToken= @"48673066-e6fc-4f04-9708-798d441c6d96";
+NSString * const kAPPID = @"680133719";
 #else
 NSString * const kTestFilghtToken = @"1ded3e52-07bf-4d98-8179-61f9790080c0";
+NSString * const kAPPID = @"672704898";
 #endif
 
 @interface LCAppDelegate () <XMPPStreamDelegate>
@@ -63,6 +66,7 @@ NSString * const kTestFilghtToken = @"1ded3e52-07bf-4d98-8179-61f9790080c0";
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+  [Appirater setAppId:kAPPID];
   [application cancelAllLocalNotifications];
   self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
   // Override point for customization after application launch.
@@ -88,6 +92,7 @@ NSString * const kTestFilghtToken = @"1ded3e52-07bf-4d98-8179-61f9790080c0";
 
   [self.window setRootViewController:loginController];
   [self.window makeKeyAndVisible];
+  [Appirater appLaunched:YES];
   return YES;
 }
 
@@ -101,8 +106,8 @@ NSString * const kTestFilghtToken = @"1ded3e52-07bf-4d98-8179-61f9790080c0";
 - (void)applicationWillEnterForeground:(UIApplication *)application {
   // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
   // remove all notifications
+  [Appirater appEnteredForeground:YES];
   [application cancelAllLocalNotifications];
-
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
