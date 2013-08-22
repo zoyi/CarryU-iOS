@@ -21,6 +21,7 @@
 #import "LCSettingsInfo.h"
 #import <GCOLaunchImageTransition/GCOLaunchImageTransition.h>
 #import <Appirater/Appirater.h>
+#import "LCSigninSelectorViewController.h"
 
 static NSString *kRegionKey = @"_region";
 
@@ -80,7 +81,8 @@ NSString * const kAPPID = @"672704898";
   [self retrieveServerInfo];
   self.regeion = [[NSUserDefaults standardUserDefaults] objectForKey:kRegionKey];
   [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque];
-  LCLoginViewController *loginController = [[LCLoginViewController alloc] initWithStyle:UITableViewStyleGrouped];
+  //  LCLoginViewController *loginController = [[LCLoginViewController alloc] initWithStyle:UITableViewStyleGrouped];
+  LCSigninSelectorViewController *loginController = [[LCSigninSelectorViewController alloc] initWithStyle:UITableViewStylePlain];
 #ifdef DEBUG
   [DDLog addLogger:[DDTTYLogger sharedInstance]];
 #endif

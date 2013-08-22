@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LCSigninSelectorViewController : UITableViewController
+@interface LCSigninSelectorViewController : NINetworkTableViewController
+- (id)initWithStyle:(UITableViewStyle)style;
+@end
 
+
+@interface LCLoginBox : UIView
+@property (nonatomic, strong) NIAttributedLabel *titleLabel;
+@property (nonatomic, strong) FUIButton *button;
 @end

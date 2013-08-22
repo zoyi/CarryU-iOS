@@ -222,6 +222,7 @@ static const NSInteger kSpellHidingTag = 32890;
     _descriptionLabel.backgroundColor = [UIColor clearColor];
     _descriptionLabel.font = [UIFont systemFontOfSize:13];
     _descriptionLabel.minimumScaleFactor = 10/13.f;
+    _descriptionLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
     _descriptionLabel.textColor = [UIColor carryuColor];
     [self.contentView addSubview:_descriptionLabel];
   }
