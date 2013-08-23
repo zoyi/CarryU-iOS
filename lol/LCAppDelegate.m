@@ -19,6 +19,7 @@
 #import "DDTTYLogger.h"
 #import "LCServerInfo.h"
 #import "LCSettingsInfo.h"
+
 #import <GCOLaunchImageTransition/GCOLaunchImageTransition.h>
 #import <Appirater/Appirater.h>
 
@@ -46,13 +47,13 @@ NSString * const kAPPID = @"672704898";
 - (void)setupGAI;
 
 - (void)setupAppearence;
-- (void)getInProcessGameInfo;
 
 - (void)retrieveServerInfo;
 
 - (void)changeBrowserUserAgent;
 
 - (void)showCarryuPresence;
+- (void)getInProcessGameInfo;
 
 @property (nonatomic, strong) NSString *password;
 
@@ -94,6 +95,7 @@ NSString * const kAPPID = @"672704898";
   [self.window setRootViewController:loginController];
   [self.window makeKeyAndVisible];
   [Appirater appLaunched:YES];
+  [self.stateMachine fireEvent:@"outOfGame" error:nil];
   return YES;
 }
 
@@ -238,12 +240,12 @@ NSString * const kAPPID = @"672704898";
 }
 
 - (void)goOnline {
+  self.gameMode = LCObserveModeAuto;
   [self showCarryuPresence];
 }
 
 - (void)goOffline {
 	XMPPPresence *presence = [XMPPPresence presenceWithType:@"unavailable"];
-
 	[[self xmppStream] sendElement:presence];
 }
 
@@ -279,7 +281,7 @@ NSString * const kAPPID = @"672704898";
 
 - (void)xmppStream:(XMPPStream *)sender socketDidConnect:(GCDAsyncSocket *)socket {
   NIDPRINT(@"socket did connect");
-
+  
 }
 
 
@@ -289,7 +291,6 @@ NSString * const kAPPID = @"672704898";
 
 - (void)xmppStreamDidConnect:(XMPPStream *)sender {
   NIDPRINT(@"stream did connect");
-  //	isXmppConnected = YES;
 
 	NSError *error = nil;
 	if (![[self xmppStream] authenticateWithPassword:_password error:&error]) {
@@ -336,6 +337,7 @@ NSString * const kAPPID = @"672704898";
 - (void)xmppStreamDidDisconnect:(XMPPStream *)sender withError:(NSError *)error {
   [SVProgressHUD dismiss];
   NIDPRINT(@"did disconnect with error => %@", error.debugDescription);
+  self.gameMode = LCObserveModeUnknown;
   if (error.code == 7 &&
       [error.domain isEqualToString:@"GCDAsyncSocketErrorDomain"]
       && ![self.window.rootViewController isKindOfClass:[LCLoginViewController class]]) {
@@ -518,6 +520,8 @@ NSString * const kAPPID = @"672704898";
       if ([visiableController isKindOfClass:[LCHomeViewController class]]) {
         [self rebuildHomeRootViewController];
       }
+    } else if (self.gameMode == LCObserveModeManual) {
+      [self.stateMachine fireEvent:@"outOfGame" error:nil];
     }
 
   } failure:^(RKObjectRequestOperation *operation, NSError *error) {
@@ -531,10 +535,19 @@ NSString * const kAPPID = @"672704898";
 
 - (void)refreshXmppPrecense:(id)sender {
   if ([sender isKindOfClass:[ODRefreshControl class]]) {
-    [self goOffline];
+    switch (self.gameMode) {
+      case LCObserveModeAuto:
+        [self goOffline];
 
-    [(ODRefreshControl *)sender performSelector:@selector(endRefreshing) withObject:nil afterDelay:0.35];
-    [self performSelector:@selector(goOnline) withObject:nil afterDelay:0.36];
+        [(ODRefreshControl *)sender performSelector:@selector(endRefreshing) withObject:nil afterDelay:0.35];
+        [self performSelector:@selector(goOnline) withObject:nil afterDelay:0.36];
+        break;
+      case LCObserveModeManual:
+        [self getInProcessGameInfo];
+        break;
+      default:
+        break;
+    }
   }
 }
 

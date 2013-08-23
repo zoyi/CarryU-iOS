@@ -212,12 +212,6 @@ static CGFloat kDefaultServerIndicatorHeight = 44;
   return [self tableView:tableView viewForHeaderInSection:section].height;
 }
 
-- (void)hideKeyboard {
-  [UIView animateWithDuration:0.25 animations:^{
-    self.view.top = NIStatusBarHeight();
-  }];
-}
-
 - (void)setPrevServer {
   if ([_regionPickerView hasPrevious]) {
     [_regionPickerView moveToPreviousAnimated:YES];

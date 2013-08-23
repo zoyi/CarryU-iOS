@@ -5,6 +5,7 @@
 "name_placeholder" = "Username";
 "password_placeholder" = "Password";
 "summoner_name_placeholder" = "Summoner name";
+"binding_btn_label" = "Binding";
 "login_btn_label" = "Login";
 "next_btn_label" = "Next";
 "my_team_tab_title" = "My Team";

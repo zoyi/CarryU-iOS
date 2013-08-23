@@ -23,6 +23,7 @@ static NSString * const kHideLogoutAlert = @"hideLogoutAlert";
 @interface LCHomeNavigationController () <UISearchBarDelegate, UINavigationControllerDelegate>
 @property (nonatomic, strong) LCSearchBar *searchBar;
 @property (nonatomic, strong) REMenu *menu;
+@property (nonatomic, strong) NSArray *menuItems;
 
 - (void)showMenu;
 - (void)showSearchBar;
@@ -62,41 +63,77 @@ static NSString * const kHideLogoutAlert = @"hideLogoutAlert";
 
 - (REMenu *)menu {
   if (nil == _menu) {
-    REMenuItem *homeItem = [[REMenuItem alloc] initWithTitle:NSLocalizedString(@"home", nil) subtitle:nil image:nil highlightedImage:nil action:^(REMenuItem *item){
-      LCAppDelegate *delegate = [UIApplication sharedApplication].delegate;
-      [delegate rebuildHomeRootViewController];
-    }];
-
-    REMenuItem *settingsItem = [[REMenuItem alloc] initWithTitle:NSLocalizedString(@"settings", nil) subtitle:nil image:nil highlightedImage:nil action:^(REMenuItem *item) {
-      LCSettingsController *settingsController = [[LCSettingsController alloc] initWithStyle:UITableViewStyleGrouped];
-      [self pushViewController:settingsController animated:NO];
-    }];
-
-    REMenuItem *logOutItem = [[REMenuItem alloc] initWithTitle:NSLocalizedString(@"logout", nil) subtitle:nil image:nil highlightedImage:nil action:^(REMenuItem *item) {
-
-      BOOL hideLogoutAlert = [[NSUserDefaults standardUserDefaults] boolForKey:kHideLogoutAlert];
-      if (hideLogoutAlert) {
-        [self logout];
-        return ;
-      }
-
-      SIAlertView *alterView = [SIAlertView carryuAlertWithTitle:nil message:NSLocalizedString(@"logout_tip", nil)];
-      [alterView addButtonWithTitle:NSLocalizedString(@"dont_show_me_again", nil) type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
-        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        [userDefaults setBool:YES forKey:kHideLogoutAlert];
-        [userDefaults synchronize];
-      }];
-      alterView.buttonFont = [UIFont flatFontOfSize:13];
-      alterView.willDismissHandler = ^(SIAlertView *alertView) {
-        [self logout];
-      };
-      [alterView show];
-
-    }];
-
-    self.menu = [[REMenu alloc] initWithItems:@[homeItem, settingsItem, logOutItem]];
+    self.menu = [[REMenu alloc] initWithItems:self.menuItems];
   }
   return _menu;
+}
+
+- (NSArray *)menuItems {
+  LCAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+  LCObserveMode observeMode = appDelegate.gameMode;
+  NSString *homeItemTitle = NSLocalizedString(@"home", nil);
+  if ([appDelegate.stateMachine isInState:@"inGame"]) {
+    homeItemTitle = NSLocalizedString(@"in_game", nil);
+  }
+  REMenuItem *homeItem = [[REMenuItem alloc] initWithTitle:homeItemTitle subtitle:nil image:nil highlightedImage:nil action:^(REMenuItem *item){
+    LCAppDelegate *delegate = [UIApplication sharedApplication].delegate;
+    [delegate rebuildHomeRootViewController];
+  }];
+  
+  REMenuItem *settingsItem = [[REMenuItem alloc] initWithTitle:NSLocalizedString(@"settings", nil) subtitle:nil image:nil highlightedImage:nil action:^(REMenuItem *item) {
+    LCSettingsController *settingsController = [[LCSettingsController alloc] initWithStyle:UITableViewStyleGrouped];
+    [self pushViewController:settingsController animated:NO];
+  }];
+
+  REMenuItem *regionSelectItem = [[REMenuItem alloc] initWithTitle:NSLocalizedString(@"", nil) image:nil highlightedImage:nil action:^(REMenuItem *item) {
+    // back to init
+  }];
+  
+  NSArray *items = @[];
+  switch (observeMode) {
+    case LCObserveModeAuto: {
+      
+
+      REMenuItem *logOutItem = [[REMenuItem alloc] initWithTitle:NSLocalizedString(@"logout", nil) subtitle:nil image:nil highlightedImage:nil action:^(REMenuItem *item) {
+
+        BOOL hideLogoutAlert = [[NSUserDefaults standardUserDefaults] boolForKey:kHideLogoutAlert];
+        if (hideLogoutAlert) {
+          [self logout];
+          return ;
+        }
+
+        SIAlertView *alterView = [SIAlertView carryuAlertWithTitle:nil message:NSLocalizedString(@"logout_tip", nil)];
+        [alterView addButtonWithTitle:NSLocalizedString(@"dont_show_me_again", nil) type:SIAlertViewButtonTypeCancel handler:^(SIAlertView *alertView) {
+          NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+          [userDefaults setBool:YES forKey:kHideLogoutAlert];
+          [userDefaults synchronize];
+        }];
+        alterView.buttonFont = [UIFont flatFontOfSize:13];
+        alterView.willDismissHandler = ^(SIAlertView *alertView) {
+          [self logout];
+        };
+        [alterView show];
+        
+      }];
+
+      items = @[homeItem, settingsItem, logOutItem];
+    }
+      break;
+    case LCObserveModeManual: {
+      items = @[homeItem, settingsItem, regionSelectItem];
+    }
+      break;
+    case LCObserveModeUnknown:{
+      REMenuItem *homeItem = [[REMenuItem alloc] initWithTitle:NSLocalizedString(@"home", nil) image:nil highlightedImage:nil action:^(REMenuItem *item) {
+        // show signin selector page
+      }];
+      items = @[homeItem, settingsItem, regionSelectItem];
+    }
+      break;
+    default:
+      break;
+  }
+  return items;
 }
 
 - (UISearchBar *)searchBar {
@@ -112,12 +149,7 @@ static NSString * const kHideLogoutAlert = @"hideLogoutAlert";
 }
 
 - (void)showMenu {
-  LCAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-  if ([appDelegate.stateMachine isInState:@"inGame"]) {
-    [[self.menu.items objectAtIndex:0] setTitle:NSLocalizedString(@"in_game", nil)];
-  } else {
-    [[self.menu.items objectAtIndex:0] setTitle:NSLocalizedString(@"home", nil)];
-  }
+  self.menu.items = self.menuItems;
   if ([self.menu isOpen]) {
     [self.menu close];
   } else {

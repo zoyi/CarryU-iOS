@@ -129,7 +129,7 @@
 }
 
 - (NSString *)buttonTitle {
-  return NSLocalizedString(@"login", nil);
+  return NSLocalizedString(@"login_btn_label", nil);
 }
 
 - (NSString *)additionalNote {
@@ -167,7 +167,7 @@
 }
 
 - (NSString *)buttonTitle {
-  return NSLocalizedString(@"", nil);
+  return NSLocalizedString(@"binding", nil);
 }
 
 - (NSString *)additionalNote {
