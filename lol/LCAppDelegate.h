@@ -12,6 +12,12 @@ extern NSString * const kUsernameKey;
 extern NSString * const kPasswordKey;
 @class LCGame;
 
+typedef NS_ENUM(NSInteger, LCObserveMode) {
+  LCObserveModeUnknown,
+  LCObserveModeManual,
+  LCObserveModeAuto
+};
+
 @interface LCAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
@@ -25,6 +31,7 @@ extern NSString * const kPasswordKey;
 @property (nonatomic, strong) LCGame *gameWillStart;
 @property (nonatomic, strong) NSString *regeion;
 @property (nonatomic, strong) NSString *defaultStatus;
+@property (nonatomic, assign) LCObserveMode gameMode;
 
 - (BOOL)connectWithJID:(NSString *)jid password:(NSString *)passwd;
 - (void)rebuildHomeRootViewController;

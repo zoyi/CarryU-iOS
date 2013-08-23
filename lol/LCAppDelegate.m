@@ -21,7 +21,6 @@
 #import "LCSettingsInfo.h"
 #import <GCOLaunchImageTransition/GCOLaunchImageTransition.h>
 #import <Appirater/Appirater.h>
-#import "LCSigninSelectorViewController.h"
 
 static NSString *kRegionKey = @"_region";
 
@@ -51,7 +50,7 @@ NSString * const kAPPID = @"672704898";
 
 - (void)retrieveServerInfo;
 
-- (void)changeUserAgent;
+- (void)changeBrowserUserAgent;
 
 - (void)showCarryuPresence;
 
@@ -76,13 +75,13 @@ NSString * const kAPPID = @"672704898";
   [TestFlight takeOff:kTestFilghtToken];
 #endif
   [self setupGAI];
-  [self changeUserAgent];
+  [self changeBrowserUserAgent];
 
   [self retrieveServerInfo];
   self.regeion = [[NSUserDefaults standardUserDefaults] objectForKey:kRegionKey];
   [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque];
-  //  LCLoginViewController *loginController = [[LCLoginViewController alloc] initWithStyle:UITableViewStyleGrouped];
-  LCSigninSelectorViewController *loginController = [[LCSigninSelectorViewController alloc] initWithStyle:UITableViewStylePlain];
+  LCLoginViewController *loginController = [[LCLoginViewController alloc] initWithStyle:UITableViewStyleGrouped];
+
 #ifdef DEBUG
   [DDLog addLogger:[DDTTYLogger sharedInstance]];
 #endif
@@ -170,8 +169,9 @@ NSString * const kAPPID = @"672704898";
     } else {
       regeion = @"na";
     }
-
   }
+  
+  self.gameMode = LCObserveModeUnknown;
   if (![regeion isEqualToString:_regeion]) {
     _regeion = regeion;
     [[LCSettingsInfo sharedInstance] updateRegion];
@@ -180,6 +180,7 @@ NSString * const kAPPID = @"672704898";
     [self setupRestkit];
     [self setupApiRouter];
   }
+
   [[NSUserDefaults standardUserDefaults] setObject:_regeion forKey:kRegionKey];
   [[NSUserDefaults standardUserDefaults] synchronize];
   
@@ -542,7 +543,7 @@ NSString * const kAPPID = @"672704898";
   [LCSettingsInfo sharedInstance];
 }
 
-- (void)changeUserAgent {
+- (void)changeBrowserUserAgent {
 
   UIWebView* webView = [[UIWebView alloc] initWithFrame:CGRectZero];
   NSString* secretAgent = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];

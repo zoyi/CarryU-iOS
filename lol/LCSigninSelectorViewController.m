@@ -7,6 +7,7 @@
 //
 
 #import "LCSigninSelectorViewController.h"
+#import "LCSigninFormViewController.h"
 
 static CGFloat const kMidPadding = 30.f;
 static CGFloat const kSamllPadding = 10.f;
@@ -108,19 +109,16 @@ static CGFloat const kSamllPadding = 10.f;
 }
 
 - (void)showRiotLoginAlert {
-
+  LCSigninRiotFormViewController *controller = [[LCSigninRiotFormViewController alloc] initWithStyle:UITableViewStyleGrouped];
+  [self.navigationController pushViewController:controller animated:YES];
 }
 
 - (void)showSummonerNameBindingAlert {
-  
+  LCSigninSummonerNameFormViewController *controller = [[LCSigninSummonerNameFormViewController alloc] initWithStyle:UITableViewStyleGrouped];
+  [self.navigationController pushViewController:controller animated:YES];
 }
 
 @end
-
-@interface LCLoginBox ()
-
-@end
-
 
 
 @implementation LCLoginBox

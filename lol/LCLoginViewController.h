@@ -13,11 +13,6 @@
 @end
 
 
-@interface LCTextInputFormElementCell : NITextInputFormElementCell
-
-@end
-
-
 @interface LCRegionPageView : UIView <NIPagingScrollViewPage>
 @property (nonatomic, strong) NIAttributedLabel *label;
 @end

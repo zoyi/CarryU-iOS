@@ -76,6 +76,7 @@
 		9C52A747176B4D7900A472E5 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C52A746176B4D7800A472E5 /* CoreLocation.framework */; };
 		9C52A823176B5D9A00A472E5 /* XMPPReconnect.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C52A758176B5D9A00A472E5 /* XMPPReconnect.m */; };
 		9C59186E178826950059428D /* NIAttributedLabel+LCCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C59186D178826950059428D /* NIAttributedLabel+LCCategory.m */; };
+		9C669FCE17C72A5800E09FEC /* LCSigninFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C669FCD17C72A5800E09FEC /* LCSigninFormViewController.m */; };
 		9C687DF3178AC95F002169F3 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C687DF2178AC95F002169F3 /* Default-568h@2x.png */; };
 		9C687DF5178AC962002169F3 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C687DF4178AC962002169F3 /* Default@2x.png */; };
 		9C7F144717872FCC0000FBDA /* activated@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C7F144317872FCC0000FBDA /* activated@2x.png */; };
@@ -309,6 +310,8 @@
 		9C52A758176B5D9A00A472E5 /* XMPPReconnect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPReconnect.m; sourceTree = "<group>"; };
 		9C59186C178826950059428D /* NIAttributedLabel+LCCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NIAttributedLabel+LCCategory.h"; sourceTree = "<group>"; };
 		9C59186D178826950059428D /* NIAttributedLabel+LCCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NIAttributedLabel+LCCategory.m"; sourceTree = "<group>"; };
+		9C669FCC17C72A5800E09FEC /* LCSigninFormViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCSigninFormViewController.h; sourceTree = "<group>"; };
+		9C669FCD17C72A5800E09FEC /* LCSigninFormViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCSigninFormViewController.m; sourceTree = "<group>"; };
 		9C687DF2178AC95F002169F3 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		9C687DF4178AC962002169F3 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		9C7F144317872FCC0000FBDA /* activated@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "activated@2x.png"; sourceTree = "<group>"; };
@@ -593,6 +596,8 @@
 			children = (
 				9C21233617C4ABBC00FC54C6 /* LCSigninSelectorViewController.h */,
 				9C21233717C4ABBC00FC54C6 /* LCSigninSelectorViewController.m */,
+				9C669FCC17C72A5800E09FEC /* LCSigninFormViewController.h */,
+				9C669FCD17C72A5800E09FEC /* LCSigninFormViewController.m */,
 			);
 			name = SigninSelector;
 			sourceTree = "<group>";
@@ -1478,6 +1483,7 @@
 				9C8E8A4D17AF99A90085B3E0 /* XMPPPresence.m in Sources */,
 				9C8E8A4E17AF99A90085B3E0 /* XMPPStream.m in Sources */,
 				9C21233817C4ABBC00FC54C6 /* LCSigninSelectorViewController.m in Sources */,
+				9C669FCE17C72A5800E09FEC /* LCSigninFormViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

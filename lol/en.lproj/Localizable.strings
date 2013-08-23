@@ -4,7 +4,9 @@
 "server_picker_format" = "%@ Server";
 "name_placeholder" = "Username";
 "password_placeholder" = "Password";
+"summoner_name_placeholder" = "Summoner name";
 "login_btn_label" = "Login";
+"next_btn_label" = "Next";
 "my_team_tab_title" = "My Team";
 "enemies_team_tab_title" = "Enemies";
 "guides_tab_title" = "Guides";
@@ -15,7 +17,7 @@
 "out_of_game_description" = "Start the game!\nThe stats of both team will show automatically.";
 "tutorial_btn_title" = "Tutorial Video";
 "preview_game_btn_title" = "Preview Sample";
-"search_placeholder" = "Summoner's Name";
+"search_placeholder" = "Summoner name";
 "deactivated_navi_title" = "Deactivated";
 "Activated_navi_title" = "Activated";
 "normal_wins" = "Normal %@W";

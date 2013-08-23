@@ -10,30 +10,24 @@
 #import "LCAppDelegate.h"
 #import <ActionSheetPicker2/ActionSheetStringPicker.h>
 #import <CoreText/CoreText.h>
+#import "LCSigninSelectorViewController.h"
+#import "LCHomeNavigationController.h"
+#import "LCAppDelegate.h"
 
-static NSInteger kUsernameTextFieldTag = 234;
-static NSInteger kPasswordTextFieldTag = 2389;
-static CGFloat kDefaultServerIndicatorWidth = 30;
-
+static CGFloat kDefaultServerIndicatorWidth = 25;
+static CGFloat kDefaultServerIndicatorHeight = 44;
 @interface LCLoginViewController () <UITextFieldDelegate, NIPagingScrollViewDataSource, NIPagingScrollViewDelegate>
 
-@property (nonatomic, strong) NITableViewActions *actions;
-@property (nonatomic, strong) NITableViewModel *model;
-@property (nonatomic, strong) NSString *username;
-@property (nonatomic, strong) NSString *password;
-
 @property (nonatomic, strong) UIImageView *backgroundView;
-@property (nonatomic, strong) NICellFactory *cellFactory;
 @property (nonatomic, strong) NIPagingScrollView *regionPickerView;
 
-- (void)login;
-- (void)hideKeyboard;
 - (NSArray *)pickerDataSource;
 
 - (void)setPrevServer;
 - (void)setNextServer;
 
-- (void)showUsingPasswordDescription;
+- (void)nextStep;
+
 @end
 
 @implementation LCLoginViewController
@@ -53,33 +47,16 @@ static CGFloat kDefaultServerIndicatorWidth = 30;
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  self.actions = [[NITableViewActions alloc] initWithTarget:self];
-  self.cellFactory = [[NICellFactory alloc] init];
-  self.tableView.delegate = [self.actions forwardingTo:self];
-
-  NSArray *tableForm =
-  @[
-    NSLocalizedString(@"use_your_lol_account_desc", nil),
-    [NITextInputFormElement textInputElementWithID:kUsernameTextFieldTag placeholderText:NSLocalizedString(@"name_placeholder", nil) value:[[NSUserDefaults standardUserDefaults] stringForKey:kUsernameKey] delegate:self],
-    [NITextInputFormElement passwordInputElementWithID:kPasswordTextFieldTag placeholderText:NSLocalizedString(@"password_placeholder", nil) value:[[NSUserDefaults standardUserDefaults] stringForKey:kPasswordKey] delegate:self]
-    ];
-  [_cellFactory mapObjectClass:[NITextInputFormElement class] toCellClass:[LCTextInputFormElementCell class]];
-  self.model = [[NITableViewModel alloc] initWithSectionedArray:tableForm delegate:(id)_cellFactory];
-  
+   
   self.tableView.backgroundColor = [UIColor clearColor];
   self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
   self.tableView.separatorColor = RGBCOLOR(0x72, 0x88, 0x9e);
-  self.tableView.dataSource = _model;
+
   self.tableView.scrollEnabled = NO;
 
   self.tableView.tableHeaderView = [self headerView];
   self.tableView.tableFooterView = [self footerView];
 
-  UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapTableView)];
-
-  //  tap.cancelsTouchesInView = NO;
-
-  [self.tableView addGestureRecognizer:tap];
   [self.regionPickerView reloadData];
   LCAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
   NSInteger selectedPageIndex = [self.pickerDataSource indexOfObject:appDelegate.regeion];
@@ -99,15 +76,12 @@ static CGFloat kDefaultServerIndicatorWidth = 30;
   UIView *footerView = [[UIView alloc] init];
   CGFloat top = 0;
   CGFloat left = 10;
-  FUIButton *loginButton = [FUIButton lcButtonWithTitle:NSLocalizedString(@"login_btn_label", nil)];
-  loginButton.frame = CGRectMake(left, top, [UIScreen mainScreen].bounds.size.width - 2*left, 44);
-  [loginButton addTarget:self action:@selector(login) forControlEvents:UIControlEventTouchUpInside];
-  [footerView addSubview:loginButton];
-  CGFloat serverTopPadding = 20;
-  if (isiPhone5) {
-    serverTopPadding = 30;
-  }
-  top += loginButton.frame.size.height + serverTopPadding;
+
+//  CGFloat serverTopPadding = 20;
+//  if (isiPhone5) {
+//    serverTopPadding = 30;
+//  }
+//  top += serverTopPadding;
 
   {
     CGFloat innerLeft = left;
@@ -115,8 +89,8 @@ static CGFloat kDefaultServerIndicatorWidth = 30;
     // prev
      
     NINetworkImageView *prevIndicatorView = [[NINetworkImageView alloc] initWithImage:[UIImage imageNamed:@"server_prev.png"]];
-    prevIndicatorView.contentMode = UIViewContentModeTopLeft;
-    prevIndicatorView.size = CGSizeMake(kDefaultServerIndicatorWidth, kDefaultServerIndicatorWidth);
+    prevIndicatorView.contentMode = (UIViewContentModeLeft);
+    prevIndicatorView.size = CGSizeMake(kDefaultServerIndicatorWidth, kDefaultServerIndicatorHeight);
     prevIndicatorView.origin = CGPointMake(innerLeft, top);
 
     prevIndicatorView.userInteractionEnabled = YES;
@@ -129,25 +103,48 @@ static CGFloat kDefaultServerIndicatorWidth = 30;
 
     // next
     NINetworkImageView *nextIndicatorView = [[NINetworkImageView alloc] initWithImage:[UIImage imageNamed:@"server_next.png"]];
-    nextIndicatorView.top = top;
-    nextIndicatorView.contentMode = UIViewContentModeTopRight;
-    nextIndicatorView.size = CGSizeMake(kDefaultServerIndicatorWidth, kDefaultServerIndicatorWidth);
+
+    nextIndicatorView.contentMode = (UIViewContentModeRight);
+    nextIndicatorView.size = prevIndicatorView.size;
+    nextIndicatorView.top = prevIndicatorView.top;
+    nextIndicatorView.right = [UIScreen mainScreen].bounds.size.width - innerLeft;
+    
     nextIndicatorView.userInteractionEnabled = YES;
     UITapGestureRecognizer *nextTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(setNextServer)];
     nextTapGesture.numberOfTapsRequired = 1;
     nextTapGesture.numberOfTouchesRequired = 1;
     [nextIndicatorView addGestureRecognizer:nextTapGesture];
-    
-    nextIndicatorView.right = [UIScreen mainScreen].bounds.size.width - innerLeft;
+
     [footerView addSubview:nextIndicatorView];
 
-    self.regionPickerView.frame = CGRectMake(prevIndicatorView.right, top, nextIndicatorView.left - prevIndicatorView.right, loginButton.height);
+    self.regionPickerView.frame = CGRectMake(prevIndicatorView.right, top, nextIndicatorView.left - prevIndicatorView.right, 44);
     [footerView addSubview:_regionPickerView];
-    top += _regionPickerView.height;
+    top += _regionPickerView.height + 80;
   }
-  
+
+  FUIButton *nextButton = [FUIButton lcButtonWithTitle:NSLocalizedString(@"next_btn_label", nil)];
+  nextButton.frame = CGRectMake(left, top, [UIScreen mainScreen].bounds.size.width - 2*left, 44);
+  [nextButton addTarget:self action:@selector(nextStep) forControlEvents:UIControlEventTouchUpInside];
+  [footerView addSubview:nextButton];
+
+  top += nextButton.height;
+
   footerView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, top);
   return footerView;
+}
+
+- (void)nextStep {
+  LCSigninSelectorViewController *signinSelectorViewController = [[LCSigninSelectorViewController alloc] initWithStyle:UITableViewStylePlain];
+  LCHomeNavigationController *navigationController = [[LCHomeNavigationController alloc] initWithRootViewController:signinSelectorViewController];
+
+#ifdef IAD
+  UIViewController *rootViewController = [[LCADHomeViewController alloc] initWithContentViewController:navigationController];
+#else
+  UIViewController *rootViewController = navigationController;
+#endif
+  LCAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+  appDelegate.window.rootViewController = rootViewController;
+  [appDelegate.window makeKeyAndVisible];
 }
 
 - (NIPagingScrollView *)regionPickerView {
@@ -161,7 +158,7 @@ static CGFloat kDefaultServerIndicatorWidth = 30;
 
 - (UIView *)headerView {
   UIView *headerView = [[UIView alloc] init];
-  CGFloat top = 14;
+  CGFloat top = self.view.height / 10;
 
 
   UIImageView *logoView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo.png"]];
@@ -176,39 +173,6 @@ static CGFloat kDefaultServerIndicatorWidth = 30;
   }
   headerView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, top);
   return headerView;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-  if (section == 0) {
-    NSString *title = [_model tableView:tableView titleForHeaderInSection:section];
-    UIView *sectionHeader = [[UIView alloc] initWithFrame:CGRectZero];
-    if (isiPhone5) {
-      sectionHeader.height = 50;
-    }
-    NIAttributedLabel *label = [[NIAttributedLabel alloc] initWithFrame:CGRectZero];
-    label.textColor = [UIColor carryuColor];
-    label.text = title;
-    label.backgroundColor = [UIColor clearColor];
-    label.font = [UIFont systemFontOfSize:13];
-    label.width = 300;
-    [label sizeToFit];
-    CGFloat labelTop = MAX(sectionHeader.height - label.height, 0);
-    label.origin = CGPointMake(10, labelTop);
-    [sectionHeader addSubview:label];
-
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button addTarget:self action:@selector(showUsingPasswordDescription) forControlEvents:UIControlEventTouchUpInside];
-    [button setImage:[UIImage imageNamed:@"more_info.png"] forState:UIControlStateNormal];
-    [button sizeToFit];
-    button.left = label.right + 4;
-    button.top = labelTop - (button.height - label.height)/2;
-    [sectionHeader addSubview:button];
-
-    sectionHeader.frame = CGRectMake(0, 0, 320, MAX(sectionHeader.height, label.height) + 5);
-    NIDPRINT(@"section header frame = %@", NSStringFromCGRect(label.frame));
-    return sectionHeader;
-  }
-  return nil;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -248,41 +212,6 @@ static CGFloat kDefaultServerIndicatorWidth = 30;
   return [self tableView:tableView viewForHeaderInSection:section].height;
 }
 
-- (void)textFieldDidBeginEditing:(UITextField *)textField {
-  if (self.view.top >= 0) {
-    [UIView animateWithDuration:0.3 animations:^{
-      if (isiPhone5) {
-        self.view.top = -120;
-      } else {
-        self.view.top = -140;
-      }
-    }];
-  }
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField {
-  if (textField.tag == kUsernameTextFieldTag) {
-    self.username = [textField.text lowercaseString];
-  } else if (textField.tag == kPasswordTextFieldTag) {
-    self.password = textField.text;
-  }
-  
-}
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField {
-  [self hideKeyboard];
-  return YES;
-}
-
-- (void)didTapTableView {
-  [self hideKeyboard];
-  [self.view endEditing:YES];
-}
-
-- (void)showUsingPasswordDescription {
-  [[SIAlertView carryuAlertWithTitle:nil message:NSLocalizedString(@"using_password_description", nil)] show];
-}
-
 - (void)hideKeyboard {
   [UIView animateWithDuration:0.25 animations:^{
     self.view.top = NIStatusBarHeight();
@@ -305,32 +234,6 @@ static CGFloat kDefaultServerIndicatorWidth = 30;
   }
 }
 
-- (void)login {
-  NIDPRINT(@"curreny usename = %@, password = %@", _username, _password);
-  [self didTapTableView];
-  if (_username.length == 0 || _password.length == 0) {
-    [[SIAlertView carryuWarningAlertWithMessage:NSLocalizedString(@"username_or_password_cant_be_blank_msg", nil)] show];
-    return;
-  }
-  LCAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-  [appDelegate connectWithJID:_username password:_password];
-}
-
-
-@end
-
-@implementation LCTextInputFormElementCell
-
-- (void)layoutSubviews {
-  [super layoutSubviews];
-  self.textField.textColor = [UIColor carryuColor];
-  [self.textField setValue:[UIColor wetAsphaltColor] forKeyPath:@"_placeholderLabel.textColor"];
-  if (!self.textField.isSecureTextEntry) {
-    self.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-  }
-  self.backgroundColor = RGBCOLOR(0x10, 0x13, 0x16);
-}
-
 @end
 
 @implementation LCRegionPageView
@@ -344,14 +247,27 @@ static CGFloat kDefaultServerIndicatorWidth = 30;
   return self;
 }
 
+- (void)layoutSubviews {
+  [super layoutSubviews];
+  if (_label.text) {
+    [_label sizeToFit];
+    _label.width = self.width;
+    _label.centerY = self.centerY;
+  }
+}
+
 - (NIAttributedLabel *)label {
   if (nil == _label) {
     self.label = [[NIAttributedLabel alloc] initWithFrame:CGRectZero];
     _label.autoresizingMask = UIViewAutoresizingFlexibleDimensions;
-    _label.font = [UIFont systemFontOfSize:17];
+    _label.font = [UIFont systemFontOfSize:24];
+    _label.adjustsFontSizeToFitWidth =YES;
+    _label.numberOfLines = 1;
     _label.textAlignment = NSTextAlignmentCenter;
+
     _label.backgroundColor = [UIColor clearColor];
     _label.textColor = [UIColor carryuColor];
+
     [self addSubview:_label];
   }
   return _label;

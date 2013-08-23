@@ -14,6 +14,7 @@
 #import "LCSummonerShowController.h"
 #import "LCSummonerSearchController.h"
 #import "LCGameTabBarController.h"
+#import "LCSigninFormViewController.h"
 #import "LCSettingsInfo.h"
 #import <REMenu/REMenu.h>
 
@@ -168,7 +169,8 @@ static NSString * const kHideLogoutAlert = @"hideLogoutAlert";
 - (BOOL)shouldResetNavigationBarItemWithViewController:(UIViewController *)viewController {
   UIViewController *contentViewController = viewController;
   if ([contentViewController isKindOfClass:[LCSummonerShowController class]]
-      || [contentViewController isKindOfClass:[LCSampleGameTabBarController class]]) {
+      || [contentViewController isKindOfClass:[LCSampleGameTabBarController class]]
+      || [contentViewController isKindOfClass:[LCSigninFormViewController class]]) {
     return NO;
   }
 
