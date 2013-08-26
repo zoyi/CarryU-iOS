@@ -85,8 +85,9 @@ static NSString * const kHideLogoutAlert = @"hideLogoutAlert";
     [self pushViewController:settingsController animated:NO];
   }];
 
-  REMenuItem *regionSelectItem = [[REMenuItem alloc] initWithTitle:NSLocalizedString(@"", nil) image:nil highlightedImage:nil action:^(REMenuItem *item) {
+  REMenuItem *regionSelectItem = [[REMenuItem alloc] initWithTitle:NSLocalizedString(@"select_region", nil) image:nil highlightedImage:nil action:^(REMenuItem *item) {
     // back to init
+    [self logout];
   }];
   
   NSArray *items = @[];

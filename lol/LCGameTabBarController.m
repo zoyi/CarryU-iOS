@@ -99,14 +99,14 @@
   NSString *baseUrl = [LCServerInfo sharedInstance].currentServer.railsHost.absoluteString;
   __block NSNumber *championId = nil;
   [_game.playerTeam each:^(LCSummoner *summoner) {
-    if ([summoner.sID isEqualToNumber:[LCCurrentSummoner sharedInstance].sID]) {
+    if ([summoner.name caseInsensitiveCompare:[LCCurrentSummoner sharedInstance].name] == NSOrderedSame) {
       championId = summoner.champion.cid;
     }
   }];
 
   if (!championId) {
     [_game.enemyTeam each:^(LCSummoner *summoner) {
-      if ([summoner.sID isEqualToNumber:[LCCurrentSummoner sharedInstance].sID]) {
+      if ([summoner.name caseInsensitiveCompare:[LCCurrentSummoner sharedInstance].name] == NSOrderedSame) {
         championId = summoner.champion.cid;
       }
     }];

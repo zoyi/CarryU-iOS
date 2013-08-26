@@ -8,6 +8,8 @@
 
 #import "LCSigninFormViewController.h"
 #import "UIBarButtonItem+LCCategory.h"
+#import "LCAppDelegate.h"
+#import "LCCurrentSummoner.h"
 
 @interface LCSigninFormViewController ()
 
@@ -38,6 +40,16 @@
 
   self.navigationItem.hidesBackButton = YES;
   self.navigationItem.leftBarButtonItem = [UIBarButtonItem carryuBackBarButtonItem];
+
+  UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapTableView)];
+
+  //  tap.cancelsTouchesInView = NO;
+
+  [self.tableView addGestureRecognizer:tap];
+}
+
+- (void)didTapTableView {
+  [self.view endEditing:YES];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -126,6 +138,12 @@
 
 - (void)buttonAction {
 
+  if (_username.value.length == 0 || _password.value.length == 0) {
+    [[SIAlertView carryuWarningAlertWithMessage:NSLocalizedString(@"username_or_password_cant_be_blank_msg", nil)] show];
+    return;
+  }
+  LCAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+  [appDelegate connectWithJID:_username.value password:_password.value];
 }
 
 - (NSString *)buttonTitle {
@@ -163,7 +181,14 @@
 @implementation LCSigninSummonerNameFormViewController
 
 - (void)buttonAction {
-  
+  if (_summonerName.value.length) {
+    [LCCurrentSummoner sharedInstance].name = _summonerName.value;
+    LCAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+    appDelegate.gameMode = LCObserveModeManual;
+    [appDelegate rebuildHomeRootViewController];
+  } else {
+    [SIAlertView carryuAlertWithTitle:nil message:NSLocalizedString(@"summoner_name_cant_be_blank", nil)];
+  }
 }
 
 - (NSString *)buttonTitle {

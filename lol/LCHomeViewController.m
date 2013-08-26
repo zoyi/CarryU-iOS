@@ -21,6 +21,7 @@
 #import "LCSettingsInfo.h"
 #import "LCOutOfGameView.h"
 #import "LCInQueueStateView.h"
+#import "UIViewController+LCCategory.h"
 
 static NSString *kCurrentStateKey = @"currentState";
 static NSString *kGameWillStartKey = @"gameWillStart";
@@ -40,7 +41,6 @@ static NSString *kGameWillStartKey = @"gameWillStart";
 
 - (void)showStateView;
 
-- (void)showSampleView;
 @end
 
 @implementation LCHomeViewController
@@ -151,7 +151,7 @@ static NSString *kGameWillStartKey = @"gameWillStart";
 
     //    [_outOfGameView.previewButton addTarget:self action:@selector(fireInGameEvent) forControlEvents:UIControlEventTouchUpInside];
 
-    [_outOfGameView.previewButton addTarget:self action:@selector(showSampleView) forControlEvents:UIControlEventTouchUpInside];
+    [_outOfGameView.previewButton addTarget:self action:@selector(showSampleGame) forControlEvents:UIControlEventTouchUpInside];
   }
   return _outOfGameView;
 }
@@ -216,32 +216,5 @@ static NSString *kGameWillStartKey = @"gameWillStart";
   }
 }
 
-- (void)showSampleView {
-  RKRoute *sampleRoute = [[LCApiRouter sharedInstance].routeSet routeForName:@"sample_game"];
-
-  RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:[LCGame mapping] pathPattern:sampleRoute.pathPattern keyPath:nil statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-  responseDescriptor.baseURL = [LCApiRouter sharedInstance].baseURL;
-
-  NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[[LCApiRouter sharedInstance] URLWithRoute:sampleRoute object:nil]];
-
-  RKObjectRequestOperation *operation = [[RKObjectRequestOperation alloc] initWithRequest:urlRequest responseDescriptors:@[responseDescriptor]];
-  [operation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-
-    LCGame *game = [mappingResult.dictionary objectForKey:[NSNull null]];
-    if (game) {
-      LCSampleGameTabBarController *sampleGameTabController = [[LCSampleGameTabBarController alloc] initWithGame:game];
-      [self.navigationController pushViewController:sampleGameTabController animated:YES];
-    } else {
-      // show error message
-      [SIAlertView carryuWarningAlertWithMessage:NSLocalizedString(@"retrieve_sample_game_error", nil)];
-    }
-    [SVProgressHUD dismiss];
-  } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-    [SVProgressHUD dismiss];
-    NIDPRINT(@"retrieve sample game with error %@", error.debugDescription);
-  }];
-  [SVProgressHUD showWithStatus:NSLocalizedString(@"retrieve_sample_game", nil) maskType:SVProgressHUDMaskTypeBlack];
-  [operation start];
-}
 
 @end

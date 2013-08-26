@@ -199,6 +199,8 @@
 		9CC6186D179FA45D006293DB /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CC6186C179FA45D006293DB /* iAd.framework */; };
 		9CCAE79517B8C2ED0056641B /* more_info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CCAE79417B8C2ED0056641B /* more_info@2x.png */; };
 		9CDACBED17814F4900E7006A /* LCNetworkTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CDACBEC17814F4900E7006A /* LCNetworkTableViewController.m */; };
+		9CE44D1A17CB387D00685664 /* LCManualGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CE44D1917CB387D00685664 /* LCManualGameViewController.m */; };
+		9CE44D1D17CB549700685664 /* UIViewController+LCCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CE44D1C17CB549700685664 /* UIViewController+LCCategory.m */; };
 		9CED33ED177B791500C6CF23 /* LCSettingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CED33EC177B791500C6CF23 /* LCSettingsController.m */; };
 		9CED33F0177B7F6400C6CF23 /* LCSummonerSearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CED33EF177B7F6400C6CF23 /* LCSummonerSearchController.m */; };
 		9CFA16B8178C3FF100BEADCD /* myteam@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CFA16B5178C3FF100BEADCD /* myteam@2x.png */; };
@@ -494,6 +496,10 @@
 		9CCAE79417B8C2ED0056641B /* more_info@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "more_info@2x.png"; sourceTree = "<group>"; };
 		9CDACBEB17814F4900E7006A /* LCNetworkTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCNetworkTableViewController.h; sourceTree = "<group>"; };
 		9CDACBEC17814F4900E7006A /* LCNetworkTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCNetworkTableViewController.m; sourceTree = "<group>"; };
+		9CE44D1817CB387D00685664 /* LCManualGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCManualGameViewController.h; sourceTree = "<group>"; };
+		9CE44D1917CB387D00685664 /* LCManualGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCManualGameViewController.m; sourceTree = "<group>"; };
+		9CE44D1B17CB549700685664 /* UIViewController+LCCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+LCCategory.h"; sourceTree = "<group>"; };
+		9CE44D1C17CB549700685664 /* UIViewController+LCCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+LCCategory.m"; sourceTree = "<group>"; };
 		9CED33EB177B791500C6CF23 /* LCSettingsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCSettingsController.h; sourceTree = "<group>"; };
 		9CED33EC177B791500C6CF23 /* LCSettingsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCSettingsController.m; sourceTree = "<group>"; };
 		9CED33EE177B7F6300C6CF23 /* LCSummonerSearchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCSummonerSearchController.h; sourceTree = "<group>"; };
@@ -1075,6 +1081,7 @@
 			children = (
 				9CDACBEB17814F4900E7006A /* LCNetworkTableViewController.h */,
 				9CDACBEC17814F4900E7006A /* LCNetworkTableViewController.m */,
+				9CE44D1717CB36A900685664 /* Binded SummonerName */,
 				9C21233517C4AB5400FC54C6 /* SigninSelector */,
 				9CAA6065177EC19E003A5C6F /* Summoner */,
 				9CAA6064177EC18F003A5C6F /* In Game Tab */,
@@ -1129,6 +1136,8 @@
 				9CFCC75E178D2BC30088E1FD /* UIBarButtonItem+LCCategory.m */,
 				9C52A67E176B44B600A472E5 /* XMPPFramework.h */,
 				9C3A1CAB1785A019000B29A3 /* LCHelperMacro.h */,
+				9CE44D1B17CB549700685664 /* UIViewController+LCCategory.h */,
+				9CE44D1C17CB549700685664 /* UIViewController+LCCategory.m */,
 			);
 			name = Helper;
 			sourceTree = "<group>";
@@ -1185,6 +1194,15 @@
 				9C2F3542177CAF11005E3232 /* LCSummonerShowController.m */,
 			);
 			name = Summoner;
+			sourceTree = "<group>";
+		};
+		9CE44D1717CB36A900685664 /* Binded SummonerName */ = {
+			isa = PBXGroup;
+			children = (
+				9CE44D1817CB387D00685664 /* LCManualGameViewController.h */,
+				9CE44D1917CB387D00685664 /* LCManualGameViewController.m */,
+			);
+			name = "Binded SummonerName";
 			sourceTree = "<group>";
 		};
 		9CFA16BB178C3FFE00BEADCD /* tab bar */ = {
@@ -1484,6 +1502,8 @@
 				9C8E8A4E17AF99A90085B3E0 /* XMPPStream.m in Sources */,
 				9C21233817C4ABBC00FC54C6 /* LCSigninSelectorViewController.m in Sources */,
 				9C669FCE17C72A5800E09FEC /* LCSigninFormViewController.m in Sources */,
+				9CE44D1A17CB387D00685664 /* LCManualGameViewController.m in Sources */,
+				9CE44D1D17CB549700685664 /* UIViewController+LCCategory.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

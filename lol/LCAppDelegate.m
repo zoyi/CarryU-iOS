@@ -19,7 +19,7 @@
 #import "DDTTYLogger.h"
 #import "LCServerInfo.h"
 #import "LCSettingsInfo.h"
-
+#import "LCManualGameViewController.h"
 #import <GCOLaunchImageTransition/GCOLaunchImageTransition.h>
 #import <Appirater/Appirater.h>
 
@@ -189,10 +189,14 @@ NSString * const kAPPID = @"672704898";
 }
 
 - (void)logout {
-  [self teardownStream];
+  if (_xmppStream.isConnected) {
+    [self teardownStream];
+  }
+  [LCCurrentSummoner sharedInstance].sID = nil;
   self.game = nil;
   self.gameWillStart = nil;
   self.groupChatJID = nil;
+  self.gameMode = LCObserveModeUnknown;
   LCLoginViewController *loginController = [[LCLoginViewController alloc] initWithStyle:UITableViewStyleGrouped];
 
   self.window.rootViewController = loginController;
@@ -517,7 +521,8 @@ NSString * const kAPPID = @"672704898";
         homeNaviController = (LCHomeNavigationController *)self.window.rootViewController;
       }
       UIViewController *visiableController = [homeNaviController.viewControllers objectAtIndex:0];
-      if ([visiableController isKindOfClass:[LCHomeViewController class]]) {
+      if ([visiableController isKindOfClass:[LCHomeViewController class]] ||
+          [visiableController isKindOfClass:[LCManualGameViewController class]]) {
         [self rebuildHomeRootViewController];
       }
     } else if (self.gameMode == LCObserveModeManual) {
@@ -538,16 +543,20 @@ NSString * const kAPPID = @"672704898";
     switch (self.gameMode) {
       case LCObserveModeAuto:
         [self goOffline];
-
-        [(ODRefreshControl *)sender performSelector:@selector(endRefreshing) withObject:nil afterDelay:0.35];
+        
         [self performSelector:@selector(goOnline) withObject:nil afterDelay:0.36];
         break;
       case LCObserveModeManual:
-        [self getInProcessGameInfo];
+        if ([self.stateMachine isInState:@"inGame"]) {
+          [self getInProcessGameInfo];
+        } else {
+          [self.stateMachine fireEvent:@"inGame" error:nil];
+        }
         break;
       default:
         break;
     }
+    [(ODRefreshControl *)sender performSelector:@selector(endRefreshing) withObject:nil afterDelay:0.35];
   }
 }
 
@@ -596,8 +605,13 @@ NSString * const kAPPID = @"672704898";
     [navigationController pushViewController:gameController animated:NO];
   } else {
     // show home view controller;
-    LCHomeViewController *homeViewController = [[LCHomeViewController alloc] initWithStyle:UITableViewStylePlain];
-    [navigationController pushViewController:homeViewController animated:NO];
+    if (self.gameMode == LCObserveModeAuto) {
+      LCHomeViewController *homeViewController = [[LCHomeViewController alloc] initWithStyle:UITableViewStylePlain];
+      [navigationController pushViewController:homeViewController animated:NO];
+    } else if (self.gameMode == LCObserveModeManual){
+      LCManualGameViewController *manualHomeViewController = [[LCManualGameViewController alloc] initWithStyle:UITableViewStylePlain activityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+      [navigationController pushViewController:manualHomeViewController animated:NO];
+    }
   }
 }
 

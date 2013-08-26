@@ -24,6 +24,12 @@
   if (_sID != sID) {
     _sID = sID;
   }
+  
+  if (sID == nil) {
+    [LCCurrentSummoner sharedInstance].name = nil;
+    return;
+  }
+
   LCAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
   __block NSString *summonerNameKey = [NSString stringWithFormat:@"%@_%@", [appDelegate regeion], sID];
   NSString *archivedSummonerName = [[NSUserDefaults standardUserDefaults] stringForKey:summonerNameKey];

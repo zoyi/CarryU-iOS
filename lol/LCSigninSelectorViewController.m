@@ -8,6 +8,7 @@
 
 #import "LCSigninSelectorViewController.h"
 #import "LCSigninFormViewController.h"
+#import "UIViewController+LCCategory.h"
 
 static CGFloat const kMidPadding = 30.f;
 static CGFloat const kSamllPadding = 10.f;
@@ -96,8 +97,21 @@ static CGFloat const kSamllPadding = 10.f;
     self.previewSampleView = [[UIView alloc] initWithFrame:CGRectZero];
     _previewSampleView.backgroundColor = [UIColor clearColor];
     CGFloat top = kSamllPadding, left = kSamllPadding;
+    NIAttributedLabel *label = [[NIAttributedLabel alloc] initWithFrame:CGRectZero];
+    label.backgroundColor = [UIColor clearColor];
+    label.textColor = [UIColor carryuColor];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.text = NSLocalizedString(@"preview_sample_game_desc", nil);
+    CGFloat labelWidth = self.view.width - 2*left;
+    label.width = labelWidth;
+    [label sizeToFit];
+    label.width = labelWidth;
+    [_previewSampleView addSubview:label];
+    top += label.height + 8;
+
     FUIButton *button = [FUIButton lcButtonWithTitle:NSLocalizedString(@"preview_game_btn_title", nil)];
     button.frame = CGRectMake(left, top, self.view.width - left*2, 44);
+    [button addTarget:self action:@selector(showSampleGame) forControlEvents:UIControlEventTouchUpInside];
     [_previewSampleView addSubview:button];
     top += button.height + kSamllPadding;
     _previewSampleView.autoresizingMask = (UIViewAutoresizingFlexibleWidth
