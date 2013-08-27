@@ -53,6 +53,8 @@
 		9C2005081789661C00231F3D /* bronze_4@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C2004E91789661C00231F3D /* bronze_4@2x.png */; };
 		9C2005091789661C00231F3D /* bronze_5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C2004EA1789661C00231F3D /* bronze_5@2x.png */; };
 		9C21233817C4ABBC00FC54C6 /* LCSigninSelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C21233717C4ABBC00FC54C6 /* LCSigninSelectorViewController.m */; };
+		9C2D252117CCD03300C13EB2 /* hr.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C2D251F17CCD03300C13EB2 /* hr.png */; };
+		9C2D252217CCD03300C13EB2 /* hr@2x in Resources */ = {isa = PBXBuildFile; fileRef = 9C2D252017CCD03300C13EB2 /* hr@2x */; };
 		9C2F3543177CAF11005E3232 /* LCSummonerShowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C2F3542177CAF11005E3232 /* LCSummonerShowController.m */; };
 		9C3A1C8F17855256000B29A3 /* UIFont+LCCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C3A1C8E17855256000B29A3 /* UIFont+LCCategory.m */; };
 		9C3A1C9117855967000B29A3 /* bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C3A1C9017855967000B29A3 /* bg@2x.png */; };
@@ -277,6 +279,8 @@
 		9C2004EA1789661C00231F3D /* bronze_5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bronze_5@2x.png"; sourceTree = "<group>"; };
 		9C21233617C4ABBC00FC54C6 /* LCSigninSelectorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCSigninSelectorViewController.h; sourceTree = "<group>"; };
 		9C21233717C4ABBC00FC54C6 /* LCSigninSelectorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCSigninSelectorViewController.m; sourceTree = "<group>"; };
+		9C2D251F17CCD03300C13EB2 /* hr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = hr.png; path = ../hr.png; sourceTree = "<group>"; };
+		9C2D252017CCD03300C13EB2 /* hr@2x */ = {isa = PBXFileReference; lastKnownFileType = file; path = "hr@2x"; sourceTree = "<group>"; };
 		9C2F3541177CAF11005E3232 /* LCSummonerShowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCSummonerShowController.h; sourceTree = "<group>"; };
 		9C2F3542177CAF11005E3232 /* LCSummonerShowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCSummonerShowController.m; sourceTree = "<group>"; };
 		9C3A1C8D17855256000B29A3 /* UIFont+LCCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+LCCategory.h"; sourceTree = "<group>"; };
@@ -576,6 +580,7 @@
 				9C3A1C9017855967000B29A3 /* bg@2x.png */,
 				9CCAE79417B8C2ED0056641B /* more_info@2x.png */,
 				9CAF5F261779F0BB004153E6 /* menu@2x.png */,
+				9C2D252017CCD03300C13EB2 /* hr@2x */,
 			);
 			name = image;
 			sourceTree = "<group>";
@@ -712,6 +717,7 @@
 		9C7F8C64178EE42400A3E52C /* 3gs */ = {
 			isa = PBXGroup;
 			children = (
+				9C2D251F17CCD03300C13EB2 /* hr.png */,
 				9C7F8CC7178EE55E00A3E52C /* server_next.png */,
 				9C7F8CC8178EE55E00A3E52C /* server_prev.png */,
 				9C7F8CC9178EE55E00A3E52C /* summon_game.png */,
@@ -1384,6 +1390,8 @@
 				9C8E89F517AF994A0085B3E0 /* README.txt in Resources */,
 				9C8E89FA17AF994A0085B3E0 /* build-libidn.sh in Resources */,
 				9CCAE79517B8C2ED0056641B /* more_info@2x.png in Resources */,
+				9C2D252117CCD03300C13EB2 /* hr.png in Resources */,
+				9C2D252217CCD03300C13EB2 /* hr@2x in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

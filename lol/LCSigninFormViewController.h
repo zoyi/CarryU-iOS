@@ -12,7 +12,7 @@
 - (NSArray *)tableContents;
 - (void)buttonAction;
 - (NSString *)buttonTitle;
-
+- (NSString *)headerText;
 - (NSString *)additionalNote;
 @end
 

@@ -56,11 +56,18 @@ static CGFloat kOutOfGameViewButtonDefaultWidth = 320-20;
 #ifdef IAD
     bottomPadding += 50;
 #endif
-    CGFloat innerTop = self.height - kOutOfGameViewButtonDefaultHeight - bottomPadding;
     CGFloat innerLeft = 10.f;
+    maxLabelWidth = screenWidth - 2*innerLeft;
+    self.sampleGameDescLabel.width = maxLabelWidth;
+    [_sampleGameDescLabel sizeToFit];
+
+    CGFloat innerTop = self.height - kOutOfGameViewButtonDefaultHeight - bottomPadding - _sampleGameDescLabel.height - 10.f;
+
 //    self.tutorialVideoButton.frame = CGRectMake(innerLeft, innerTop, kOutOfGameViewButtonDefaultWidth, kOutOfGameViewButtonDefaultHeight);
 //  innerLeft += kOutOfGameViewButtonDefaultWidth + 10;
 
+    _sampleGameDescLabel.frame = CGRectMake(innerLeft, innerTop, maxLabelWidth, _sampleGameDescLabel.height);
+    innerTop += _sampleGameDescLabel.height + 10;
     self.previewButton.frame = CGRectMake(innerLeft, innerTop, kOutOfGameViewButtonDefaultWidth, kOutOfGameViewButtonDefaultHeight);
   }
 
@@ -91,6 +98,19 @@ static CGFloat kOutOfGameViewButtonDefaultWidth = 320-20;
   return _pullReloadDescLabel;
 }
 
+- (NIAttributedLabel *)sampleGameDescLabel {
+  if (nil ==_sampleGameDescLabel) {
+    self.sampleGameDescLabel = [[NIAttributedLabel alloc] initWithFrame:CGRectZero];
+    _sampleGameDescLabel.textColor = [UIColor carryuColor];
+    _sampleGameDescLabel.backgroundColor = [UIColor clearColor];
+    _sampleGameDescLabel.font = [UIFont defaultFont];
+    _sampleGameDescLabel.textAlignment = NSTextAlignmentCenter;
+    _sampleGameDescLabel.text = NSLocalizedString(@"preview_sample_game_desc", nil);
+    [self addSubview:_sampleGameDescLabel];
+  }
+  return _sampleGameDescLabel;
+}
+
 - (NIAttributedLabel *)titleLabel {
   if (nil == _titleLabel) {
     self.titleLabel = [[NIAttributedLabel alloc] initWithFrame:CGRectZero];
@@ -117,6 +137,8 @@ static CGFloat kOutOfGameViewButtonDefaultWidth = 320-20;
 - (FUIButton *)previewButton {
   if (nil == _previewButton) {
     self.previewButton = [FUIButton lcButtonWithTitle:NSLocalizedString(@"preview_game_btn_title", nil)];
+    _previewButton.buttonColor = [UIColor midnightBlueColor];
+    _previewButton.shadowColor = [UIColor blackColor];
     [self addSubview:_previewButton];
   }
   return _previewButton;

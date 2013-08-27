@@ -23,7 +23,7 @@ static CGFloat const kSamllPadding = 10.f;
 @implementation LCSigninSelectorViewController
 
 - (id)initWithStyle:(UITableViewStyle)style {
-    self = [super initWithStyle:style activityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
     }
@@ -32,7 +32,7 @@ static CGFloat const kSamllPadding = 10.f;
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  self.title = NSLocalizedString(@"login", nil);
+  self.title = NSLocalizedString(@"home", nil);
 
   self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
@@ -41,7 +41,7 @@ static CGFloat const kSamllPadding = 10.f;
   [super loadView];
   self.tableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg.png"]];
 
-  [self.tableView.superview addSubview:self.previewSampleView];
+  [self.view addSubview:self.previewSampleView];
   UIEdgeInsets tableViewEdgeInsets = UIEdgeInsetsMake(0, 0, _previewSampleView.height, 0);
   [self.tableView setContentInset:tableViewEdgeInsets];
   [self.tableView setScrollIndicatorInsets:tableViewEdgeInsets];
@@ -59,10 +59,15 @@ static CGFloat const kSamllPadding = 10.f;
     // login with riot account
     self.footerView = [[UIView alloc] initWithFrame:CGRectZero];
     _footerView.backgroundColor = [UIColor clearColor];
-    CGFloat top = 70, left = 10;
+    CGFloat top = self.view.height / 15, left = 10;
+    if (isiPhone5) {
+      top = self.view.height / 10;
+    }
     LCLoginBox *riotAccountBox = [[LCLoginBox alloc] initWithFrame:CGRectZero];
     [riotAccountBox.button addTarget:self action:@selector(showRiotLoginAlert) forControlEvents:UIControlEventTouchUpInside];
     [riotAccountBox.button setTitle:NSLocalizedString(@"login_with_riot_account_btn_title", nil) forState:UIControlStateNormal];
+//    riotAccountBox.button.buttonColor = [UIColor turquoiseColor];
+//    riotAccountBox.button.shadowColor = [UIColor greenSeaColor];
     riotAccountBox.titleLabel.text = NSLocalizedString(@"login_with_riot_account_desc", nil);
     riotAccountBox.width = self.view.width - left *2;
     [riotAccountBox sizeToFit];
@@ -71,14 +76,22 @@ static CGFloat const kSamllPadding = 10.f;
     top += riotAccountBox.height + kSamllPadding;
 
     // divider
-    UIView *dividerView = [[UIView alloc] initWithFrame:CGRectMake(left, top, riotAccountBox.width, 1)];
-    dividerView.backgroundColor = [UIColor carryuColor];
+    UIImageView *dividerView = [[UIImageView alloc] initWithFrame:CGRectMake(left, top, riotAccountBox.width, 1)];
+    dividerView.image = [UIImage imageNamed:@"hr"];
     [_footerView addSubview:dividerView];
-    top += dividerView.height + kMidPadding*1.5;
+    top += dividerView.height;
+    if (isiPhone5) {
+      top += kMidPadding*1.5;
+    } else {
+      top += kMidPadding;
+    }
 
     LCLoginBox *summonerNameBox = [[LCLoginBox alloc] initWithFrame:CGRectZero];
     [summonerNameBox.button addTarget:self action:@selector(showSummonerNameBindingAlert) forControlEvents:UIControlEventTouchUpInside];
     [summonerNameBox.button setTitle:NSLocalizedString(@"login_with_summoner_name_btn_title", nil) forState:UIControlStateNormal];
+//    summonerNameBox.button.buttonColor = [UIColor peterRiverColor];
+//    summonerNameBox.button.shadowColor = [UIColor belizeHoleColor];
+
     summonerNameBox.titleLabel.text = NSLocalizedString(@"login_with_summoner_name_desc", nil);
     summonerNameBox.width = self.view.width - left*2;
     [summonerNameBox sizeToFit];
@@ -96,21 +109,25 @@ static CGFloat const kSamllPadding = 10.f;
   if (nil == _previewSampleView) {
     self.previewSampleView = [[UIView alloc] initWithFrame:CGRectZero];
     _previewSampleView.backgroundColor = [UIColor clearColor];
-    CGFloat top = kSamllPadding, left = kSamllPadding;
+    CGFloat top = 0, left = kSamllPadding*2;
     NIAttributedLabel *label = [[NIAttributedLabel alloc] initWithFrame:CGRectZero];
-    label.backgroundColor = [UIColor clearColor];
+    label.backgroundColor = _previewSampleView.backgroundColor;
     label.textColor = [UIColor carryuColor];
+    label.font = [UIFont defaultFont];
     label.textAlignment = NSTextAlignmentCenter;
     label.text = NSLocalizedString(@"preview_sample_game_desc", nil);
     CGFloat labelWidth = self.view.width - 2*left;
     label.width = labelWidth;
     [label sizeToFit];
     label.width = labelWidth;
+    label.origin = CGPointMake(left, top);
     [_previewSampleView addSubview:label];
     top += label.height + 8;
 
     FUIButton *button = [FUIButton lcButtonWithTitle:NSLocalizedString(@"preview_game_btn_title", nil)];
     button.frame = CGRectMake(left, top, self.view.width - left*2, 44);
+    button.buttonColor = [UIColor midnightBlueColor];
+    button.shadowColor = [UIColor blackColor];
     [button addTarget:self action:@selector(showSampleGame) forControlEvents:UIControlEventTouchUpInside];
     [_previewSampleView addSubview:button];
     top += button.height + kSamllPadding;
@@ -157,7 +174,7 @@ static CGFloat const kSamllPadding = 10.f;
     [_titleLabel sizeToFit];
     _titleLabel.width = labelWidth;
     _titleLabel.origin = CGPointMake(kSamllPadding, top);
-    top += _titleLabel.height + kMidPadding;
+    top += _titleLabel.height + kSamllPadding*2;
   }
 
   _button.frame = CGRectMake(kSamllPadding, top, size.width - kSamllPadding*2, 44);
@@ -178,6 +195,7 @@ static CGFloat const kSamllPadding = 10.f;
     _titleLabel.textAlignment = NSTextAlignmentCenter;
     _titleLabel.numberOfLines = 0;
     _titleLabel.backgroundColor = self.backgroundColor;
+    _titleLabel.font = [UIFont defaultFont];
     [self addSubview: _titleLabel];
   }
   return _titleLabel;

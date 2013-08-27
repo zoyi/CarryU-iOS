@@ -10,12 +10,13 @@
 #import "UIBarButtonItem+LCCategory.h"
 #import "LCAppDelegate.h"
 #import "LCCurrentSummoner.h"
-
+static NSString * const kSummonerNameKey = @"_summonerName";
 @interface LCSigninFormViewController ()
 
 @property (nonatomic, strong) NITableViewModel *model;
 @property (nonatomic, strong) NICellFactory *cellFactory;
 @property (nonatomic, strong) UIView *footerView;
+@property (nonatomic, strong) UIView *headerView;
 
 @end
 
@@ -34,8 +35,9 @@
   self.tableView.dataSource = self.model;
   self.tableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg.png"]];
   self.tableView.tableFooterView = self.footerView;
+  self.tableView.tableHeaderView = self.headerView;
 
-  self.tableView.separatorColor = [UIColor carryuColor];
+  self.tableView.separatorColor = RGBCOLOR(0x6b, 0xe5, 0xed);
   self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
 
   self.navigationItem.hidesBackButton = YES;
@@ -67,7 +69,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
   if (section == 0) {
-    return  30;
+    return  10;
   }
   return 0;
 }
@@ -91,6 +93,29 @@
   return nil;
 }
 
+- (UIView *)headerView {
+  if (nil == _headerView) {
+    self.headerView = [[UIView alloc] initWithFrame:CGRectZero];
+    _headerView.backgroundColor = [UIColor clearColor];
+    CGFloat top = 30.f, left = 10.f;
+    NIAttributedLabel *label = [[NIAttributedLabel alloc] initWithFrame:CGRectZero];
+    CGFloat labelWidth = self.view.width - left*2;
+    label.font = [UIFont defaultFont];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.textColor = [UIColor carryuColor];
+    label.backgroundColor = _headerView.backgroundColor;
+    label.width = labelWidth;
+    label.text = self.headerText;
+    [label sizeToFit];
+    label.origin = CGPointMake(left, top);
+    label.size = CGSizeMake(labelWidth, label.height);
+    [_headerView addSubview:label];
+    top += label.height + 10;
+    _headerView.size = CGSizeMake(self.view.width, top);
+  }
+  return _headerView;
+}
+
 - (UIView *)footerView {
   if (nil == _footerView) {
     self.footerView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -108,6 +133,7 @@
     label.textAlignment = NSTextAlignmentCenter;
     label.backgroundColor = _footerView.backgroundColor;
     label.textColor = [UIColor carryuColor];
+    label.font = [UIFont defaultFont];
     label.width = self.view.width - left*2;
 
     [label sizeToFit];
@@ -122,6 +148,8 @@
 }
 
 - (void)buttonAction { }
+
+- (NSString *)headerText { return nil; }
 
 - (NSString *)buttonTitle { return nil; }
 
@@ -154,20 +182,24 @@
   return NSLocalizedString(@"using_password_description", nil);
 }
 
+- (NSString *)headerText {
+  return NSLocalizedString(@"signin_with_riot_account_header", nil);
+}
+
 - (NSArray *)tableContents {
   return @[@"", self.username, self.password];
 }
 
 - (NITextInputFormElement *)username {
   if (nil == _username) {
-    self.username = [NITextInputFormElement textInputElementWithID:0 placeholderText:NSLocalizedString(@"name_placeholder", nil) value:nil delegate:self];
+    self.username = [NITextInputFormElement textInputElementWithID:0 placeholderText:NSLocalizedString(@"name_placeholder", nil) value:[[NSUserDefaults standardUserDefaults] stringForKey:kUsernameKey] delegate:self];
   }
   return _username;
 }
 
 - (NITextInputFormElement *)password {
   if (nil == _password) {
-    self.password = [NITextInputFormElement passwordInputElementWithID:0 placeholderText:NSLocalizedString(@"password_placeholder", nil) value:nil delegate:self];
+    self.password = [NITextInputFormElement passwordInputElementWithID:0 placeholderText:NSLocalizedString(@"password_placeholder", nil) value:[[NSUserDefaults standardUserDefaults] stringForKey:kPasswordKey] delegate:self];
   }
   return _password;
 }
@@ -183,6 +215,8 @@
 - (void)buttonAction {
   if (_summonerName.value.length) {
     [LCCurrentSummoner sharedInstance].name = _summonerName.value;
+    [[NSUserDefaults standardUserDefaults] setObject:_summonerName.value forKey:kSummonerNameKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     LCAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     appDelegate.gameMode = LCObserveModeManual;
     [appDelegate rebuildHomeRootViewController];
@@ -192,7 +226,11 @@
 }
 
 - (NSString *)buttonTitle {
-  return NSLocalizedString(@"binding", nil);
+  return NSLocalizedString(@"binding_btn_label", nil);
+}
+
+- (NSString *)headerText {
+  return NSLocalizedString(@"signin_with_summoner_name_header", nil);
 }
 
 - (NSString *)additionalNote {
@@ -205,7 +243,7 @@
 
 - (NITextInputFormElement *)summonerName {
   if (nil == _summonerName) {
-    self.summonerName = [NITextInputFormElement textInputElementWithID:0 placeholderText:NSLocalizedString(@"summoner_name_placeholder", nil) value:nil delegate:self];
+    self.summonerName = [NITextInputFormElement textInputElementWithID:0 placeholderText:NSLocalizedString(@"summoner_name_placeholder", nil) value:[[NSUserDefaults standardUserDefaults] stringForKey:kSummonerNameKey] delegate:self];
   }
   return _summonerName;
 }
@@ -216,7 +254,7 @@
 
 - (void)layoutSubviews {
   [super layoutSubviews];
-  self.textField.textColor = [UIColor carryuColor];
+  self.textField.textColor = [UIColor whiteColor];
   [self.textField setValue:[UIColor wetAsphaltColor] forKeyPath:@"_placeholderLabel.textColor"];
   if (!self.textField.isSecureTextEntry) {
     self.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;

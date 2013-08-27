@@ -19,6 +19,7 @@
 #import "DDTTYLogger.h"
 #import "LCServerInfo.h"
 #import "LCSettingsInfo.h"
+#import "LCSigninSelectorViewController.h"
 #import "LCManualGameViewController.h"
 #import <GCOLaunchImageTransition/GCOLaunchImageTransition.h>
 #import <Appirater/Appirater.h>
@@ -611,6 +612,9 @@ NSString * const kAPPID = @"672704898";
     } else if (self.gameMode == LCObserveModeManual){
       LCManualGameViewController *manualHomeViewController = [[LCManualGameViewController alloc] initWithStyle:UITableViewStylePlain activityIndicatorStyle:UIActivityIndicatorViewStyleGray];
       [navigationController pushViewController:manualHomeViewController animated:NO];
+    } else if (self.gameMode == LCObserveModeUnknown) {
+      LCSigninSelectorViewController *signinSelectorViewController = [[LCSigninSelectorViewController alloc] initWithStyle:UITableViewStylePlain];
+      [navigationController pushViewController:signinSelectorViewController animated:NO];
     }
   }
 }

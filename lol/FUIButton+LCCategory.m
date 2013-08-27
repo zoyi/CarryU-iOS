@@ -12,8 +12,10 @@
 + (FUIButton *)lcButtonWithTitle:(NSString *)title {
   FUIButton *button = [[FUIButton alloc] initWithFrame:CGRectZero];
   [button setTitle:title forState:UIControlStateNormal];
-  button.buttonColor = [UIColor carryuColor];
-  button.shadowColor = RGBCOLOR(0x41, 0x4d, 0x5a);
+//  button.buttonColor = [UIColor carryuColor];
+  button.buttonColor = RGBCOLOR(0x13, 0x98, 0xb1);
+//  button.shadowColor = RGBCOLOR(0x41, 0x4d, 0x5a);
+  button.shadowColor = RGBCOLOR(0x0e, 0x78, 0x8b);
   button.shadowHeight = 2.f;
   button.cornerRadius = 3.f;
   button.titleLabel.font = [UIFont boldSystemFontOfSize:15];

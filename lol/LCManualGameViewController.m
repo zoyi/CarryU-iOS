@@ -8,6 +8,7 @@
 
 #import "LCManualGameViewController.h"
 #import "LCOutOfGameView.h"
+#import "LCCurrentSummoner.h"
 #import "UIViewController+LCCategory.h"
 
 @interface LCManualGameViewController ()
@@ -31,6 +32,7 @@
   CGRect viewBounds = self.view.bounds;
   viewBounds.size.height -= 44;
   self.outOfGameView.frame = viewBounds;
+  self.title = [LCCurrentSummoner sharedInstance].name;
   self.tableView.tableFooterView = self.outOfGameView;
   self.tableView.separatorColor = [UIColor tableViewSeperatorColor];
 }

@@ -91,6 +91,7 @@
   self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
   self.tableView.dataSource = self.model;
   self.tableView.delegate = [self.radioGroup forwardingTo:[self.actions forwardingTo:self]];
+  self.title = NSLocalizedString(@"settings", nil);
 }
 
 - (void)didReceiveMemoryWarning {

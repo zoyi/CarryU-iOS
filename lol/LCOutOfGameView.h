@@ -13,6 +13,7 @@
 @property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, strong) NIAttributedLabel *titleLabel;
 @property (nonatomic, strong) NIAttributedLabel *pullReloadDescLabel;
+@property (nonatomic, strong) NIAttributedLabel *sampleGameDescLabel;
 @property (nonatomic, strong) FUIButton *tutorialVideoButton;
 @property (nonatomic, strong) FUIButton *previewButton;
 @end

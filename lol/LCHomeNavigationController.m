@@ -120,16 +120,9 @@ static NSString * const kHideLogoutAlert = @"hideLogoutAlert";
       items = @[homeItem, settingsItem, logOutItem];
     }
       break;
-    case LCObserveModeManual: {
+    case LCObserveModeManual:
+    case LCObserveModeUnknown:
       items = @[homeItem, settingsItem, regionSelectItem];
-    }
-      break;
-    case LCObserveModeUnknown:{
-      REMenuItem *homeItem = [[REMenuItem alloc] initWithTitle:NSLocalizedString(@"home", nil) image:nil highlightedImage:nil action:^(REMenuItem *item) {
-        // show signin selector page
-      }];
-      items = @[homeItem, settingsItem, regionSelectItem];
-    }
       break;
     default:
       break;

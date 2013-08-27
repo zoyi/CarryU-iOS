@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LCSigninSelectorViewController : NINetworkTableViewController
+@interface LCSigninSelectorViewController : UITableViewController
 - (id)initWithStyle:(UITableViewStyle)style;
 @end
 

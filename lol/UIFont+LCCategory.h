@@ -11,4 +11,6 @@
 @interface UIFont (LCCategory)
 + (UIFont *)optimaFontWithSize:(CGFloat)size;
 + (UIFont *)boldOptimaFontWithSize:(CGFloat)size;
+
++ (UIFont *)defaultFont;
 @end

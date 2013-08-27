@@ -28,4 +28,8 @@
 + (UIFont *)boldOptimaFontWithSize:(CGFloat)size {
   return [UIFont fontWithName:@"Optima-ExtraBlack" size:size];
 }
+
++ (UIFont *)defaultFont {
+  return [UIFont systemFontOfSize:15];
+}
 @end

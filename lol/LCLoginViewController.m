@@ -77,11 +77,25 @@ static CGFloat kDefaultServerIndicatorHeight = 44;
   CGFloat top = 0;
   CGFloat left = 10;
 
-//  CGFloat serverTopPadding = 20;
-//  if (isiPhone5) {
-//    serverTopPadding = 30;
-//  }
-//  top += serverTopPadding;
+  CGFloat serverTopPadding = 0;
+  if (isiPhone5) {
+    serverTopPadding += 30;
+  }
+  top += serverTopPadding;
+
+  NIAttributedLabel *label = [[NIAttributedLabel alloc] initWithFrame:CGRectZero];
+  label.textAlignment = NSTextAlignmentCenter;
+  label.textColor = [UIColor carryuColor];
+  label.backgroundColor = [UIColor clearColor];
+  label.font = [UIFont defaultFont];
+  label.text = NSLocalizedString(@"choose_region_desc", nil);
+  CGFloat labelWidth = self.view.width - 2*left;
+  label.width = labelWidth;
+  [label sizeToFit];
+  label.origin = CGPointMake(left, top);
+  label.size = CGSizeMake(labelWidth, label.height);
+  [footerView addSubview:label];
+  top += label.height + 8.f;
 
   {
     CGFloat innerLeft = left;
@@ -119,7 +133,7 @@ static CGFloat kDefaultServerIndicatorHeight = 44;
 
     self.regionPickerView.frame = CGRectMake(prevIndicatorView.right, top, nextIndicatorView.left - prevIndicatorView.right, 44);
     [footerView addSubview:_regionPickerView];
-    top += _regionPickerView.height + 80;
+    top += _regionPickerView.height + 40;
   }
 
   FUIButton *nextButton = [FUIButton lcButtonWithTitle:NSLocalizedString(@"next_btn_label", nil)];
@@ -260,7 +274,7 @@ static CGFloat kDefaultServerIndicatorHeight = 44;
     _label.textAlignment = NSTextAlignmentCenter;
 
     _label.backgroundColor = [UIColor clearColor];
-    _label.textColor = [UIColor carryuColor];
+    _label.textColor = [UIColor whiteColor];
 
     [self addSubview:_label];
   }
