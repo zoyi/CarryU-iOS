@@ -86,6 +86,7 @@ NSString * const kAPPID = @"672704898";
 
 #ifdef DEBUG
   [DDLog addLogger:[DDTTYLogger sharedInstance]];
+  [Appirater setDebug:YES];
 #endif
   [self setupRestkit];
   [self setupApiRouter];
@@ -359,7 +360,6 @@ NSString * const kAPPID = @"672704898";
       if (gameStatus.length) {
         // change state machine
         NSError *error = nil;
-        self.defaultStatus = presence.status;
         if ([gameStatus isEqualToString:@"outOfGame"]) {
           // out of game
           [_stateMachine fireEvent:@"outOfGame" error:&error];
@@ -377,7 +377,6 @@ NSString * const kAPPID = @"672704898";
     } else if ([presence.type isEqualToString:@"unavailable"]) {
       [self.stateMachine fireEvent:@"outOfGame" error:nil];
     }
-    [self showCarryuPresence];
   }
 
 }
@@ -619,46 +618,22 @@ NSString * const kAPPID = @"672704898";
   }
 }
 
-- (void)setDefaultStatus:(NSString *)defaultStatus {
-  _defaultStatus = defaultStatus;
-  if (defaultStatus.length) {
-    NSXMLElement *ele = [[NSXMLElement alloc] initWithXMLString:_defaultStatus error:nil];
-    NSString *statusMsg = [[ele elementForName:@"statusMsg"] stringValue];
-    if (!statusMsg.length) {
-      [[ele elementForName:@"statusMsg"] setStringValue:NSLocalizedString(@"carryu_default_signature", nil)];
-    }
-    _defaultStatus = ele.description;
-  }
-}
-
 - (void)showCarryuPresence {
 
   XMPPPresence *statusPresence = [XMPPPresence presence];
-  NSXMLElement *showElement = [NSXMLElement elementWithName:@"show" stringValue:@"dnd"];
-  if ([self.stateMachine isInState:@"outOfGame"]) {
-    [showElement setStringValue:@"chat"];
-  }
-  [statusPresence addChild:showElement];
 
-  if (_defaultStatus.length) {
-    [statusPresence addChild:[NSXMLElement elementWithName:@"status" stringValue:_defaultStatus]];
-  } else {
-    NSXMLElement *statusBody = [NSXMLElement elementWithName:@"body"];
-    [statusBody addChild:[NSXMLElement elementWithName:@"statusMsg" stringValue:NSLocalizedString(@"carryu_default_signature", nil)]];
+  NSXMLElement *statusBody = [NSXMLElement elementWithName:@"body"];
+  [statusBody addChild:[NSXMLElement elementWithName:@"statusMsg" stringValue:NSLocalizedString(@"carryu_default_signature", nil)]];
 
-    [statusBody addChild:[NSXMLElement elementWithName:@"profileIcon" stringValue:@"7"]];
+  [statusBody addChild:[NSXMLElement elementWithName:@"profileIcon" stringValue:@"7"]];
 
-    [statusBody addChild:[NSXMLElement elementWithName:@"gameStatus" stringValue:self.stateMachine.currentState.name]];
+  [statusBody addChild:[NSXMLElement elementWithName:@"gameStatus" stringValue:self.stateMachine.currentState.name]];
 
-    NSXMLElement *statusElement = [NSXMLElement elementWithName:@"status" stringValue:statusBody.description];
-    [showElement setStringValue:@"away"];
-    [statusPresence addChild:statusElement];
-  }
-  
+  NSXMLElement *statusElement = [NSXMLElement elementWithName:@"status" stringValue:statusBody.description];
+  [statusPresence addChild:statusElement];
+
   [statusPresence addChild:[NSXMLElement elementWithName:@"priority" stringValue:@"0"]];
 
   [self.xmppStream sendElement:statusPresence];
-
-  self.defaultStatus = nil;
 }
 @end
