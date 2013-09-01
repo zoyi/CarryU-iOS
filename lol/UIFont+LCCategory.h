@@ -13,4 +13,6 @@
 + (UIFont *)boldOptimaFontWithSize:(CGFloat)size;
 
 + (UIFont *)defaultFont;
++ (UIFont *)smallFont;
++ (UIFont *)largeFont;
 @end

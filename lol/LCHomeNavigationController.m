@@ -120,7 +120,13 @@ static NSString * const kHideLogoutAlert = @"hideLogoutAlert";
       items = @[homeItem, settingsItem, logOutItem];
     }
       break;
-    case LCObserveModeManual:
+    case LCObserveModeManual:{
+        REMenuItem *logoutItem = [[REMenuItem alloc] initWithTitle:NSLocalizedString(@"logout", nil) subtitle:nil image:nil highlightedImage:nil action:^(REMenuItem *item) {
+          [self logout];
+        }];
+      items = @[homeItem, settingsItem, logoutItem];
+    }
+      break;
     case LCObserveModeUnknown:
       items = @[homeItem, settingsItem, regionSelectItem];
       break;

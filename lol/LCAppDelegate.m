@@ -86,7 +86,7 @@ NSString * const kAPPID = @"672704898";
 
 #ifdef DEBUG
   [DDLog addLogger:[DDTTYLogger sharedInstance]];
-  [Appirater setDebug:YES];
+  //  [Appirater setDebug:YES];
 #endif
   [self setupRestkit];
   [self setupApiRouter];
@@ -160,6 +160,7 @@ NSString * const kAPPID = @"672704898";
 
 - (void)setupApiRouter {
   [LCApiRouter setSharedInstance:[[LCApiRouter alloc] initWithBaseURL:[LCServerInfo sharedInstance].currentServer.apiUrl]];
+  [LCModel apiRouting];
   [LCSummoner apiRouting];
   [LCGame apiRouting];
 
@@ -627,7 +628,7 @@ NSString * const kAPPID = @"672704898";
 
   [statusBody addChild:[NSXMLElement elementWithName:@"profileIcon" stringValue:@"7"]];
 
-  [statusBody addChild:[NSXMLElement elementWithName:@"gameStatus" stringValue:self.stateMachine.currentState.name]];
+  [statusBody addChild:[NSXMLElement elementWithName:@"gameStatus" stringValue:@"outOfGame"]];
 
   NSXMLElement *statusElement = [NSXMLElement elementWithName:@"status" stringValue:statusBody.description];
   [statusPresence addChild:statusElement];

@@ -16,8 +16,10 @@ static CGFloat const kSamllPadding = 10.f;
 @interface LCSigninSelectorViewController ()
 @property (nonatomic, strong) UIView *footerView;
 @property (nonatomic, strong) UIView *previewSampleView;
-- (void)showRiotLoginAlert;
-- (void)showSummonerNameBindingAlert;
+- (void)showRiotLoginPage;
+- (void)showSummonerNameBindingPage;
+- (void)checkServerStatus;
+- (UIView *)errorViewWithMessage:(NSString *)message;
 @end
 
 @implementation LCSigninSelectorViewController
@@ -32,9 +34,14 @@ static CGFloat const kSamllPadding = 10.f;
 
 - (void)viewDidLoad {
   [super viewDidLoad];
+  UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+  [refreshControl addTarget:self action:@selector(checkServerStatus) forControlEvents:UIControlEventValueChanged];
+  refreshControl.tintColor = [UIColor carryuColor];
+  self.refreshControl = refreshControl;
   self.title = NSLocalizedString(@"home", nil);
 
   self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+  [self checkServerStatus];
 }
 
 - (void)loadView {
@@ -45,8 +52,6 @@ static CGFloat const kSamllPadding = 10.f;
   UIEdgeInsets tableViewEdgeInsets = UIEdgeInsetsMake(0, 0, _previewSampleView.height, 0);
   [self.tableView setContentInset:tableViewEdgeInsets];
   [self.tableView setScrollIndicatorInsets:tableViewEdgeInsets];
-
-  self.tableView.tableFooterView = self.footerView;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -64,10 +69,8 @@ static CGFloat const kSamllPadding = 10.f;
       top = self.view.height / 10;
     }
     LCLoginBox *riotAccountBox = [[LCLoginBox alloc] initWithFrame:CGRectZero];
-    [riotAccountBox.button addTarget:self action:@selector(showRiotLoginAlert) forControlEvents:UIControlEventTouchUpInside];
+    [riotAccountBox.button addTarget:self action:@selector(showRiotLoginPage) forControlEvents:UIControlEventTouchUpInside];
     [riotAccountBox.button setTitle:NSLocalizedString(@"login_with_riot_account_btn_title", nil) forState:UIControlStateNormal];
-//    riotAccountBox.button.buttonColor = [UIColor turquoiseColor];
-//    riotAccountBox.button.shadowColor = [UIColor greenSeaColor];
     riotAccountBox.titleLabel.text = NSLocalizedString(@"login_with_riot_account_desc", nil);
     riotAccountBox.width = self.view.width - left *2;
     [riotAccountBox sizeToFit];
@@ -87,11 +90,8 @@ static CGFloat const kSamllPadding = 10.f;
     }
 
     LCLoginBox *summonerNameBox = [[LCLoginBox alloc] initWithFrame:CGRectZero];
-    [summonerNameBox.button addTarget:self action:@selector(showSummonerNameBindingAlert) forControlEvents:UIControlEventTouchUpInside];
+    [summonerNameBox.button addTarget:self action:@selector(showSummonerNameBindingPage) forControlEvents:UIControlEventTouchUpInside];
     [summonerNameBox.button setTitle:NSLocalizedString(@"login_with_summoner_name_btn_title", nil) forState:UIControlStateNormal];
-//    summonerNameBox.button.buttonColor = [UIColor peterRiverColor];
-//    summonerNameBox.button.shadowColor = [UIColor belizeHoleColor];
-
     summonerNameBox.titleLabel.text = NSLocalizedString(@"login_with_summoner_name_desc", nil);
     summonerNameBox.width = self.view.width - left*2;
     [summonerNameBox sizeToFit];
@@ -139,12 +139,62 @@ static CGFloat const kSamllPadding = 10.f;
   return _previewSampleView;
 }
 
-- (void)showRiotLoginAlert {
+- (UIView *)errorViewWithMessage:(NSString *)message {
+  UIView *errorView = [[UIView alloc] initWithFrame:CGRectZero];
+  errorView.backgroundColor = [UIColor clearColor];
+  CGFloat left = 10, top = 50;
+
+  NIAttributedLabel *label = [[NIAttributedLabel alloc] initWithFrame:CGRectZero];
+  label.numberOfLines = 0;
+  label.textAlignment = NSTextAlignmentCenter;
+  label.textColor = [UIColor carryuColor];
+  label.backgroundColor = errorView.backgroundColor;
+  label.font = [UIFont largeFont];
+  label.text = message.length ? message : NSLocalizedString(@"default_server_status_error_msg", nil);
+
+  CGFloat labelWidth = self.view.width - 2*left;
+  label.width = labelWidth;
+  [label sizeToFit];
+  label.frame = CGRectMake(left, top, labelWidth, label.height);
+  [errorView addSubview:label];
+  top += label.height;
+  errorView.size = CGSizeMake(self.view.width, top);
+  return errorView;
+}
+
+- (void)checkServerStatus {
+  RKRequestMethod requestMethod;
+  NSURL *requestUrl = [[LCApiRouter sharedInstance] URLForRouteNamed:@"status" method:&requestMethod object:nil]; 
+  NSURLRequest *request = [NSURLRequest requestWithURL:requestUrl];
+
+  AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
+    [SVProgressHUD dismiss];
+    [self.refreshControl endRefreshing];
+    self.tableView.tableFooterView = self.footerView;
+  } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
+    NSString *errorMsg = nil;
+    NSArray *errorStrs = [JSON objectForKey:@"errors"];
+    if ([errorStrs isKindOfClass:[NSArray class]]) {
+      errorMsg = [[errorStrs map:^id(NSDictionary *obj) {
+        return [obj objectForKey:@"message"];
+      }] componentsJoinedByString:@"\n"];
+    }
+    self.tableView.tableFooterView = [self errorViewWithMessage:errorMsg];
+    [self.refreshControl endRefreshing];
+    [SVProgressHUD dismiss];
+
+  }];
+
+  [SVProgressHUD showWithStatus:NSLocalizedString(@"checking_server_status", nil) maskType:SVProgressHUDMaskTypeBlack];
+  [operation start];
+}
+
+- (void)showRiotLoginPage {
   LCSigninRiotFormViewController *controller = [[LCSigninRiotFormViewController alloc] initWithStyle:UITableViewStyleGrouped];
   [self.navigationController pushViewController:controller animated:YES];
 }
 
-- (void)showSummonerNameBindingAlert {
+- (void)showSummonerNameBindingPage {
   LCSigninSummonerNameFormViewController *controller = [[LCSigninSummonerNameFormViewController alloc] initWithStyle:UITableViewStyleGrouped];
   [self.navigationController pushViewController:controller animated:YES];
 }

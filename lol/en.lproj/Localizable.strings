@@ -51,3 +51,17 @@
 "Ranked_navi_title" = "Ranked Game";
 "logout_tip" = "Your LoL chatting status may go offline when logging out the app. In this case, please turn your status back to online on your LoL client.";
 "dont_show_me_again" = "Don't show again";
+"login_with_riot_account_desc" = "Login with LOL account \n bring game info automatically";
+"login_with_summoner_name_desc" = "Quick login with summoner name \n research manually";
+"preview_sample_game_desc" = "If you want to know the real time game search results?";
+"login_with_riot_account_btn_title" = "Login with LOL account";
+"login_with_summoner_name_btn_title" = "Login with summoner name";
+"summoner_name_cant_be_blank" = "Please enter the summoner name";
+"manual_game_desc" = "Start the game, \n refresh to see team info.";
+"signin_with_riot_account_header" = "Please enter your LOL account info.";
+"signin_with_summoner_name_header" = "Please enter the summoner name you are searching for.";
+"choose_region_desc" = "Please choose the server region";
+"select_region" = "Server region change";
+"signin_with_summoner_name_additional_desc" = "We cannot get session info when you login with summoner name, so you should search manually.";
+"checking_server_status" = "Checking the server status...";
+"default_server_status_error_msg" = "Oops! There is a server error. Please try again in a moment.";

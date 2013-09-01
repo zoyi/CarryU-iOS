@@ -133,7 +133,7 @@ static NSString * const kSummonerNameKey = @"_summonerName";
     label.textAlignment = NSTextAlignmentCenter;
     label.backgroundColor = _footerView.backgroundColor;
     label.textColor = [UIColor carryuColor];
-    label.font = [UIFont defaultFont];
+    label.font = [UIFont smallFont];
     label.width = self.view.width - left*2;
 
     [label sizeToFit];
@@ -234,7 +234,7 @@ static NSString * const kSummonerNameKey = @"_summonerName";
 }
 
 - (NSString *)additionalNote {
-  return nil;
+  return NSLocalizedString(@"signin_with_summoner_name_additional_desc", nil);
 }
 
 - (NSArray *)tableContents {

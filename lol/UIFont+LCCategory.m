@@ -32,4 +32,12 @@
 + (UIFont *)defaultFont {
   return [UIFont systemFontOfSize:15];
 }
+
++ (UIFont *)smallFont {
+  return [UIFont systemFontOfSize:13];
+}
+
++ (UIFont *)largeFont {
+  return [UIFont systemFontOfSize:17];
+}
 @end

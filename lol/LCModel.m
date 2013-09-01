@@ -8,6 +8,8 @@
 
 #import "LCModel.h"
 
+static NSString * const SERVER_STATUS_ROUTE = @"status";
+
 @implementation LCModel
 
 + (RKObjectMapping *)mapping {
@@ -19,7 +21,7 @@
 }
 
 + (void)apiRouting {
-
+  [[LCApiRouter sharedInstance].routeSet addRoute:[RKRoute routeWithName:@"status" pathPattern:SERVER_STATUS_ROUTE method:RKRequestMethodGET]];
 }
 
 @end
