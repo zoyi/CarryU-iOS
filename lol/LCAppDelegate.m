@@ -388,8 +388,7 @@ NSString * const kAPPID = @"672704898";
     // message contain x
     NSString *type = [message attributeStringValueForName:@"type"];
     NSString *mid = [message attributeStringValueForName:@"id"];
-    NSString *mucStatusCode = [[message elementForName:@"status"] attributeStringValueForName:@"code"];
-    NIDPRINT(@"muc status code is %@", mucStatusCode);
+
     if ([type isEqualToString:@"groupchat"]
         && !mid.length) {
       self.groupChatJID = message.from.bareJID;
@@ -523,7 +522,8 @@ NSString * const kAPPID = @"672704898";
       }
       UIViewController *visiableController = [homeNaviController.viewControllers objectAtIndex:0];
       if ([visiableController isKindOfClass:[LCHomeViewController class]] ||
-          [visiableController isKindOfClass:[LCManualGameViewController class]]) {
+          [visiableController isKindOfClass:[LCManualGameViewController class]] ||
+          (self.gameMode == LCObserveModeManual && [visiableController isKindOfClass:[LCGameTabBarController class]])) {
         [self rebuildHomeRootViewController];
       }
     } else if (self.gameMode == LCObserveModeManual) {
@@ -624,7 +624,7 @@ NSString * const kAPPID = @"672704898";
   XMPPPresence *statusPresence = [XMPPPresence presence];
 
   NSXMLElement *statusBody = [NSXMLElement elementWithName:@"body"];
-  [statusBody addChild:[NSXMLElement elementWithName:@"statusMsg" stringValue:NSLocalizedString(@"carryu_default_signature", nil)]];
+  //  [statusBody addChild:[NSXMLElement elementWithName:@"statusMsg" stringValue:NSLocalizedString(@"carryu_default_signature", nil)]];
 
   [statusBody addChild:[NSXMLElement elementWithName:@"profileIcon" stringValue:@"7"]];
 
@@ -633,7 +633,7 @@ NSString * const kAPPID = @"672704898";
   NSXMLElement *statusElement = [NSXMLElement elementWithName:@"status" stringValue:statusBody.description];
   [statusPresence addChild:statusElement];
 
-  [statusPresence addChild:[NSXMLElement elementWithName:@"priority" stringValue:@"0"]];
+  [statusPresence addChild:[NSXMLElement elementWithName:@"priority" stringValue:@"-1"]];
 
   [self.xmppStream sendElement:statusPresence];
 }
