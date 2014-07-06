@@ -1,0 +1,5 @@
+This is the source code of CarryU iOS App.
+
+The basic idea is by using LoL XMPP account to get user's real time game status, then remotely call CarryU server to update user's battle information from LoL RTMP server.
+
+BTW, this project is based on iOS 6.0 SDK, and cocoapods(please check the Podfile.lock version information before building from source).
